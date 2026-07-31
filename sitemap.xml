@@ -17,6 +17,10 @@
     <priority>0.80</priority>
   </url>
   <url>
+    <loc>https://custompatike.com/account</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://custompatike.com/product/air-force-1-blue-splatter</loc>
     <priority>0.70</priority>
   </url>

@@ -32,6 +32,7 @@ const webflowHeaderTemplate = `
           <a href="{prefix}shop.html" class="navigation-item w-nav-link">SHOP</a>
           <a href="{prefix}aboutus.html" class="navigation-item w-nav-link">ABOUT US</a>
           <a href="{prefix}contact.html" class="navigation-item w-nav-link">CONTACT</a>
+          <a href="{prefix}account.html" class="navigation-item w-nav-link">ACCOUNT</a>
         </nav>
         <div class="navicons">
           <!-- Simplified cart icon for now -->
