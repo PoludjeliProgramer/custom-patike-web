@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/about", "destination": "/aboutus", "permanent": true },
+    { "source": "/about-us", "destination": "/aboutus", "permanent": true },
+    { "source": "/o-nama", "destination": "/aboutus", "permanent": true },
+    { "source": "/kontakt", "destination": "/contact", "permanent": true },
+    { "source": "/products", "destination": "/shop", "permanent": true }
+  ]
+}

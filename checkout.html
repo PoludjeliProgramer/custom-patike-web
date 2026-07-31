@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout | Custom Patike</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    WebFont.load({  google: {    families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Great Vibes:400","Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic","League Spartan:300,400,500,600,700","Poppins:300,400,500,600,700"]  }});
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/vandal-style.css">
+  <style>
+    .checkout-container {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 60px;
+      font-family: var(--font-sans);
+    }
+    .checkout-form section {
+      margin-bottom: 40px;
+    }
+    .checkout-form h2 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .form-group input, .form-group select {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: #000;
+    }
+    
+    .checkout-summary {
+      background: #fafafa;
+      padding: 40px;
+      border-radius: 8px;
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+    
+    .checkout-summary h2 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+    
+    #checkout-items {
+      margin-bottom: 30px;
+    }
+    
+    .checkout-item {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    .checkout-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #eee;
+    }
+    .checkout-item-details {
+      flex: 1;
+    }
+    .checkout-item-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin: 0 0 5px;
+    }
+    .checkout-item-meta {
+      font-size: 12px;
+      color: #666;
+    }
+    .checkout-item-price {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: #666;
+    }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      font-size: 18px;
+      font-weight: 600;
+      color: #000;
+    }
+    
+    .place-order-btn {
+      width: 100%;
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 18px;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      margin-top: 30px;
+      transition: background 0.3s;
+    }
+    .place-order-btn:hover {
+      background: #333;
+    }
+    
+    @media (max-width: 991px) {
+      .checkout-container {
+        grid-template-columns: 1fr;
+      }
+      .checkout-summary {
+        order: -1; /* Move summary to top on mobile */
+      }
+    }
+    @media (max-width: 479px) {
+      .form-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Announcement Bar -->
+  <section class="aboveheadsection">
+    <div data-delay="2000" data-animation="slide" class="slider w-slider" data-autoplay="true" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
+      <div class="w-slider-mask">
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div class="shippingworldwide">Shipping worldwide!</div>
+            <a href="shop.html" class="shop-now">SHOP NOW!</a>
+          </div>
+        </div>
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div>100% Handmade &amp; Luxury Sneakers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation -->
+  <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navigation w-nav">
+    <div class="navigation-items">
+      <a href="index.html" class="logo-link-image w-nav-brand">
+        <img src="assets/images/logo.png" width="50" alt="" class="logo-image"/>
+      </a>
+      <div class="navigation-wrap">
+        <nav role="navigation" class="navigation-items w-nav-menu">
+          <a href="shop.html" class="navigation-item w-nav-link">SHOP</a>
+          <a href="aboutus.html" class="navigation-item w-nav-link">ABOUT US</a>
+          <a href="contact.html" class="navigation-item w-nav-link">CONTACT</a>
+        </nav>
+        <div class="navicons">
+          <!-- Simplified cart icon for now -->
+          <div class="w-commerce-commercecartwrapper" data-node-type="commerce-cart-wrapper">
+            <a class="w-commerce-commercecartopenlink cart-button w-inline-block" role="button" aria-haspopup="dialog" aria-label="Open cart" href="#" id="cart-icon-btn">
+              <svg class="w-commerce-commercecartopenlinkicon icon-8" width="17px" height="17px" viewBox="0 0 17 17">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <path d="M2.60592789,2 L0,2 L0,0 L4.39407211,0 L4.84288393,4 L16,4 L16,9.93844589 L3.76940945,12.3694378 L2.60592789,2 Z M15.5,17 C14.6715729,17 14,16.3284271 14,15.5 C14,14.6715729 14.6715729,14 15.5,14 C16.3284271,14 17,14.6715729 17,15.5 C17,16.3284271 16.3284271,17 15.5,17 Z M5.5,17 C4.67157288,17 4,16.3284271 4,15.5 C4,14.6715729 4.67157288,14 5.5,14 C6.32842712,14 7,14.6715729 7,15.5 C7,16.3284271 6.32842712,17 5.5,17 Z" fill="currentColor" fill-rule="nonzero"></path>
+                </g>
+              </svg>
+              <div class="w-commerce-commercecartopenlinkcount cart-quantity-2" id="cart-count">0</div>
+            </a>
+          </div>
+          <!-- Mobile Menu Button -->
+          <div class="menu-button w-nav-button">
+            <img src="assets/images/menu-icon.png" width="22" alt="" class="menu-icon"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="checkout-container">
+    <div class="checkout-form">
+      <section>
+        <h2>Contact Information</h2>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="Email">
+        </div>
+      </section>
+      
+      <section>
+        <h2>Shipping Address</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="First Name">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Last Name">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+          <label>Address</label>
+          <input type="text" placeholder="Street address or P.O. Box">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" placeholder="City">
+          </div>
+          <div class="form-group">
+            <label>Country</label>
+            <select>
+              <option>United States</option>
+              <option>United Kingdom</option>
+              <option>Germany</option>
+              <option>Croatia</option>
+              <option>Australia</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Postal Code</label>
+            <input type="text" placeholder="ZIP / Postal Code">
+          </div>
+        </div>
+      </section>
+      
+      <section>
+        <h2>Payment</h2>
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; background: #fafafa;">
+          <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            <span style="font-weight: 500;">Credit Card</span>
+          </div>
+          <div class="form-group" style="margin-bottom: 15px;">
+            <label>Card Number</label>
+            <input type="text" placeholder="0000 0000 0000 0000">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Expiration (MM/YY)</label>
+              <input type="text" placeholder="MM/YY">
+            </div>
+            <div class="form-group">
+              <label>Security Code</label>
+              <input type="text" placeholder="CVC">
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    </div>
+    
+    <div class="checkout-summary">
+      <h2>Order Summary</h2>
+      <div id="checkout-items">
+        <!-- Rendered by JS -->
+      </div>
+      
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="checkout-subtotal">€0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span>Calculated at next step</span>
+      </div>
+      
+      <div class="summary-total">
+        <span>Total</span>
+        <span id="checkout-total">€0.00</span>
+      </div>
+      
+      <button class="place-order-btn" onclick="alert('Order Placed Successfully! (Demo)')">Place Order</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="section">
+    <div class="container">
+      <div class="w-layout-grid footer">
+        <div class="columns w-row">
+          <div class="column-2 w-col w-col-6">
+            <a href="index.html" class="logo-link-image w-nav-brand">
+              <img src="assets/images/logo.png" width="150" alt="" class="logo-image"/>
+            </a>
+            <div>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="assets/images/tiktok.png" alt="" class="image"/>
+              </a>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="assets/images/instagram.png" alt="" class="image"/>
+              </a>
+            </div>
+          </div>
+          <div class="column w-col w-col-6">
+            <div class="getintouchdiv">
+              <h1 class="getintouch">Customer Support</h1>
+              <div class="infofooter">patikecustom@gmail.com<br/>Dubrovnik 20236, Croatia<br/></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-block-2">© Copyright 2026 Custom Patike</div>
+    </div>
+  </div>
+
+  <script src="js/cart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkoutItems = document.getElementById('checkout-items');
+        const checkoutSubtotal = document.getElementById('checkout-subtotal');
+        const checkoutTotal = document.getElementById('checkout-total');
+        
+        let cart = JSON.parse(localStorage.getItem('custom_patike_cart')) || [];
+        
+        if (cart.length === 0) {
+            checkoutItems.innerHTML = '<p>Your cart is empty.</p>';
+            return;
+        }
+        
+        let html = '';
+        let total = 0;
+        
+        cart.forEach(item => {
+            total += item.price * item.quantity;
+            
+            // Adjust image path if cart was added from product page
+            // If item.image starts with '../', remove it since checkout is at root
+            let imgSrc = item.image.replace('../', '');
+            
+            html += `
+                <div class="checkout-item">
+                    <img src="${imgSrc}" alt="${item.name}">
+                    <div class="checkout-item-details">
+                        <h4 class="checkout-item-name">${item.name}</h4>
+                        <div class="checkout-item-meta">Qty: ${item.quantity}</div>
+                    </div>
+                    <div class="checkout-item-price">€${(item.price * item.quantity).toFixed(2)}</div>
+                </div>
+            `;
+        });
+        
+        checkoutItems.innerHTML = html;
+        const totalStr = `€${total.toFixed(2)}`;
+        checkoutSubtotal.textContent = totalStr;
+        checkoutTotal.textContent = totalStr;
+    });
+  </script>
+</body>
+</html>
