@@ -32,9 +32,15 @@ const webflowHeaderTemplate = `
           <a href="{prefix}shop.html" class="navigation-item w-nav-link">SHOP</a>
           <a href="{prefix}aboutus.html" class="navigation-item w-nav-link">ABOUT US</a>
           <a href="{prefix}contact.html" class="navigation-item w-nav-link">CONTACT</a>
-          <a href="{prefix}account.html" class="navigation-item w-nav-link">ACCOUNT</a>
         </nav>
-        <div class="navicons">
+        <div class="navicons" style="display: flex; align-items: center; gap: 15px;">
+          <!-- Account Icon SVG -->
+          <a href="{prefix}account.html" class="account-button w-inline-block" aria-label="Account" title="My Account" style="color: currentColor; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+            <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
           <!-- Simplified cart icon for now -->
           <div class="w-commerce-commercecartwrapper" data-node-type="commerce-cart-wrapper">
             <a class="w-commerce-commercecartopenlink cart-button w-inline-block" role="button" aria-haspopup="dialog" aria-label="Open cart" href="#" id="cart-icon-btn">
