@@ -67,7 +67,14 @@ async function main() {
         if (r[24]) products[productId].variants.push({ size: r[24] });
     });
     
-    const productList = Object.values(products);
+    // Filter out handbag / bag products
+    const productList = Object.values(products).filter(p => {
+        const h = (p.handle || '').toLowerCase();
+        const n = (p.name || '').toLowerCase();
+        const c = (p.category || '').toLowerCase();
+        return !h.includes('bag') && !n.includes('bag') && !c.includes('bag') && !h.includes('handbag') && !n.includes('handbag');
+    });
+
     for (const p of productList) {
         let imageExt = '.jpg';
         try {
