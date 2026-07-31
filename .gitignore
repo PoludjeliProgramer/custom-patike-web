@@ -1,5 +1,17 @@
-# Temporary files
+# Environment & secrets
+.env
+.env.local
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Build & Deploy junk
+.vercel
 site.tar.gz
 *.log
+
+# OS generated files
 .DS_Store
-node_modules/
+Thumbs.db
