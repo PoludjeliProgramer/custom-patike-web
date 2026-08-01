@@ -207,6 +207,41 @@ function generateProductPage(product) {
   </script>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/vandal-style.css">
+  <style>
+    .product-detail-section {
+      padding: 50px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .product-gallery {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .product-gallery .img-container {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+    .product-gallery img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+    }
+    @media (max-width: 850px) {
+      .product-detail-section {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+  </style>
 </head>
 <body>
 ${getHeaderHTML(true)}
@@ -219,18 +254,18 @@ ${getHeaderHTML(true)}
     <section class="product-detail-section">
       <div class="product-gallery footwear-gallery" id="footwearGallery">
         <div class="img-container">
-          <img src="../${product.localImage}" alt="${product.name}" id="mainProdImg" style="width: 100%; aspect-ratio: 4/5; object-fit: cover;">
+          <img src="../${product.localImage}" alt="${product.name}" id="mainProdImg">
         </div>
       </div>
       <div class="product-info-detail">
-        <h1 class="product-title">${product.name}</h1>
-        <div class="product-price">€${product.price}</div>
-        <p class="product-description">${product.description || 'Hand-painted on an authentic sneaker. Each pair is a 1-of-1 original — hand-drawn, hand-mixed, and hand-applied brushwork. Sealed with UV-resistant varnish. Never printed, never stenciled.'}</p>
+        <h1 class="product-title" style="font-size: 28px; font-weight: 600; margin-bottom: 10px; font-family: var(--font-sans);">${product.name}</h1>
+        <div class="product-price" style="font-size: 22px; font-weight: 600; margin-bottom: 20px;">€${product.price}</div>
+        <p class="product-description" style="font-size: 13.5px; color: #555; line-height: 1.6; margin-bottom: 30px;">${product.description || 'Hand-painted on an authentic sneaker. Each pair is a 1-of-1 original — hand-drawn, hand-mixed, and hand-applied brushwork. Sealed with UV-resistant varnish. Never printed, never stenciled.'}</p>
         
         <!-- Size Selector with EU / US / UK Toggles -->
         <div class="size-selector">
           <div class="size-selector-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <span style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Select Size <span id="currentSizeType">(EU)</span></span>
+            <span style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Select Size <span id="currentSizeType">(EU)</span></span>
             <div class="size-type-toggles" style="display: flex; gap: 12px;">
               <button class="type-btn active" data-type="eu" style="background: none; border: none; font-size: 11px; text-transform: uppercase; color: var(--text); font-weight: 600; border-bottom: 1.5px solid var(--text); cursor: pointer; padding: 2px 0;">EU</button>
               <button class="type-btn" data-type="us" style="background: none; border: none; font-size: 11px; text-transform: uppercase; color: var(--text-muted, #888); cursor: pointer; padding: 2px 0;">US</button>
@@ -258,35 +293,35 @@ ${getHeaderHTML(true)}
           </div>
         </div>
 
-        <div class="action-row" style="display: flex; gap: 15px; margin-bottom: 30px; margin-top: 25px;">
-          <div class="qty-selector" style="display: flex; border: 1px solid var(--border, #ddd); align-items: center; width: 110px; justify-content: space-between; padding: 0 12px; border-radius: 4px;">
+        <div class="action-row" style="display: flex; gap: 15px; margin-bottom: 25px; margin-top: 20px;">
+          <div class="qty-selector" style="display: flex; border: 1px solid var(--border, #ddd); align-items: center; width: 100px; justify-content: space-between; padding: 0 10px; border-radius: 4px;">
             <button class="qty-btn minus" style="background:none; border:none; cursor:pointer; font-size:18px; line-height: 1;">-</button>
             <span class="qty-val" id="productQty" style="font-size: 14px; font-weight: 500;">1</span>
             <button class="qty-btn plus" style="background:none; border:none; cursor:pointer; font-size:18px; line-height: 1;">+</button>
           </div>
-          <button class="btn-primary add-to-cart-btn" id="addToBagBtn" data-id="${product.handle}" data-name="${product.name}" data-price="${product.price}" data-image="../${product.localImage}" style="flex: 1; margin: 0; padding: 14px 20px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;">Add to Cart</button>
+          <button class="btn-primary add-to-cart-btn" id="addToBagBtn" data-id="${product.handle}" data-name="${product.name}" data-price="${product.price}" data-image="../${product.localImage}" style="flex: 1; margin: 0; padding: 14px 20px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; background: #000; color: #fff; border: none;">Add to Cart</button>
         </div>
         
         <!-- Start a Commission Box -->
-        <div style="margin-bottom: 35px; text-align: center; border: 1px dashed var(--border, #ccc); padding: 22px 18px; border-radius: 6px; background: rgba(0,0,0,0.01);">
-          <p style="font-size: 14px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.2px;">Want a Custom Design?</p>
-          <p style="font-size: 12.5px; color: var(--text-muted, #666); margin-bottom: 14px; line-height: 1.5;">We offer unlimited customization. Have your own concept or idea painted on a fresh pair.</p>
-          <a href="../contact.html" class="btn-outline" style="display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 9px 18px; border: 1px solid currentColor; text-decoration: none; font-weight: 600; border-radius: 3px;">Start a Commission</a>
+        <div style="margin-bottom: 30px; text-align: center; border: 1px dashed var(--border, #ccc); padding: 20px 16px; border-radius: 6px; background: rgba(0,0,0,0.01);">
+          <p style="font-size: 13.5px; font-weight: 600; margin-bottom: 5px;">Want a Custom Design?</p>
+          <p style="font-size: 12px; color: var(--text-muted, #666); margin-bottom: 12px; line-height: 1.5;">We offer unlimited customization. Have your own concept or idea painted on a fresh pair.</p>
+          <a href="../contact.html" class="btn-outline" style="display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1px solid #000; color: #000; text-decoration: none; font-weight: 600; border-radius: 3px;">Start a Commission</a>
         </div>
 
         <!-- Trust Signals & Payment Badges -->
-        <div class="product-trust-signals" style="margin-bottom: 35px; padding-top: 20px; border-top: 1px solid var(--border, #eee);">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+        <div class="product-trust-signals" style="margin-bottom: 30px; padding-top: 18px; border-top: 1px solid var(--border, #eee);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
             <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Secure Checkout via Stripe</span>
           </div>
-          <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+          <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
             <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Visa_Inc._logo_%282021%E2%80%93present%29.svg" alt="Visa" style="height: 12px;">
             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style="height: 18px;">
             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" style="height: 18px;">
             <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" style="height: 16px;">
           </div>
-          <p style="font-size: 11.5px; color: #555; margin-top: 14px; display: flex; align-items: center; gap: 8px;">
+          <p style="font-size: 11.5px; color: #555; margin-top: 12px; display: flex; align-items: center; gap: 8px;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             <strong>Free Shipping on Orders Over €300</strong>
           </p>
@@ -294,21 +329,21 @@ ${getHeaderHTML(true)}
 
         <!-- Product Accordions -->
         <div class="product-accordion" style="border-top: 1px solid var(--border, #eee);">
-          <div class="accordion-item" style="border-bottom: 1px solid var(--border, #eee); padding: 16px 0; cursor: pointer;">
-            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.5px;">
+          <div class="accordion-item" style="border-bottom: 1px solid var(--border, #eee); padding: 14px 0; cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
               <span>Shipping &amp; Returns</span>
               <span class="acc-icon" style="font-size: 18px; font-weight: 300;">+</span>
             </div>
-            <div class="accordion-content" style="display: none; padding-top: 12px; font-size: 13px; line-height: 1.6; color: #555;">
+            <div class="accordion-content" style="display: none; padding-top: 10px; font-size: 12.5px; line-height: 1.6; color: #555;">
               <p>Shipping is complimentary on orders over €300; otherwise, standard rates apply based on destination. Worldwide delivery takes 4–15 business days following our hand-painting creation period of 1–2 weeks. Footwear sales are final once the correct size and bespoke design have been delivered.</p>
             </div>
           </div>
-          <div class="accordion-item" style="border-bottom: 1px solid var(--border, #eee); padding: 16px 0; cursor: pointer;">
-            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.5px;">
+          <div class="accordion-item" style="border-bottom: 1px solid var(--border, #eee); padding: 14px 0; cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
               <span>Materials &amp; Construction</span>
               <span class="acc-icon" style="font-size: 18px; font-weight: 300;">+</span>
             </div>
-            <div class="accordion-content" style="display: none; padding-top: 12px; font-size: 13px; line-height: 1.6; color: #555;">
+            <div class="accordion-content" style="display: none; padding-top: 10px; font-size: 12.5px; line-height: 1.6; color: #555;">
               <p>Hand-crafted on authentic Nike Air Force 1 leather uppers. Painted using specialized Angelus acrylic leather paint, sealed with 2 coats of Liquitex UV-resistant satin varnish. Waterproof, flexible, and scratch-resistant. Clean with a damp microfiber cloth only.</p>
             </div>
           </div>
@@ -318,14 +353,14 @@ ${getHeaderHTML(true)}
     </section>
 
     <!-- Customer Video Showcase -->
-    <section class="customer-video-section" style="padding: 80px 20px; background: #fff; text-align: center; border-top: 1px solid #eee;">
-      <div style="max-width: 900px; margin: 0 auto;">
-        <video autoplay muted playsinline style="width: 100%; display: block; border-radius: 8px; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+    <section class="customer-video-section" style="padding: 70px 20px; background: #fff; text-align: center; border-top: 1px solid #eee;">
+      <div style="max-width: 800px; margin: 0 auto;">
+        <video autoplay muted playsinline style="width: 100%; display: block; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
           <source src="../assets/images/Customers4k.mp4" type="video/mp4">
         </video>
-        <h2 style="font-size: 28px; font-weight: 400; margin-bottom: 8px; letter-spacing: -0.5px;">Captured Worldwide</h2>
-        <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: #888; font-weight: 600; margin-bottom: 18px;">The Atelier in the Wild</p>
-        <p style="color: #666; font-size: 14px; line-height: 1.7; max-width: 650px; margin: 0 auto;">
+        <h2 style="font-size: 26px; font-weight: 400; margin-bottom: 8px; letter-spacing: -0.5px;">Captured Worldwide</h2>
+        <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: #888; font-weight: 600; margin-bottom: 16px;">The Atelier in the Wild</p>
+        <p style="color: #666; font-size: 13.5px; line-height: 1.7; max-width: 600px; margin: 0 auto;">
           Handcrafted in our Dubrovnik atelier and delivered to collectors globally. Each pair represents 40+ hours of dedicated brushwork and artisan detail.
         </p>
       </div>
@@ -439,17 +474,25 @@ ${getFooterHTML(true)}
 }
 
 function generateShopPage(products) {
-    const productCardsHtml = products.map(p => `
-        <a href="product/${p.handle}.html" class="product-card">
-          <div class="img-wrapper" style="width: 100%; aspect-ratio: 4/5; overflow: hidden; margin-bottom: 20px;">
-            <img src="${p.localImage}" alt="${p.name}" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    const bestSellerHandles = ['nike-air-force-1-bmw', 'nike-air-force-1-audi-rs', 'air-max-tn-custom-bmw-m', 'bmw-tn-air-max-custom', 'nike-air-force-1-bmw-splatter'];
+
+    const productCardsHtml = products.map(p => {
+        const isBestSeller = bestSellerHandles.includes(p.handle);
+        const bestSellerBadge = isBestSeller ? `<span style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 4px; letter-spacing: 0.5px; z-index: 2; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">Best Seller ★</span>` : '';
+        
+        return `
+        <a href="product/${p.handle}.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
+          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
+            ${bestSellerBadge}
+            <img src="${p.localImage}" alt="${p.name}" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info">
-            <h3 class="product-title">${p.name}</h3>
-            <span class="product-price">€${p.price}</span>
-            <span class="product-meta">${p.category}</span>
+          <div class="product-info" style="text-align: left; padding: 0 4px;">
+            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">${p.name}</h3>
+            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">${p.price} €</div>
+            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
           </div>
-        </a>`).join('\n');
+        </a>`;
+    }).join('\n');
 
     const html = `<!DOCTYPE html>
 <html lang="en">
@@ -457,22 +500,46 @@ function generateShopPage(products) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shop | Custom Patike</title>
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">
-    WebFont.load({  google: {    families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Great Vibes:400","Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic","League Spartan:300,400,500,600,700","Poppins:300,400,500,600,700"]  }});
+    WebFont.load({ google: { families: ["Montserrat:100,200,300,400,500,600,700,800,900","Great Vibes:400","Exo:100,200,300,400,500,600,700,800,900","Lato:100,300,400,700,900","League Spartan:300,400,500,600,700","Poppins:300,400,500,600,700"] }});
   </script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/vandal-style.css">
+  <style>
+    .shop-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 50px 20px 80px;
+    }
+    .shop-section .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px 24px;
+    }
+    @media (max-width: 900px) {
+      .shop-section .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px 16px;
+      }
+    }
+    @media (max-width: 550px) {
+      .shop-section .grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+  </style>
 </head>
 <body>
 ${getHeaderHTML(false)}
   <main>
     <section class="shop-section">
-      <div class="section-header" style="margin-bottom: 20px;">
-        <h2>The Custom Collection</h2>
-        <p style="color: var(--text-muted); font-size: 15px; max-width: 600px; margin: 15px auto; line-height: 1.6;">
+      <div class="section-header" style="margin-bottom: 40px; text-align: center;">
+        <h2 style="font-size: 32px; font-weight: 400; margin-bottom: 8px;">The Custom Collection</h2>
+        <p style="color: var(--text-muted, #777); font-size: 14px; max-width: 550px; margin: 0 auto; line-height: 1.6;">
           Hand-painted, UV-sealed, and strictly 1-of-1.
         </p>
       </div>

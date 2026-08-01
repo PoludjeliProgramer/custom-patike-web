@@ -12,6 +12,41 @@
   </script>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/vandal-style.css">
+  <style>
+    .product-detail-section {
+      padding: 50px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .product-gallery {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .product-gallery .img-container {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+    .product-gallery img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+    }
+    @media (max-width: 850px) {
+      .product-detail-section {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -82,18 +117,18 @@
     <section class="product-detail-section">
       <div class="product-gallery footwear-gallery" id="footwearGallery">
         <div class="img-container">
-          <img src="../assets/images/products/air-max-tn-custom-bmw-m.jpg" alt="BMW Air Max TN Triple Black Custom" id="mainProdImg" style="width: 100%; aspect-ratio: 4/5; object-fit: cover;">
+          <img src="../assets/images/products/air-max-tn-custom-bmw-m.jpg" alt="BMW Air Max TN Triple Black Custom" id="mainProdImg">
         </div>
       </div>
       <div class="product-info-detail">
-        <h1 class="product-title">BMW Air Max TN Triple Black Custom</h1>
-        <div class="product-price">€240</div>
-        <p class="product-description">Hand-painted on an authentic sneaker. Each pair is a 1-of-1 original — hand-drawn, hand-mixed, and hand-applied brushwork. Sealed with UV-resistant varnish. Never printed, never stenciled.</p>
+        <h1 class="product-title" style="font-size: 28px; font-weight: 600; margin-bottom: 10px; font-family: var(--font-sans);">BMW Air Max TN Triple Black Custom</h1>
+        <div class="product-price" style="font-size: 22px; font-weight: 600; margin-bottom: 20px;">€240</div>
+        <p class="product-description" style="font-size: 13.5px; color: #555; line-height: 1.6; margin-bottom: 30px;">Hand-painted on an authentic sneaker. Each pair is a 1-of-1 original — hand-drawn, hand-mixed, and hand-applied brushwork. Sealed with UV-resistant varnish. Never printed, never stenciled.</p>
         
         <!-- Size Selector with EU / US / UK Toggles -->
         <div class="size-selector">
           <div class="size-selector-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <span style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Select Size <span id="currentSizeType">(EU)</span></span>
+            <span style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Select Size <span id="currentSizeType">(EU)</span></span>
             <div class="size-type-toggles" style="display: flex; gap: 12px;">
               <button class="type-btn active" data-type="eu" style="background: none; border: none; font-size: 11px; text-transform: uppercase; color: var(--text); font-weight: 600; border-bottom: 1.5px solid var(--text); cursor: pointer; padding: 2px 0;">EU</button>
               <button class="type-btn" data-type="us" style="background: none; border: none; font-size: 11px; text-transform: uppercase; color: var(--text-muted, #888); cursor: pointer; padding: 2px 0;">US</button>
@@ -121,35 +156,35 @@
           </div>
         </div>
 
-        <div class="action-row" style="display: flex; gap: 15px; margin-bottom: 30px; margin-top: 25px;">
-          <div class="qty-selector" style="display: flex; border: 1px solid var(--border, #ddd); align-items: center; width: 110px; justify-content: space-between; padding: 0 12px; border-radius: 4px;">
+        <div class="action-row" style="display: flex; gap: 15px; margin-bottom: 25px; margin-top: 20px;">
+          <div class="qty-selector" style="display: flex; border: 1px solid var(--border, #ddd); align-items: center; width: 100px; justify-content: space-between; padding: 0 10px; border-radius: 4px;">
             <button class="qty-btn minus" style="background:none; border:none; cursor:pointer; font-size:18px; line-height: 1;">-</button>
             <span class="qty-val" id="productQty" style="font-size: 14px; font-weight: 500;">1</span>
             <button class="qty-btn plus" style="background:none; border:none; cursor:pointer; font-size:18px; line-height: 1;">+</button>
           </div>
-          <button class="btn-primary add-to-cart-btn" id="addToBagBtn" data-id="air-max-tn-custom-bmw-m" data-name="BMW Air Max TN Triple Black Custom" data-price="240" data-image="../assets/images/products/air-max-tn-custom-bmw-m.jpg" style="flex: 1; margin: 0; padding: 14px 20px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;">Add to Cart</button>
+          <button class="btn-primary add-to-cart-btn" id="addToBagBtn" data-id="air-max-tn-custom-bmw-m" data-name="BMW Air Max TN Triple Black Custom" data-price="240" data-image="../assets/images/products/air-max-tn-custom-bmw-m.jpg" style="flex: 1; margin: 0; padding: 14px 20px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; background: #000; color: #fff; border: none;">Add to Cart</button>
         </div>
         
         <!-- Start a Commission Box -->
-        <div style="margin-bottom: 35px; text-align: center; border: 1px dashed var(--border, #ccc); padding: 22px 18px; border-radius: 6px; background: rgba(0,0,0,0.01);">
-          <p style="font-size: 14px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.2px;">Want a Custom Design?</p>
-          <p style="font-size: 12.5px; color: var(--text-muted, #666); margin-bottom: 14px; line-height: 1.5;">We offer unlimited customization. Have your own concept or idea painted on a fresh pair.</p>
-          <a href="../contact.html" class="btn-outline" style="display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 9px 18px; border: 1px solid currentColor; text-decoration: none; font-weight: 600; border-radius: 3px;">Start a Commission</a>
+        <div style="margin-bottom: 30px; text-align: center; border: 1px dashed var(--border, #ccc); padding: 20px 16px; border-radius: 6px; background: rgba(0,0,0,0.01);">
+          <p style="font-size: 13.5px; font-weight: 600; margin-bottom: 5px;">Want a Custom Design?</p>
+          <p style="font-size: 12px; color: var(--text-muted, #666); margin-bottom: 12px; line-height: 1.5;">We offer unlimited customization. Have your own concept or idea painted on a fresh pair.</p>
+          <a href="../contact.html" class="btn-outline" style="display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1px solid #000; color: #000; text-decoration: none; font-weight: 600; border-radius: 3px;">Start a Commission</a>
         </div>
 
         <!-- Trust Signals & Payment Badges -->
-        <div class="product-trust-signals" style="margin-bottom: 35px; padding-top: 20px; border-top: 1px solid var(--border, #eee);">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+        <div class="product-trust-signals" style="margin-bottom: 30px; padding-top: 18px; border-top: 1px solid var(--border, #eee);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
             <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Secure Checkout via Stripe</span>
           </div>
-          <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+          <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
             <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Visa_Inc._logo_%282021%E2%80%93present%29.svg" alt="Visa" style="height: 12px;">
             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style="height: 18px;">
             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" style="height: 18px;">
             <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" style="height: 16px;">
           </div>
-          <p style="font-size: 11.5px; color: #555; margin-top: 14px; display: flex; align-items: center; gap: 8px;">
+          <p style="font-size: 11.5px; color: #555; margin-top: 12px; display: flex; align-items: center; gap: 8px;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             <strong>Free Shipping on Orders Over €300</strong>
           </p>
@@ -157,21 +192,21 @@
 
         <!-- Product Accordions -->
         <div class="product-accordion" style="border-top: 1px solid var(--border, #eee);">
-          <div class="accordion-item" style="border-bottom: 1px solid var(--border, #eee); padding: 16px 0; cursor: pointer;">
-            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.5px;">
+          <div class="accordion-item" style="border-bottom: 1px solid var(--border, #eee); padding: 14px 0; cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
               <span>Shipping &amp; Returns</span>
               <span class="acc-icon" style="font-size: 18px; font-weight: 300;">+</span>
             </div>
-            <div class="accordion-content" style="display: none; padding-top: 12px; font-size: 13px; line-height: 1.6; color: #555;">
+            <div class="accordion-content" style="display: none; padding-top: 10px; font-size: 12.5px; line-height: 1.6; color: #555;">
               <p>Shipping is complimentary on orders over €300; otherwise, standard rates apply based on destination. Worldwide delivery takes 4–15 business days following our hand-painting creation period of 1–2 weeks. Footwear sales are final once the correct size and bespoke design have been delivered.</p>
             </div>
           </div>
-          <div class="accordion-item" style="border-bottom: 1px solid var(--border, #eee); padding: 16px 0; cursor: pointer;">
-            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.5px;">
+          <div class="accordion-item" style="border-bottom: 1px solid var(--border, #eee); padding: 14px 0; cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
               <span>Materials &amp; Construction</span>
               <span class="acc-icon" style="font-size: 18px; font-weight: 300;">+</span>
             </div>
-            <div class="accordion-content" style="display: none; padding-top: 12px; font-size: 13px; line-height: 1.6; color: #555;">
+            <div class="accordion-content" style="display: none; padding-top: 10px; font-size: 12.5px; line-height: 1.6; color: #555;">
               <p>Hand-crafted on authentic Nike Air Force 1 leather uppers. Painted using specialized Angelus acrylic leather paint, sealed with 2 coats of Liquitex UV-resistant satin varnish. Waterproof, flexible, and scratch-resistant. Clean with a damp microfiber cloth only.</p>
             </div>
           </div>
@@ -181,14 +216,14 @@
     </section>
 
     <!-- Customer Video Showcase -->
-    <section class="customer-video-section" style="padding: 80px 20px; background: #fff; text-align: center; border-top: 1px solid #eee;">
-      <div style="max-width: 900px; margin: 0 auto;">
-        <video autoplay muted playsinline style="width: 100%; display: block; border-radius: 8px; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+    <section class="customer-video-section" style="padding: 70px 20px; background: #fff; text-align: center; border-top: 1px solid #eee;">
+      <div style="max-width: 800px; margin: 0 auto;">
+        <video autoplay muted playsinline style="width: 100%; display: block; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
           <source src="../assets/images/Customers4k.mp4" type="video/mp4">
         </video>
-        <h2 style="font-size: 28px; font-weight: 400; margin-bottom: 8px; letter-spacing: -0.5px;">Captured Worldwide</h2>
-        <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: #888; font-weight: 600; margin-bottom: 18px;">The Atelier in the Wild</p>
-        <p style="color: #666; font-size: 14px; line-height: 1.7; max-width: 650px; margin: 0 auto;">
+        <h2 style="font-size: 26px; font-weight: 400; margin-bottom: 8px; letter-spacing: -0.5px;">Captured Worldwide</h2>
+        <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: #888; font-weight: 600; margin-bottom: 16px;">The Atelier in the Wild</p>
+        <p style="color: #666; font-size: 13.5px; line-height: 1.7; max-width: 600px; margin: 0 auto;">
           Handcrafted in our Dubrovnik atelier and delivered to collectors globally. Each pair represents 40+ hours of dedicated brushwork and artisan detail.
         </p>
       </div>
