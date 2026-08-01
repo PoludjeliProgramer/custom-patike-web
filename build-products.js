@@ -460,51 +460,62 @@ ${getHeaderHTML(true)}
       </div>
     </section>
 
-    <!-- SECTION 1: Craftsmanship Standards Grid -->
+    <!-- SECTION 1: Customer Video Showcase ("Captured Worldwide") IMMEDIATELY BELOW PRODUCT DETAILS -->
+    <section class="customer-video-section" style="padding: 70px 20px; background: #fff; text-align: center; border-top: 1px solid #eee;">
+      <div style="max-width: 800px; margin: 0 auto;">
+        <video autoplay muted playsinline style="width: 100%; display: block; border-radius: 0; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+          <source src="../assets/images/Customers4k.mp4" type="video/mp4">
+        </video>
+        <h2 style="font-size: 26px; font-weight: 400; margin-bottom: 8px; letter-spacing: -0.5px;">Captured Worldwide</h2>
+        <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: #888; font-weight: 600; margin-bottom: 16px;">The Atelier in the Wild</p>
+        <p style="color: #666; font-size: 13.5px; line-height: 1.7; max-width: 600px; margin: 0 auto;">
+          Handcrafted in our atelier and delivered to collectors globally. Each pair represents dedicated brushwork and artisan detail.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Craftsmanship Standards Grid (NO EMOJIS, 1-OF-1 UNIQUE ARTWORK TOPIC) -->
     <section style="padding: 80px 20px; background: #fafafa; border-top: 1px solid #eee; text-align: center;">
       <div style="max-width: 1200px; margin: 0 auto;">
         <p style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: #888; margin-bottom: 10px;">Uncompromising Standards</p>
         <h2 style="font-size: 32px; font-weight: 400; margin-bottom: 45px; letter-spacing: -0.5px;">Why Collectors Choose Us</h2>
         <div class="craft-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: left;">
           <div style="background: #fff; padding: 36px 28px; border: 1px solid #eee;">
-            <div style="font-size: 26px; margin-bottom: 14px;">🎨</div>
-            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 10px;">40+ Hours Hand Painting</h3>
-            <p style="font-size: 13.5px; color: #666; line-height: 1.6;">No vinyl stickers, zero stencils. Every line, gradient, and character is hand-drawn and painted stroke by stroke.</p>
+            <h3 style="font-size: 17px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.2px;">1-of-1 Unique Artwork</h3>
+            <p style="font-size: 13.5px; color: #666; line-height: 1.6; margin: 0;">No mass manufacturing, zero stencils or duplicates. Every sneaker is a 1-of-1 original masterwork, painted individually by hand for your private collection.</p>
           </div>
           <div style="background: #fff; padding: 36px 28px; border: 1px solid #eee;">
-            <div style="font-size: 26px; margin-bottom: 14px;">🛡️</div>
-            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 10px;">UV &amp; Weatherproof Coating</h3>
-            <p style="font-size: 13.5px; color: #666; line-height: 1.6;">Sealed with double scratch-resistant coats to prevent paint cracking, peeling, or yellowing under sunlight.</p>
+            <h3 style="font-size: 17px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.2px;">UV &amp; Weatherproof Coating</h3>
+            <p style="font-size: 13.5px; color: #666; line-height: 1.6; margin: 0;">Sealed with double scratch-resistant coats to prevent paint cracking, peeling, or fading under sunlight and rain.</p>
           </div>
           <div style="background: #fff; padding: 36px 28px; border: 1px solid #eee;">
-            <div style="font-size: 26px; margin-bottom: 14px;">✨</div>
-            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 10px;">Guaranteed 100% Authentic</h3>
-            <p style="font-size: 13.5px; color: #666; line-height: 1.6;">We source only brand-new, original Nike Air Force 1 sneakers directly from authorized Nike retailers.</p>
+            <h3 style="font-size: 17px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.2px;">Guaranteed 100% Authentic</h3>
+            <p style="font-size: 13.5px; color: #666; line-height: 1.6; margin: 0;">We source only brand-new, original Nike Air Force 1 sneakers directly from authorized Nike retailers.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: Collector Reviews Showcase -->
+    <!-- SECTION 3: Collector Reviews Showcase (NO EMOJIS, CLEAN BLACK STAR SYMBOLS) -->
     <section style="padding: 80px 20px; background: #fff; border-top: 1px solid #eee;">
       <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
-        <div style="color: #ffc107; font-size: 20px; margin-bottom: 8px;">★★★★★</div>
+        <div style="color: #111; font-size: 15px; font-weight: 600; letter-spacing: 2px; margin-bottom: 8px;">★★★★★</div>
         <h2 style="font-size: 30px; font-weight: 400; margin-bottom: 8px;">Loved by Collectors Worldwide</h2>
         <p style="color: #777; font-size: 14px; margin-bottom: 50px;">4.9/5 Average Rating across 200+ bespoke deliveries</p>
 
         <div class="review-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: left;">
           <div style="border: 1px solid #eee; padding: 30px; background: #fff;">
-            <div style="color: #ffc107; font-size: 14px; margin-bottom: 12px;">★★★★★</div>
+            <div style="color: #111; font-size: 13px; letter-spacing: 2px; margin-bottom: 12px;">★★★★★</div>
             <p style="font-size: 14px; line-height: 1.6; color: #333; margin-bottom: 20px;">"The quality in person blew me away. The paint detail is razor sharp and they feel just as durable as factory sneakers. Worth every euro."</p>
             <p style="font-size: 12px; font-weight: 600; color: #111; margin: 0;">— Marko S. <span style="font-weight: 400; color: #888;">(Verified Collector, Germany)</span></p>
           </div>
           <div style="border: 1px solid #eee; padding: 30px; background: #fff;">
-            <div style="color: #ffc107; font-size: 14px; margin-bottom: 12px;">★★★★★</div>
+            <div style="color: #111; font-size: 13px; letter-spacing: 2px; margin-bottom: 12px;">★★★★★</div>
             <p style="font-size: 14px; line-height: 1.6; color: #333; margin-bottom: 20px;">"Turnaround was fast, packaging was super luxury with the signed certificate included. Hands down the best custom sneakers out there."</p>
             <p style="font-size: 12px; font-weight: 600; color: #111; margin: 0;">— Alex V. <span style="font-weight: 400; color: #888;">(Verified Collector, Switzerland)</span></p>
           </div>
           <div style="border: 1px solid #eee; padding: 30px; background: #fff;">
-            <div style="color: #ffc107; font-size: 14px; margin-bottom: 12px;">★★★★★</div>
+            <div style="color: #111; font-size: 13px; letter-spacing: 2px; margin-bottom: 12px;">★★★★★</div>
             <p style="font-size: 14px; line-height: 1.6; color: #333; margin-bottom: 20px;">"Wore them to 3 car meets already and everyone asked where I got them! Zero paint cracking or wear after weeks of use."</p>
             <p style="font-size: 12px; font-weight: 600; color: #111; margin: 0;">— Daniel K. <span style="font-weight: 400; color: #888;">(Verified Collector, Austria)</span></p>
           </div>
@@ -512,7 +523,7 @@ ${getHeaderHTML(true)}
       </div>
     </section>
 
-    <!-- SECTION 3: FAQ Section -->
+    <!-- SECTION 4: FAQ Section -->
     <section style="padding: 80px 20px; background: #fafafa; border-top: 1px solid #eee;">
       <div style="max-width: 850px; margin: 0 auto;">
         <h2 style="font-size: 30px; font-weight: 400; text-align: center; margin-bottom: 40px;">Frequently Asked Questions</h2>
@@ -530,20 +541,6 @@ ${getHeaderHTML(true)}
             <p style="font-size: 13.5px; color: #666; line-height: 1.6; margin: 0;">Absolutely. Click 'Start a Commission' in the product panel or contact us with your artwork concept for a personalized consultation.</p>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Customer Video Showcase -->
-    <section class="customer-video-section" style="padding: 70px 20px; background: #fff; text-align: center; border-top: 1px solid #eee;">
-      <div style="max-width: 800px; margin: 0 auto;">
-        <video autoplay muted playsinline style="width: 100%; display: block; border-radius: 0; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
-          <source src="../assets/images/Customers4k.mp4" type="video/mp4">
-        </video>
-        <h2 style="font-size: 26px; font-weight: 400; margin-bottom: 8px; letter-spacing: -0.5px;">Captured Worldwide</h2>
-        <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: #888; font-weight: 600; margin-bottom: 16px;">The Atelier in the Wild</p>
-        <p style="color: #666; font-size: 13.5px; line-height: 1.7; max-width: 600px; margin: 0 auto;">
-          Handcrafted in our Dubrovnik atelier and delivered to collectors globally. Each pair represents 40+ hours of dedicated brushwork and artisan detail.
-        </p>
       </div>
     </section>
   </main>
