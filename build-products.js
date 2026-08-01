@@ -474,25 +474,16 @@ ${getFooterHTML(true)}
 }
 
 function generateShopPage(products) {
-    const bestSellerHandles = ['nike-air-force-1-bmw', 'nike-air-force-1-audi-rs', 'air-max-tn-custom-bmw-m', 'bmw-tn-air-max-custom', 'nike-air-force-1-bmw-splatter'];
-
-    const productCardsHtml = products.map(p => {
-        const isBestSeller = bestSellerHandles.includes(p.handle);
-        const bestSellerBadge = isBestSeller ? `<span style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 4px; letter-spacing: 0.5px; z-index: 2; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">Best Seller ★</span>` : '';
-        
-        return `
-        <a href="product/${p.handle}.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            ${bestSellerBadge}
-            <img src="${p.localImage}" alt="${p.name}" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+    const productCardsHtml = products.map(p => `
+        <a href="product/${p.handle}.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="${p.localImage}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">${p.name}</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">${p.price} €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">${p.name}</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€${p.price}</span>
           </div>
-        </a>`;
-    }).join('\n');
+        </a>`).join('\n');
 
     const html = `<!DOCTYPE html>
 <html lang="en">
@@ -509,26 +500,47 @@ function generateShopPage(products) {
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/vandal-style.css">
   <style>
-    .shop-section {
+    .shop-collection-section {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 50px 20px 80px;
+      padding: 60px 20px 100px;
     }
-    .shop-section .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px 24px;
+    .shop-header {
+      text-align: center;
+      margin-bottom: 45px;
     }
-    @media (max-width: 900px) {
-      .shop-section .grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 24px 16px;
+    .shop-header h2 {
+      font-size: 32px;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .shop-header p {
+      font-size: 14px;
+      color: #777;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+    .products-catalog-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 36px 20px !important;
+      width: 100% !important;
+    }
+    @media (max-width: 1024px) {
+      .products-catalog-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
       }
     }
-    @media (max-width: 550px) {
-      .shop-section .grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
+    @media (max-width: 768px) {
+      .products-catalog-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 24px 15px !important;
+      }
+    }
+    @media (max-width: 480px) {
+      .products-catalog-grid {
+        grid-template-columns: 1fr !important;
       }
     }
   </style>
@@ -536,14 +548,12 @@ function generateShopPage(products) {
 <body>
 ${getHeaderHTML(false)}
   <main>
-    <section class="shop-section">
-      <div class="section-header" style="margin-bottom: 40px; text-align: center;">
-        <h2 style="font-size: 32px; font-weight: 400; margin-bottom: 8px;">The Custom Collection</h2>
-        <p style="color: var(--text-muted, #777); font-size: 14px; max-width: 550px; margin: 0 auto; line-height: 1.6;">
-          Hand-painted, UV-sealed, and strictly 1-of-1.
-        </p>
+    <section class="shop-collection-section">
+      <div class="shop-header">
+        <h2>The Custom Collection</h2>
+        <p>Hand-painted, UV-sealed 1-of-1 bespoke sneakers</p>
       </div>
-      <div class="grid">
+      <div class="products-catalog-grid">
         ${productCardsHtml}
       </div>
     </section>

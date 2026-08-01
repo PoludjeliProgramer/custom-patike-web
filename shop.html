@@ -13,26 +13,47 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/vandal-style.css">
   <style>
-    .shop-section {
+    .shop-collection-section {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 50px 20px 80px;
+      padding: 60px 20px 100px;
     }
-    .shop-section .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px 24px;
+    .shop-header {
+      text-align: center;
+      margin-bottom: 45px;
     }
-    @media (max-width: 900px) {
-      .shop-section .grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 24px 16px;
+    .shop-header h2 {
+      font-size: 32px;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .shop-header p {
+      font-size: 14px;
+      color: #777;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+    .products-catalog-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 36px 20px !important;
+      width: 100% !important;
+    }
+    @media (max-width: 1024px) {
+      .products-catalog-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
       }
     }
-    @media (max-width: 550px) {
-      .shop-section .grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
+    @media (max-width: 768px) {
+      .products-catalog-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 24px 15px !important;
+      }
+    }
+    @media (max-width: 480px) {
+      .products-catalog-grid {
+        grid-template-columns: 1fr !important;
       }
     }
   </style>
@@ -98,384 +119,320 @@
     </div>
   </div>
   <main>
-    <section class="shop-section">
-      <div class="section-header" style="margin-bottom: 40px; text-align: center;">
-        <h2 style="font-size: 32px; font-weight: 400; margin-bottom: 8px;">The Custom Collection</h2>
-        <p style="color: var(--text-muted, #777); font-size: 14px; max-width: 550px; margin: 0 auto; line-height: 1.6;">
-          Hand-painted, UV-sealed, and strictly 1-of-1.
-        </p>
+    <section class="shop-collection-section">
+      <div class="shop-header">
+        <h2>The Custom Collection</h2>
+        <p>Hand-painted, UV-sealed 1-of-1 bespoke sneakers</p>
       </div>
-      <div class="grid">
+      <div class="products-catalog-grid">
         
-        <a href="product/air-max-tn-custom-bmw-m.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            <span style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 4px; letter-spacing: 0.5px; z-index: 2; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">Best Seller ★</span>
-            <img src="assets/images/products/air-max-tn-custom-bmw-m.jpg" alt="BMW Air Max TN Triple Black Custom" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/air-max-tn-custom-bmw-m.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/air-max-tn-custom-bmw-m.jpg" alt="BMW Air Max TN Triple Black Custom" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">BMW Air Max TN Triple Black Custom</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">240 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">BMW Air Max TN Triple Black Custom</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€240</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-ghost-face-customs.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-ghost-face-customs.jpg" alt="Nike Air Force 1 Ghost Face" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-ghost-face-customs.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-ghost-face-customs.jpg" alt="Nike Air Force 1 Ghost Face" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Ghost Face</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">179 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Ghost Face</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€179</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-bmw.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            <span style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 4px; letter-spacing: 0.5px; z-index: 2; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">Best Seller ★</span>
-            <img src="assets/images/products/nike-air-force-1-bmw.jpg" alt="Nike Air Force 1 BMW" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-bmw.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-bmw.jpg" alt="Nike Air Force 1 BMW" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 BMW</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">170 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 BMW</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€170</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-sport-flame.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-sport-flame.jpg" alt="Nike Air Force 1 Sport Flame" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-sport-flame.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-sport-flame.jpg" alt="Nike Air Force 1 Sport Flame" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Sport Flame</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">169 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Sport Flame</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€169</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-stitch.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-stitch.jpg" alt="Nike Air Force 1 Stitch" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-stitch.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-stitch.jpg" alt="Nike Air Force 1 Stitch" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Stitch</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">179 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Stitch</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€179</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-ninja-turtles.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-ninja-turtles.jpg" alt="Nike Air Force 1 Ninja Turtles" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-ninja-turtles.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-ninja-turtles.jpg" alt="Nike Air Force 1 Ninja Turtles" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Ninja Turtles</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">209 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Ninja Turtles</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€209</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-bmw-e46.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-bmw-e46.jpg" alt="Nike Air Force 1 BMW E46" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-bmw-e46.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-bmw-e46.jpg" alt="Nike Air Force 1 BMW E46" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 BMW E46</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">249 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 BMW E46</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€249</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-outlaw-apex.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-outlaw-apex.jpg" alt="Nike Air Force 1 Outlaw Apex" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-outlaw-apex.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-outlaw-apex.jpg" alt="Nike Air Force 1 Outlaw Apex" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Outlaw Apex</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">179 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Outlaw Apex</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€179</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-golf-r.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-golf-r.jpg" alt="Nike Air Force 1 Golf R" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-golf-r.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-golf-r.jpg" alt="Nike Air Force 1 Golf R" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Golf R</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">179 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Golf R</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€179</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-golf-gtd.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-golf-gtd.jpg" alt="Nike Air Force 1 Golf GTD" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-golf-gtd.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-golf-gtd.jpg" alt="Nike Air Force 1 Golf GTD" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Golf GTD</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">190 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Golf GTD</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€190</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-bmw-splatter.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            <span style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 4px; letter-spacing: 0.5px; z-index: 2; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">Best Seller ★</span>
-            <img src="assets/images/products/nike-air-force-1-bmw-splatter.jpg" alt="Nike Air Force 1 BMW Splatter" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-bmw-splatter.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-bmw-splatter.jpg" alt="Nike Air Force 1 BMW Splatter" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 BMW Splatter</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">180 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 BMW Splatter</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€180</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-travis-scott.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-travis-scott.jpg" alt="Nike Air Force 1 Travis Scott" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-travis-scott.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-travis-scott.jpg" alt="Nike Air Force 1 Travis Scott" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Travis Scott</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">250 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Travis Scott</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€250</span>
           </div>
         </a>
 
-        <a href="product/golf-gti-clubsport---nike-air-force-1.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/golf-gti-clubsport---nike-air-force-1.jpg" alt="Golf GTI Clubsport - Nike Air Force 1" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/golf-gti-clubsport---nike-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/golf-gti-clubsport---nike-air-force-1.jpg" alt="Golf GTI Clubsport - Nike Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Golf GTI Clubsport - Nike Air Force 1</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">210 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Golf GTI Clubsport - Nike Air Force 1</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€210</span>
           </div>
         </a>
 
-        <a href="product/trapstar-x-central-cee-nike-air-force-1.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/trapstar-x-central-cee-nike-air-force-1.jpg" alt="Trapstar x Central Cee Nike Air Force 1" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/trapstar-x-central-cee-nike-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/trapstar-x-central-cee-nike-air-force-1.jpg" alt="Trapstar x Central Cee Nike Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Trapstar x Central Cee Nike Air Force 1</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">190 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Trapstar x Central Cee Nike Air Force 1</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€190</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-gol-gti.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-gol-gti.jpg" alt="Nike Air Force 1 Golf GTI" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-gol-gti.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-gol-gti.jpg" alt="Nike Air Force 1 Golf GTI" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Golf GTI</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">180 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Golf GTI</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€180</span>
           </div>
         </a>
 
-        <a href="product/air-force-1-blue-splatter.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/air-force-1-blue-splatter.jpg" alt="Air Force 1 Blue Splatter" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/air-force-1-blue-splatter.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/air-force-1-blue-splatter.jpg" alt="Air Force 1 Blue Splatter" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Air Force 1 Blue Splatter</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">190 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Air Force 1 Blue Splatter</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€190</span>
           </div>
         </a>
 
-        <a href="product/porsche-cayenne-air-force-1-custom.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/porsche-cayenne-air-force-1-custom.jpg" alt="Porsche Cayenne Air Force 1 Custom" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/porsche-cayenne-air-force-1-custom.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/porsche-cayenne-air-force-1-custom.jpg" alt="Porsche Cayenne Air Force 1 Custom" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Porsche Cayenne Air Force 1 Custom</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">190 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Porsche Cayenne Air Force 1 Custom</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€190</span>
           </div>
         </a>
 
-        <a href="product/jujutsu-kaisen-air-force-1-custom.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/jujutsu-kaisen-air-force-1-custom.jpeg" alt="Jujutsu Kaisen Air Force 1 Custom" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/jujutsu-kaisen-air-force-1-custom.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/jujutsu-kaisen-air-force-1-custom.jpeg" alt="Jujutsu Kaisen Air Force 1 Custom" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Jujutsu Kaisen Air Force 1 Custom</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">200 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Jujutsu Kaisen Air Force 1 Custom</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€200</span>
           </div>
         </a>
 
-        <a href="product/aryton-senna-f1-air-force-1-1.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/aryton-senna-f1-air-force-1-1.jpg" alt="Aryton Senna F1 Air Force 1" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/aryton-senna-f1-air-force-1-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/aryton-senna-f1-air-force-1-1.jpg" alt="Aryton Senna F1 Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Aryton Senna F1 Air Force 1</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">200 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Aryton Senna F1 Air Force 1</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€200</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-supra-fnf.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-supra-fnf.jpg" alt="Nike Air Force 1 Brian O' Conner's Toyota Supra Fast & Furious" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-supra-fnf.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-supra-fnf.jpg" alt="Nike Air Force 1 Brian O' Conner's Toyota Supra Fast & Furious" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Brian O' Conner's Toyota Supra Fast & Furious</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">189 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Brian O' Conner's Toyota Supra Fast & Furious</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€189</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-audi-rs.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            <span style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 4px; letter-spacing: 0.5px; z-index: 2; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">Best Seller ★</span>
-            <img src="assets/images/products/nike-air-force-1-audi-rs.jpg" alt="Nike Air Force 1 - Audi RS" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-audi-rs.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-audi-rs.jpg" alt="Nike Air Force 1 - Audi RS" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 - Audi RS</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">170 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 - Audi RS</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€170</span>
           </div>
         </a>
 
-        <a href="product/lui-vuitton-air-force-1.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/lui-vuitton-air-force-1.jpg" alt="Lui Vuitton Air Force 1" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/lui-vuitton-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/lui-vuitton-air-force-1.jpg" alt="Lui Vuitton Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Lui Vuitton Air Force 1</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">190 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Lui Vuitton Air Force 1</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€190</span>
           </div>
         </a>
 
-        <a href="product/bmw-m-air-force-1-custom.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/bmw-m-air-force-1-custom.jpg" alt="BMW M Air force 1 custom" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/bmw-m-air-force-1-custom.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/bmw-m-air-force-1-custom.jpg" alt="BMW M Air force 1 custom" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">BMW M Air force 1 custom</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">180 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">BMW M Air force 1 custom</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€180</span>
           </div>
         </a>
 
-        <a href="product/barcelona-fc-air-force-1.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/barcelona-fc-air-force-1.jpg" alt="BARCELONA FC Air Force 1" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/barcelona-fc-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/barcelona-fc-air-force-1.jpg" alt="BARCELONA FC Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">BARCELONA FC Air Force 1</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">210 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">BARCELONA FC Air Force 1</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€210</span>
           </div>
         </a>
 
-        <a href="product/barcelona-fc-air-force-1-v2.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/barcelona-fc-air-force-1-v2.jpg" alt="BARCELONA FC Air Force 1 V2" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/barcelona-fc-air-force-1-v2.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/barcelona-fc-air-force-1-v2.jpg" alt="BARCELONA FC Air Force 1 V2" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">BARCELONA FC Air Force 1 V2</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">190 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">BARCELONA FC Air Force 1 V2</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€190</span>
           </div>
         </a>
 
-        <a href="product/bayern-air-force-1.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/bayern-air-force-1.jpg" alt="Bayern air force 1" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/bayern-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/bayern-air-force-1.jpg" alt="Bayern air force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Bayern air force 1</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">190 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Bayern air force 1</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€190</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-mercedes-amg.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-mercedes-amg.jpg" alt="Nike Air Force 1 Mercedes AMG" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-mercedes-amg.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-mercedes-amg.jpg" alt="Nike Air Force 1 Mercedes AMG" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Mercedes AMG</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">170 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Mercedes AMG</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€170</span>
           </div>
         </a>
 
-        <a href="product/fight-club-air-force-1.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/fight-club-air-force-1.jpg" alt="Fight Club Air Force 1" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/fight-club-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/fight-club-air-force-1.jpg" alt="Fight Club Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Fight Club Air Force 1</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">230 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Fight Club Air Force 1</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€230</span>
           </div>
         </a>
 
-        <a href="product/air-force-1-cartoon-sketch-custom.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/air-force-1-cartoon-sketch-custom.jpg" alt="Air Force 1 Cartoon Sketch Custom" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/air-force-1-cartoon-sketch-custom.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/air-force-1-cartoon-sketch-custom.jpg" alt="Air Force 1 Cartoon Sketch Custom" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Air Force 1 Cartoon Sketch Custom</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">240 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Air Force 1 Cartoon Sketch Custom</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€240</span>
           </div>
         </a>
 
-        <a href="product/nike-air-force-1-audi-splatter.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            
-            <img src="assets/images/products/nike-air-force-1-audi-splatter.jpg" alt="Nike Air Force 1 Audi Splatter" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/nike-air-force-1-audi-splatter.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/nike-air-force-1-audi-splatter.jpg" alt="Nike Air Force 1 Audi Splatter" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">Nike Air Force 1 Audi Splatter</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">180 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Audi Splatter</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€180</span>
           </div>
         </a>
 
-        <a href="product/bmw-tn-air-max-custom.html" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-          <div class="img-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 16px; border-radius: 6px; background: #f5f5f5;">
-            <span style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 4px; letter-spacing: 0.5px; z-index: 2; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">Best Seller ★</span>
-            <img src="assets/images/products/bmw-tn-air-max-custom.jpg" alt="BMW Tn Air Max Custom" class="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="product/bmw-tn-air-max-custom.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
+            <img src="assets/images/products/bmw-tn-air-max-custom.jpg" alt="BMW Tn Air Max Custom" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div class="product-info" style="text-align: left; padding: 0 4px;">
-            <h3 class="product-title" style="font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; font-family: var(--font-sans); line-height: 1.3;">BMW Tn Air Max Custom</h3>
-            <div class="product-price" style="font-size: 15px; font-weight: 600; color: #111; margin-bottom: 4px;">250 €</div>
-            <div class="product-rating" style="color: #ffc107; font-size: 13px; letter-spacing: 1px;">★★★★★</div>
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">BMW Tn Air Max Custom</h3>
+            <span style="font-size: 15px; font-weight: 600; color: #000;">€250</span>
           </div>
         </a>
       </div>
