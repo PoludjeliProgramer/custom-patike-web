@@ -476,12 +476,12 @@ ${getFooterHTML(true)}
 function generateShopPage(products) {
     const productCardsHtml = products.map(p => `
         <a href="product/${p.handle}.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
-          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; background: #f8f8f8; margin-bottom: 14px; position: relative;">
-            <img src="${p.localImage}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; background: #f8f8f8; margin-bottom: 16px; position: relative; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+            <img src="${p.localImage}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
           </div>
-          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
-            <h3 style="font-size: 15px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">${p.name}</h3>
-            <span style="font-size: 15px; font-weight: 600; color: #000;">€${p.price}</span>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">${p.name}</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€${p.price}</span>
           </div>
         </a>`).join('\n');
 
@@ -501,46 +501,42 @@ function generateShopPage(products) {
   <link rel="stylesheet" href="css/vandal-style.css">
   <style>
     .shop-collection-section {
-      max-width: 1200px;
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 60px 20px 100px;
+      padding: 60px 30px 100px;
     }
     .shop-header {
       text-align: center;
-      margin-bottom: 45px;
+      margin-bottom: 50px;
     }
     .shop-header h2 {
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 400;
       letter-spacing: -0.5px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     .shop-header p {
-      font-size: 14px;
+      font-size: 15px;
       color: #777;
-      max-width: 550px;
+      max-width: 600px;
       margin: 0 auto;
     }
     .products-catalog-grid {
       display: grid !important;
-      grid-template-columns: repeat(4, 1fr) !important;
-      gap: 36px 20px !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 48px 30px !important;
       width: 100% !important;
     }
     @media (max-width: 1024px) {
       .products-catalog-grid {
-        grid-template-columns: repeat(3, 1fr) !important;
-      }
-    }
-    @media (max-width: 768px) {
-      .products-catalog-grid {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 24px 15px !important;
+        gap: 36px 20px !important;
       }
     }
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       .products-catalog-grid {
         grid-template-columns: 1fr !important;
+        gap: 30px !important;
       }
     }
   </style>
