@@ -192,7 +192,57 @@ function getFooterHTML(isProductPage) {
   <script src="${prefix}js/cart.js"></script>`;
 }
 
+const subImagesMap = {
+    'nike-air-force-1-bmw': [
+        'Website Products/Footwear/BMW.webp',
+        'Website Products/Footwear/BMW sub/BMW 1.webp',
+        'Website Products/Footwear/BMW sub/BMW 2.webp',
+        'Website Products/Footwear/BMW sub/BMW 3.webp',
+        'Website Products/Footwear/BMW sub/BMW 4.webp'
+    ],
+    'nike-air-force-1-audi-rs': [
+        'Website Products/Footwear/AudiRs.webp',
+        'Website Products/Footwear/Audi RS sub/Audi RS 1.webp',
+        'Website Products/Footwear/Audi RS sub/Audi RS 2.webp',
+        'Website Products/Footwear/Audi RS sub/Audi RS 3.webp'
+    ],
+    'nike-air-force-1-audi-splatter': [
+        'Website Products/Footwear/AudiRsSplatter.webp',
+        'Website Products/Footwear/Audi Rs Splatter sub/Audi Rs Splatter 1.webp',
+        'Website Products/Footwear/Audi Rs Splatter sub/Audi Rs Splatter 2.webp',
+        'Website Products/Footwear/Audi Rs Splatter sub/Audi Rs Splatter 3.webp'
+    ],
+    'nike-air-force-1-mercedes-amg': [
+        'Website Products/Footwear/AMG.webp',
+        'Website Products/Footwear/Mercedes AMG sub/AMG 1.webp',
+        'Website Products/Footwear/Mercedes AMG sub/AMG 2.webp',
+        'Website Products/Footwear/Mercedes AMG sub/AMG 3.webp'
+    ],
+    'nike-air-force-1-bmw-e46': [
+        'Website Products/Footwear/BMW M4/BMW M4 Main.jpg',
+        'Website Products/Footwear/BMW M4/BMW M4.jpg',
+        'Website Products/Footwear/BMW M4/BMW M4 portrait.jpg',
+        'Website Products/Footwear/BMW M4/BMW M4 for sale.jpg'
+    ]
+};
+
 function generateProductPage(product) {
+    const subImages = subImagesMap[product.handle] || [];
+    const mainImgSrc = subImages.length > 0 ? `../${subImages[0]}` : `../${product.localImage}`;
+
+    let subImagesHtml = '';
+    if (subImages.length > 1) {
+        const thumbItems = subImages.map((imgSrc, idx) => `
+          <div class="thumb-item ${idx === 0 ? 'active' : ''}" onclick="changeMainImage('../${imgSrc}', this)" style="width: 80px; height: 80px; aspect-ratio: 1/1; cursor: pointer; border: ${idx === 0 ? '2px solid #000' : '1px solid #ddd'}; overflow: hidden;">
+            <img src="../${imgSrc}" alt="${product.name} ${idx + 1}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 0; display: block;">
+          </div>`).join('');
+
+        subImagesHtml = `
+        <div class="sub-images-gallery" style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
+          ${thumbItems}
+        </div>`;
+    }
+
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -211,34 +261,34 @@ function generateProductPage(product) {
     .product-detail-section {
       padding: 50px 20px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 50px;
-      max-width: 1100px;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      max-width: 1300px;
       margin: 0 auto;
       align-items: start;
     }
     .product-gallery {
-      max-width: 500px;
+      max-width: 650px;
       width: 100%;
       margin: 0 auto;
     }
     .product-gallery .img-container {
       width: 100%;
       aspect-ratio: 1/1;
-      border-radius: 8px;
+      border-radius: 0 !important;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
     }
     .product-gallery img {
       width: 100%;
       height: 100%;
       aspect-ratio: 1/1;
       object-fit: cover;
+      border-radius: 0 !important;
     }
-    @media (max-width: 850px) {
+    @media (max-width: 900px) {
       .product-detail-section {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 36px;
       }
     }
   </style>
@@ -254,13 +304,14 @@ ${getHeaderHTML(true)}
     <section class="product-detail-section">
       <div class="product-gallery footwear-gallery" id="footwearGallery">
         <div class="img-container">
-          <img src="../${product.localImage}" alt="${product.name}" id="mainProdImg">
+          <img src="${mainImgSrc}" alt="${product.name}" id="mainProdImg">
         </div>
+        ${subImagesHtml}
       </div>
       <div class="product-info-detail">
-        <h1 class="product-title" style="font-size: 28px; font-weight: 600; margin-bottom: 10px; font-family: var(--font-sans);">${product.name}</h1>
-        <div class="product-price" style="font-size: 22px; font-weight: 600; margin-bottom: 20px;">€${product.price}</div>
-        <p class="product-description" style="font-size: 13.5px; color: #555; line-height: 1.6; margin-bottom: 30px;">${product.description || 'Hand-painted on an authentic sneaker. Each pair is a 1-of-1 original — hand-drawn, hand-mixed, and hand-applied brushwork. Sealed with UV-resistant varnish. Never printed, never stenciled.'}</p>
+        <h1 class="product-title" style="font-size: 32px; font-weight: 600; margin-bottom: 12px; font-family: var(--font-sans);">${product.name}</h1>
+        <div class="product-price" style="font-size: 24px; font-weight: 600; margin-bottom: 24px;">€${product.price}</div>
+        <p class="product-description" style="font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 35px;">${product.description || 'Hand-painted on an authentic sneaker. Each pair is a 1-of-1 original — hand-drawn, hand-mixed, and hand-applied brushwork. Sealed with UV-resistant varnish. Never printed, never stenciled.'}</p>
         
         <!-- Size Selector with EU / US / UK Toggles -->
         <div class="size-selector">
@@ -294,19 +345,19 @@ ${getHeaderHTML(true)}
         </div>
 
         <div class="action-row" style="display: flex; gap: 15px; margin-bottom: 25px; margin-top: 20px;">
-          <div class="qty-selector" style="display: flex; border: 1px solid var(--border, #ddd); align-items: center; width: 100px; justify-content: space-between; padding: 0 10px; border-radius: 4px;">
+          <div class="qty-selector" style="display: flex; border: 1px solid var(--border, #ddd); align-items: center; width: 100px; justify-content: space-between; padding: 0 10px; border-radius: 0;">
             <button class="qty-btn minus" style="background:none; border:none; cursor:pointer; font-size:18px; line-height: 1;">-</button>
             <span class="qty-val" id="productQty" style="font-size: 14px; font-weight: 500;">1</span>
             <button class="qty-btn plus" style="background:none; border:none; cursor:pointer; font-size:18px; line-height: 1;">+</button>
           </div>
-          <button class="btn-primary add-to-cart-btn" id="addToBagBtn" data-id="${product.handle}" data-name="${product.name}" data-price="${product.price}" data-image="../${product.localImage}" style="flex: 1; margin: 0; padding: 14px 20px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; background: #000; color: #fff; border: none;">Add to Cart</button>
+          <button class="btn-primary add-to-cart-btn" id="addToBagBtn" data-id="${product.handle}" data-name="${product.name}" data-price="${product.price}" data-image="../${product.localImage}" style="flex: 1; margin: 0; padding: 14px 20px; border-radius: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; background: #000; color: #fff; border: none;">Add to Cart</button>
         </div>
         
         <!-- Start a Commission Box -->
-        <div style="margin-bottom: 30px; text-align: center; border: 1px dashed var(--border, #ccc); padding: 20px 16px; border-radius: 6px; background: rgba(0,0,0,0.01);">
+        <div style="margin-bottom: 30px; text-align: center; border: 1px dashed var(--border, #ccc); padding: 20px 16px; border-radius: 0; background: rgba(0,0,0,0.01);">
           <p style="font-size: 13.5px; font-weight: 600; margin-bottom: 5px;">Want a Custom Design?</p>
           <p style="font-size: 12px; color: var(--text-muted, #666); margin-bottom: 12px; line-height: 1.5;">We offer unlimited customization. Have your own concept or idea painted on a fresh pair.</p>
-          <a href="../contact.html" class="btn-outline" style="display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1px solid #000; color: #000; text-decoration: none; font-weight: 600; border-radius: 3px;">Start a Commission</a>
+          <a href="../contact.html" class="btn-outline" style="display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border: 1px solid #000; color: #000; text-decoration: none; font-weight: 600; border-radius: 0;">Start a Commission</a>
         </div>
 
         <!-- Trust Signals & Payment Badges -->
@@ -316,10 +367,10 @@ ${getHeaderHTML(true)}
             <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Secure Checkout via Stripe</span>
           </div>
           <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Visa_Inc._logo_%282021%E2%80%93present%29.svg" alt="Visa" style="height: 12px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style="height: 18px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" style="height: 18px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" style="height: 16px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Visa_Inc._logo_%282021%E2%80%93present%29.svg" alt="Visa" style="height: 12px; border-radius: 0;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style="height: 18px; border-radius: 0;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" style="height: 18px; border-radius: 0;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" style="height: 16px; border-radius: 0;">
           </div>
           <p style="font-size: 11.5px; color: #555; margin-top: 12px; display: flex; align-items: center; gap: 8px;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -355,7 +406,7 @@ ${getHeaderHTML(true)}
     <!-- Customer Video Showcase -->
     <section class="customer-video-section" style="padding: 70px 20px; background: #fff; text-align: center; border-top: 1px solid #eee;">
       <div style="max-width: 800px; margin: 0 auto;">
-        <video autoplay muted playsinline style="width: 100%; display: block; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+        <video autoplay muted playsinline style="width: 100%; display: block; border-radius: 0; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
           <source src="../assets/images/Customers4k.mp4" type="video/mp4">
         </video>
         <h2 style="font-size: 26px; font-weight: 400; margin-bottom: 8px; letter-spacing: -0.5px;">Captured Worldwide</h2>
@@ -369,6 +420,13 @@ ${getHeaderHTML(true)}
 ${getFooterHTML(true)}
 
   <script>
+    function changeMainImage(src, element) {
+      const mainImg = document.getElementById('mainProdImg');
+      if (mainImg) mainImg.src = src;
+      document.querySelectorAll('.thumb-item').forEach(el => el.style.border = '1px solid #ddd');
+      if (element) element.style.border = '2px solid #000';
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       // 1. Size Unit Toggles (EU / US / UK)
       const typeBtns = document.querySelectorAll('.type-btn');
@@ -476,8 +534,8 @@ ${getFooterHTML(true)}
 function generateShopPage(products) {
     const productCardsHtml = products.map(p => `
         <a href="product/${p.handle}.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
-          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; background: #f8f8f8; margin-bottom: 16px; position: relative; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
-            <img src="${p.localImage}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="${p.localImage}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
             <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">${p.name}</h3>
