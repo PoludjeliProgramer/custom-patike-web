@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nike Air Force 1 Ghost Face | Custom Patike</title>
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">
-    WebFont.load({  google: {    families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Great Vibes:400","Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic","League Spartan:300,400,500,600,700","Poppins:300,400,500,600,700"]  }});
+    WebFont.load({ google: { families: ["Montserrat:100,200,300,400,500,600,700,800,900","Great Vibes:400","Exo:100,200,300,400,500,600,700,800,900","Lato:100,300,400,700,900","League Spartan:300,400,500,600,700","Poppins:300,400,500,600,700"] }});
   </script>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/vandal-style.css">
@@ -77,7 +77,7 @@
     <nav class="breadcrumbs">
       <a href="../index.html">Home</a><span>/</span>
       <a href="../shop.html">Shop</a><span>/</span>
-      <span style="color: var(--text);">Product</span>
+      <span style="color: var(--text);">Nike Air Force 1 Ghost Face</span>
     </nav>
     <section class="product-detail-section">
       <div class="product-gallery footwear-gallery" id="footwearGallery">
@@ -91,44 +91,107 @@
         <p class="product-description">Zakoračite u carstvo zastrašujućih intriga sa ovim Custom Patikama ukrašenim proganjajućim likom Ghostfacea.
 Njihov dizajn odražava jezivo prisustvo i misteriju maskirane figure.</p>
         
+        <!-- Size Selector with EU / US / UK Toggles -->
         <div class="size-selector">
-          <div class="size-selector-header" style="align-items: center;">
-            <span>Select Size <span id="currentSizeType">(EU)</span></span>
+          <div class="size-selector-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Select Size <span id="currentSizeType">(EU)</span></span>
+            <div class="size-type-toggles" style="display: flex; gap: 12px;">
+              <button class="type-btn active" data-type="eu" style="background: none; border: none; font-size: 11px; text-transform: uppercase; color: var(--text); font-weight: 600; border-bottom: 1.5px solid var(--text); cursor: pointer; padding: 2px 0;">EU</button>
+              <button class="type-btn" data-type="us" style="background: none; border: none; font-size: 11px; text-transform: uppercase; color: var(--text-muted, #888); cursor: pointer; padding: 2px 0;">US</button>
+              <button class="type-btn" data-type="uk" style="background: none; border: none; font-size: 11px; text-transform: uppercase; color: var(--text-muted, #888); cursor: pointer; padding: 2px 0;">UK</button>
+            </div>
           </div>
-          <div class="size-grid">
-            <button class="size-btn">36</button>
-            <button class="size-btn">36.5</button>
-            <button class="size-btn">37.5</button>
-            <button class="size-btn">38</button>
-            <button class="size-btn">38.5</button>
-            <button class="size-btn">39</button>
-            <button class="size-btn">40</button>
-            <button class="size-btn">41</button>
-            <button class="size-btn">42</button>
-            <button class="size-btn">42.5</button>
-            <button class="size-btn">43</button>
-            <button class="size-btn">44</button>
-            <button class="size-btn">44.5</button>
-            <button class="size-btn">45</button>
-            <button class="size-btn">45.5</button>
-            <button class="size-btn">46</button>
+          <div class="size-grid" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;">
+            <button class="size-btn" data-eu="36" data-us="4" data-uk="3.5">36</button>
+            <button class="size-btn" data-eu="36.5" data-us="4.5" data-uk="4">36.5</button>
+            <button class="size-btn" data-eu="37.5" data-us="5" data-uk="4.5">37.5</button>
+            <button class="size-btn" data-eu="38" data-us="5.5" data-uk="5">38</button>
+            <button class="size-btn" data-eu="38.5" data-us="6" data-uk="5.5">38.5</button>
+            <button class="size-btn" data-eu="39" data-us="6.5" data-uk="6">39</button>
+            <button class="size-btn" data-eu="40" data-us="7" data-uk="6">40</button>
+            <button class="size-btn" data-eu="41" data-us="8" data-uk="7">41</button>
+            <button class="size-btn" data-eu="42" data-us="8.5" data-uk="7.5">42</button>
+            <button class="size-btn" data-eu="42.5" data-us="9" data-uk="8">42.5</button>
+            <button class="size-btn" data-eu="43" data-us="9.5" data-uk="8.5">43</button>
+            <button class="size-btn" data-eu="44" data-us="10" data-uk="9">44</button>
+            <button class="size-btn" data-eu="44.5" data-us="10.5" data-uk="9.5">44.5</button>
+            <button class="size-btn" data-eu="45" data-us="11" data-uk="10">45</button>
+            <button class="size-btn" data-eu="45.5" data-us="11.5" data-uk="10.5">45.5</button>
+            <button class="size-btn" data-eu="46" data-us="12" data-uk="11">46</button>
+            <button class="size-btn" data-eu="47" data-us="13" data-uk="12">47</button>
           </div>
         </div>
 
-        <div class="action-row" style="display: flex; gap: 20px; margin-bottom: 40px; margin-top: 20px;">
-          <div class="qty-selector" style="display: flex; border: 1px solid var(--border); align-items: center; width: 120px; justify-content: space-between; padding: 0 15px;">
-            <button class="qty-btn minus" style="background:none; border:none; cursor:pointer; font-size:18px;">-</button>
-            <span class="qty-val" id="productQty" style="font-family: var(--font-sans); font-size: 14px;">1</span>
-            <button class="qty-btn plus" style="background:none; border:none; cursor:pointer; font-size:18px;">+</button>
+        <div class="action-row" style="display: flex; gap: 15px; margin-bottom: 30px; margin-top: 25px;">
+          <div class="qty-selector" style="display: flex; border: 1px solid var(--border, #ddd); align-items: center; width: 110px; justify-content: space-between; padding: 0 12px; border-radius: 4px;">
+            <button class="qty-btn minus" style="background:none; border:none; cursor:pointer; font-size:18px; line-height: 1;">-</button>
+            <span class="qty-val" id="productQty" style="font-size: 14px; font-weight: 500;">1</span>
+            <button class="qty-btn plus" style="background:none; border:none; cursor:pointer; font-size:18px; line-height: 1;">+</button>
           </div>
-          <button class="btn-primary add-to-cart-btn" id="addToBagBtn" data-id="nike-air-force-1-ghost-face-customs" data-name="Nike Air Force 1 Ghost Face" data-price="179" data-image="../assets/images/products/nike-air-force-1-ghost-face-customs.jpg" style="flex: 1; margin: 0;">Add to Cart</button>
+          <button class="btn-primary add-to-cart-btn" id="addToBagBtn" data-id="nike-air-force-1-ghost-face-customs" data-name="Nike Air Force 1 Ghost Face" data-price="179" data-image="../assets/images/products/nike-air-force-1-ghost-face-customs.jpg" style="flex: 1; margin: 0; padding: 14px 20px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;">Add to Cart</button>
         </div>
         
-        <div class="product-trust-signals" style="margin-bottom: 40px; padding-top: 10px; border-top: 1px solid var(--border);">
-          <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
-            <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #222; font-weight: 600;">Secure Checkout via Stripe</span>
+        <!-- Start a Commission Box -->
+        <div style="margin-bottom: 35px; text-align: center; border: 1px dashed var(--border, #ccc); padding: 22px 18px; border-radius: 6px; background: rgba(0,0,0,0.01);">
+          <p style="font-size: 14px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.2px;">Want a Custom Design?</p>
+          <p style="font-size: 12.5px; color: var(--text-muted, #666); margin-bottom: 14px; line-height: 1.5;">We offer unlimited customization. Have your own concept or idea painted on a fresh pair.</p>
+          <a href="../contact.html" class="btn-outline" style="display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 9px 18px; border: 1px solid currentColor; text-decoration: none; font-weight: 600; border-radius: 3px;">Start a Commission</a>
+        </div>
+
+        <!-- Trust Signals & Payment Badges -->
+        <div class="product-trust-signals" style="margin-bottom: 35px; padding-top: 20px; border-top: 1px solid var(--border, #eee);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Secure Checkout via Stripe</span>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Visa_Inc._logo_%282021%E2%80%93present%29.svg" alt="Visa" style="height: 12px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style="height: 18px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" style="height: 18px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" style="height: 16px;">
+          </div>
+          <p style="font-size: 11.5px; color: #555; margin-top: 14px; display: flex; align-items: center; gap: 8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <strong>Free Shipping on Orders Over €300</strong>
+          </p>
+        </div>
+
+        <!-- Product Accordions -->
+        <div class="product-accordion" style="border-top: 1px solid var(--border, #eee);">
+          <div class="accordion-item" style="border-bottom: 1px solid var(--border, #eee); padding: 16px 0; cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.5px;">
+              <span>Shipping &amp; Returns</span>
+              <span class="acc-icon" style="font-size: 18px; font-weight: 300;">+</span>
+            </div>
+            <div class="accordion-content" style="display: none; padding-top: 12px; font-size: 13px; line-height: 1.6; color: #555;">
+              <p>Shipping is complimentary on orders over €300; otherwise, standard rates apply based on destination. Worldwide delivery takes 4–15 business days following our hand-painting creation period of 1–2 weeks. Footwear sales are final once the correct size and bespoke design have been delivered.</p>
+            </div>
+          </div>
+          <div class="accordion-item" style="border-bottom: 1px solid var(--border, #eee); padding: 16px 0; cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.5px;">
+              <span>Materials &amp; Construction</span>
+              <span class="acc-icon" style="font-size: 18px; font-weight: 300;">+</span>
+            </div>
+            <div class="accordion-content" style="display: none; padding-top: 12px; font-size: 13px; line-height: 1.6; color: #555;">
+              <p>Hand-crafted on authentic Nike Air Force 1 leather uppers. Painted using specialized Angelus acrylic leather paint, sealed with 2 coats of Liquitex UV-resistant satin varnish. Waterproof, flexible, and scratch-resistant. Clean with a damp microfiber cloth only.</p>
+            </div>
           </div>
         </div>
+
+      </div>
+    </section>
+
+    <!-- Customer Video Showcase -->
+    <section class="customer-video-section" style="padding: 80px 20px; background: #fff; text-align: center; border-top: 1px solid #eee;">
+      <div style="max-width: 900px; margin: 0 auto;">
+        <video autoplay muted playsinline style="width: 100%; display: block; border-radius: 8px; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+          <source src="../assets/videos/Customers4k.mp4" type="video/mp4">
+        </video>
+        <h2 style="font-size: 28px; font-weight: 400; margin-bottom: 8px; letter-spacing: -0.5px;">Captured Worldwide</h2>
+        <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: #888; font-weight: 600; margin-bottom: 18px;">The Atelier in the Wild</p>
+        <p style="color: #666; font-size: 14px; line-height: 1.7; max-width: 650px; margin: 0 auto;">
+          Handcrafted in our Dubrovnik atelier and delivered to collectors globally. Each pair represents 40+ hours of dedicated brushwork and artisan detail.
+        </p>
       </div>
     </section>
   </main>
@@ -164,5 +227,106 @@ Njihov dizajn odražava jezivo prisustvo i misteriju maskirane figure.</p>
   </div>
   <!-- Cart script -->
   <script src="../js/cart.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Size Unit Toggles (EU / US / UK)
+      const typeBtns = document.querySelectorAll('.type-btn');
+      const sizeBtns = document.querySelectorAll('.size-btn');
+      const currentSizeType = document.getElementById('currentSizeType');
+
+      typeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          typeBtns.forEach(b => {
+            b.classList.remove('active');
+            b.style.color = 'var(--text-muted, #888)';
+            b.style.borderBottom = 'none';
+          });
+          btn.classList.add('active');
+          btn.style.color = 'var(--text)';
+          btn.style.borderBottom = '1.5px solid var(--text)';
+
+          const type = btn.getAttribute('data-type');
+          if (currentSizeType) currentSizeType.textContent = '(' + type.toUpperCase() + ')';
+
+          sizeBtns.forEach(sb => {
+            const val = sb.getAttribute('data-' + type);
+            if (val) sb.textContent = val;
+          });
+        });
+      });
+
+      // 2. Size Button Selection State
+      let selectedSize = null;
+      sizeBtns.forEach(sb => {
+        sb.addEventListener('click', () => {
+          sizeBtns.forEach(b => {
+            b.style.background = 'none';
+            b.style.color = 'inherit';
+            b.style.borderColor = 'var(--border, #ccc)';
+          });
+          sb.style.background = '#000';
+          sb.style.color = '#fff';
+          sb.style.borderColor = '#000';
+          selectedSize = sb.getAttribute('data-eu');
+        });
+      });
+
+      // 3. Quantity Selector (+/-)
+      const qtyVal = document.getElementById('productQty');
+      const minusBtn = document.querySelector('.qty-btn.minus');
+      const plusBtn = document.querySelector('.qty-btn.plus');
+      let currentQty = 1;
+
+      if (minusBtn && plusBtn && qtyVal) {
+        minusBtn.addEventListener('click', () => {
+          if (currentQty > 1) {
+            currentQty--;
+            qtyVal.textContent = currentQty;
+          }
+        });
+        plusBtn.addEventListener('click', () => {
+          currentQty++;
+          qtyVal.textContent = currentQty;
+        });
+      }
+
+      // 4. Accordion Toggle
+      const accordionItems = document.querySelectorAll('.accordion-item');
+      accordionItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const content = item.querySelector('.accordion-content');
+          const icon = item.querySelector('.acc-icon');
+          const isOpen = content.style.display === 'block';
+
+          // Close all
+          accordionItems.forEach(i => {
+            i.querySelector('.accordion-content').style.display = 'none';
+            i.querySelector('.acc-icon').textContent = '+';
+          });
+
+          // Toggle clicked
+          if (!isOpen) {
+            content.style.display = 'block';
+            icon.textContent = '-';
+          }
+        });
+      });
+
+      // 5. Add to Cart Validation
+      const addToBagBtn = document.getElementById('addToBagBtn');
+      if (addToBagBtn) {
+        addToBagBtn.addEventListener('click', (e) => {
+          if (!selectedSize) {
+            e.preventDefault();
+            alert('Please select a size before adding to cart.');
+            return;
+          }
+          addToBagBtn.setAttribute('data-size', 'EU ' + selectedSize);
+          addToBagBtn.setAttribute('data-qty', currentQty);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
