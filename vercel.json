@@ -7,5 +7,9 @@
     { "source": "/o-nama", "destination": "/aboutus", "permanent": true },
     { "source": "/kontakt", "destination": "/contact", "permanent": true },
     { "source": "/products", "destination": "/shop", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/api/analytics/:match*", "destination": "http://207.154.233.35:4055/api/analytics/:match*" },
+    { "source": "/api/analytics", "destination": "http://207.154.233.35:4055/api/analytics" }
   ]
 }
