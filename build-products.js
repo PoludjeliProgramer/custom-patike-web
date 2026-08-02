@@ -651,6 +651,13 @@ ${getFooterHTML(true)}
       }
     });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof trackViewContent === 'function') {
+        trackViewContent('${product.name}', 'Sneakers', ${product.price});
+      }
+    });
+  </script>
 </body>
 </html>`;
     fs.writeFileSync(`product/${product.handle}.html`, html);

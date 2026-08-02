@@ -193,6 +193,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 image: image,
                 quantity: quantity
             });
+
+            // Track add-to-cart event for analytics
+            if (typeof trackAddToCart === 'function') {
+              trackAddToCart(baseName, selectedSize || 'Default', price, quantity);
+            }
         });
     });
     
