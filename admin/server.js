@@ -19,14 +19,14 @@ const pool = process.env.DATABASE_URL
       user: process.env.DB_USER || 'custompatike_user',
       host: process.env.DB_HOST || '127.0.0.1',
       database: process.env.DB_NAME || 'custompatike',
-      password: process.env.DB_PASSWORD || 'CustomPatike2026!',
+      password: process.env.DB_PASSWORD || 'CustomPatike2026',
       port: parseInt(process.env.DB_PORT) || 5432,
     });
 
 // Test Database Connection
 pool.connect((err, client, release) => {
   if (err) {
-    console.log('ℹ️ Running in Standalone / Remote Database mode (Local DB offline)');
+    console.error('⚠️ Database Connection Error:', err.message);
   } else {
     console.log('✅ Connected to PostgreSQL database: custompatike');
     release();
@@ -42,20 +42,14 @@ app.get('/api/stats', async (req, res) => {
     const commsRes = await pool.query("SELECT COUNT(*) as active_commissions FROM custom_commissions WHERE status != 'Delivered'");
 
     res.json({
-      totalOrders: parseInt(ordersRes.rows[0].total_orders) || 2,
-      totalRevenue: parseFloat(ordersRes.rows[0].total_revenue) || 340.00,
-      totalProducts: parseInt(productsRes.rows[0].total_products) || 32,
-      totalUsers: parseInt(usersRes.rows[0].total_users) || 1,
-      activeCommissions: parseInt(commsRes.rows[0].active_commissions) || 1
+      totalOrders: parseInt(ordersRes.rows[0].total_orders) || 0,
+      totalRevenue: parseFloat(ordersRes.rows[0].total_revenue) || 0,
+      totalProducts: parseInt(productsRes.rows[0].total_products) || 0,
+      totalUsers: parseInt(usersRes.rows[0].total_users) || 0,
+      activeCommissions: parseInt(commsRes.rows[0].active_commissions) || 0
     });
   } catch (err) {
-    res.json({
-      totalOrders: 2,
-      totalRevenue: 340.00,
-      totalProducts: 32,
-      totalUsers: 1,
-      activeCommissions: 1
-    });
+    res.json({ totalOrders: 0, totalRevenue: 0, totalProducts: 0, totalUsers: 0, activeCommissions: 0 });
   }
 });
 
@@ -80,44 +74,7 @@ app.get('/api/orders', async (req, res) => {
 
     res.json(orders);
   } catch (err) {
-    res.json([
-      {
-        id: 1,
-        order_number: 'CP-8492',
-        status: 'In Hand-Painting (Phase 2)',
-        subtotal: 170.00,
-        shipping: 0.00,
-        total: 170.00,
-        created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
-        first_name: 'Alexander',
-        last_name: 'Novak',
-        email: 'alexander.novak@example.com',
-        phone: '+385 91 234 5678',
-        address: 'Stradun 42',
-        city: 'Dubrovnik',
-        postal_code: '20000',
-        country: 'Croatia',
-        items: [{ product_name: 'Nike Air Force 1 BMW Custom', size: 'EU 42', price: 170.00, quantity: 1 }]
-      },
-      {
-        id: 2,
-        order_number: 'CP-7104',
-        status: 'Delivered & Sealed',
-        subtotal: 170.00,
-        shipping: 0.00,
-        total: 170.00,
-        created_at: new Date(Date.now() - 78 * 86400000).toISOString(),
-        first_name: 'Alexander',
-        last_name: 'Novak',
-        email: 'alexander.novak@example.com',
-        phone: '+385 91 234 5678',
-        address: 'Stradun 42',
-        city: 'Dubrovnik',
-        postal_code: '20000',
-        country: 'Croatia',
-        items: [{ product_name: 'Nike Air Force 1 - Audi RS', size: 'EU 43', price: 170.00, quantity: 1 }]
-      }
-    ]);
+    res.json([]);
   }
 });
 
@@ -132,9 +89,13 @@ app.put('/api/orders/:id/status', async (req, res) => {
       [status, id]
     );
 
-    res.json({ message: 'Order status updated successfully', status });
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    res.json({ message: 'Order status updated successfully', order: result.rows[0] });
   } catch (err) {
-    res.json({ message: 'Order status updated (Standalone Mode)', status });
+    res.status(500).json({ error: 'Failed to update order status' });
   }
 });
 
@@ -152,19 +113,7 @@ app.get('/api/commissions', async (req, res) => {
     const result = await pool.query(query);
     res.json(result.rows);
   } catch (err) {
-    res.json([
-      {
-        id: 1,
-        ticket_number: 'CUSTOM-9021',
-        concept_title: 'Porsche 911 GT3 RS Lizard Green Edition on Air Jordan 1 Low',
-        status: 'Mockup Approved (In Queue)',
-        atelier_notes: 'Leather preparation & primer coat scheduled for Monday.',
-        created_at: new Date(Date.now() - 12 * 86400000).toISOString(),
-        first_name: 'Alexander',
-        last_name: 'Novak',
-        email: 'alexander.novak@example.com'
-      }
-    ]);
+    res.json([]);
   }
 });
 
@@ -185,7 +134,6 @@ app.put('/api/commissions/:id/status', async (req, res) => {
 
     res.json({ message: 'Commission updated successfully', commission: result.rows[0] });
   } catch (err) {
-    console.error('Update commission error:', err);
     res.status(500).json({ error: 'Failed to update commission' });
   }
 });
@@ -196,8 +144,7 @@ app.get('/api/products', async (req, res) => {
     const result = await pool.query('SELECT * FROM products ORDER BY created_at DESC');
     res.json(result.rows);
   } catch (err) {
-    console.error('Fetch products error:', err);
-    res.status(500).json({ error: 'Failed to fetch products' });
+    res.json([]);
   }
 });
 
@@ -219,7 +166,6 @@ app.post('/api/products', async (req, res) => {
 
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error('Add product error:', err);
     res.status(500).json({ error: 'Failed to add product' });
   }
 });
@@ -234,7 +180,6 @@ app.delete('/api/products/:id', async (req, res) => {
     }
     res.json({ message: 'Product deleted successfully' });
   } catch (err) {
-    console.error('Delete product error:', err);
     res.status(500).json({ error: 'Failed to delete product' });
   }
 });
@@ -245,8 +190,7 @@ app.get('/api/users', async (req, res) => {
     const result = await pool.query('SELECT id, email, first_name, last_name, phone, address, city, postal_code, country, created_at FROM users ORDER BY created_at DESC');
     res.json(result.rows);
   } catch (err) {
-    console.error('Fetch users error:', err);
-    res.status(500).json({ error: 'Failed to fetch users' });
+    res.json([]);
   }
 });
 
@@ -270,7 +214,6 @@ app.get('/api/export/orders.csv', async (req, res) => {
     res.setHeader('Content-Disposition', 'attachment; filename=custom_patike_orders_export.csv');
     res.status(200).send(csv);
   } catch (err) {
-    console.error('Export error:', err);
     res.status(500).json({ error: 'Failed to generate CSV export' });
   }
 });
@@ -337,21 +280,16 @@ app.post('/api/analytics/activity', async (req, res) => {
 // 13. GET /api/analytics/traffic - Sources & Countries Report
 app.get('/api/analytics/traffic', async (req, res) => {
   try {
-    const detailed = await pool.query(`SELECT session_token, page_url, created_at FROM visitor_activities`);
-    const sessions = await pool.query(`SELECT country, created_at FROM visitor_sessions`);
-
-    const sources = { "Instagram Ads": 42, "Direct / Organic": 28, "Google Search": 18, "TikTok Video": 12 };
-    const countries = { "Croatia": 45, "Germany": 22, "Austria": 15, "United States": 10, "Other": 8 };
+    const sessions = await pool.query(`SELECT country, COUNT(*) as count FROM visitor_sessions GROUP BY country`);
+    const countries = {};
+    sessions.rows.forEach(r => countries[r.country || 'Unknown'] = parseInt(r.count));
 
     res.json({
-      sources: { allTime: sources, monthly: { "August 2026": sources } },
-      countries: { allTime: countries, monthly: { "August 2026": countries } }
+      sources: { allTime: {}, monthly: {} },
+      countries: { allTime: countries, monthly: {} }
     });
   } catch (err) {
-    res.json({
-      sources: { allTime: { "Instagram Ads": 42, "Direct": 28 }, monthly: {} },
-      countries: { allTime: { "Croatia": 45, "Germany": 22 }, monthly: {} }
-    });
+    res.json({ sources: { allTime: {}, monthly: {} }, countries: { allTime: {}, monthly: {} } });
   }
 });
 
@@ -366,22 +304,7 @@ app.get('/api/analytics/sessions', async (req, res) => {
     }
     res.json(sessions);
   } catch (err) {
-    res.json([
-      {
-        session_token: 'sess_vandal_894201',
-        ip_address: '89.164.22.14',
-        city: 'Zagreb',
-        country: 'Croatia',
-        email: 'alexander.novak@example.com',
-        is_verified: true,
-        updated_at: new Date().toISOString(),
-        activities: [
-          { page_url: 'https://custompatike.com/', action_type: 'page_view', action_details: 'Home Page View', time_spent: 45, created_at: new Date(Date.now() - 7200000).toISOString() },
-          { page_url: 'https://custompatike.com/product/nike-air-force-1-bmw.html', action_type: 'page_view', action_details: 'Viewed Nike Air Force 1 BMW', time_spent: 120, created_at: new Date(Date.now() - 6600000).toISOString() },
-          { page_url: 'https://custompatike.com/product/nike-air-force-1-bmw.html', action_type: 'add_to_cart', action_details: 'Added Size EU 42', time_spent: 0, created_at: new Date(Date.now() - 6300000).toISOString() }
-        ]
-      }
-    ]);
+    res.json([]);
   }
 });
 
@@ -391,16 +314,7 @@ app.get('/api/cart/abandoned', async (req, res) => {
     const resCarts = await pool.query(`SELECT * FROM abandoned_carts ORDER BY updated_at DESC`);
     res.json(resCarts.rows);
   } catch (err) {
-    res.json([
-      {
-        id: 1,
-        cart_token: 'cart_cp_99012',
-        email: 'collector.client@example.com',
-        status: 'captured',
-        created_at: new Date(Date.now() - 3600000).toISOString(),
-        cart_data: [{ title: 'Nike Air Force 1 Golf GTI', size: 'EU 43', price: 170.00, qty: 1 }]
-      }
-    ]);
+    res.json([]);
   }
 });
 

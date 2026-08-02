@@ -98,17 +98,5 @@ CREATE TABLE IF NOT EXISTS abandoned_carts (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Seed Sample Visitor Sessions & Activities
-INSERT INTO visitor_sessions (session_token, ip_address, city, country, email, is_verified, created_at, updated_at)
-VALUES 
-('sess_vandal_894201', '89.164.22.14', 'Zagreb', 'Croatia', 'alexander.novak@example.com', true, CURRENT_TIMESTAMP - INTERVAL '2 hours', CURRENT_TIMESTAMP - INTERVAL '1 hour'),
-('sess_vandal_310492', '185.220.101.5', 'Berlin', 'Germany', NULL, true, CURRENT_TIMESTAMP - INTERVAL '5 hours', CURRENT_TIMESTAMP - INTERVAL '4 hours')
-ON CONFLICT (session_token) DO NOTHING;
 
-INSERT INTO visitor_activities (session_token, page_url, action_type, action_details, time_spent, created_at)
-VALUES
-('sess_vandal_894201', 'https://custompatike.com/', 'page_view', 'Home Page View', 45, CURRENT_TIMESTAMP - INTERVAL '2 hours'),
-('sess_vandal_894201', 'https://custompatike.com/product/nike-air-force-1-bmw.html?utm_source=instagram&utm_campaign=bmw_edition', 'page_view', 'Viewed Nike Air Force 1 BMW', 120, CURRENT_TIMESTAMP - INTERVAL '1 hour 50 min'),
-('sess_vandal_894201', 'https://custompatike.com/product/nike-air-force-1-bmw.html', 'add_to_cart', 'Added Size EU 42', 0, CURRENT_TIMESTAMP - INTERVAL '1 hour 45 min')
-ON CONFLICT DO NOTHING;
 
