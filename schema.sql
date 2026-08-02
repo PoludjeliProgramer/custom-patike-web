@@ -62,26 +62,53 @@ CREATE TABLE IF NOT EXISTS custom_commissions (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Seed Sample User
-INSERT INTO users (email, password_hash, first_name, last_name, phone, address, city, postal_code, country)
-VALUES ('alexander.novak@example.com', '$2b$10$e8T7Qz_mock_hash_custompatike', 'Alexander', 'Novak', '+385 91 234 5678', 'Stradun 42', 'Dubrovnik', '20000', 'Croatia')
-ON CONFLICT (email) DO NOTHING;
+-- 6. Visitor Sessions Table
+CREATE TABLE IF NOT EXISTS visitor_sessions (
+    id SERIAL PRIMARY KEY,
+    session_token VARCHAR(255) UNIQUE NOT NULL,
+    ip_address VARCHAR(45),
+    city VARCHAR(100),
+    country VARCHAR(100),
+    user_agent TEXT,
+    email VARCHAR(255),
+    is_verified BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
--- Seed Sample Orders
-INSERT INTO orders (order_number, user_id, status, subtotal, shipping, total, created_at)
-VALUES 
-('CP-8492', 1, 'In Hand-Painting (Phase 2)', 170.00, 0.00, 170.00, CURRENT_TIMESTAMP - INTERVAL '3 days'),
-('CP-7104', 1, 'Delivered & Sealed', 170.00, 0.00, 170.00, CURRENT_TIMESTAMP - INTERVAL '78 days')
-ON CONFLICT (order_number) DO NOTHING;
+-- 7. Visitor Activities Table
+CREATE TABLE IF NOT EXISTS visitor_activities (
+    id SERIAL PRIMARY KEY,
+    session_token VARCHAR(255) REFERENCES visitor_sessions(session_token) ON DELETE CASCADE,
+    page_url TEXT NOT NULL,
+    action_type VARCHAR(50) NOT NULL, -- 'page_view', 'button_click', 'add_to_cart', 'heartbeat'
+    action_details TEXT,
+    time_spent INT DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
--- Seed Sample Order Items
-INSERT INTO order_items (order_id, product_name, size, price, quantity)
-VALUES 
-(1, 'Nike Air Force 1 BMW Custom', 'EU 42', 170.00, 1),
-(2, 'Nike Air Force 1 - Audi RS', 'EU 43', 170.00, 1);
+-- 8. Abandoned Carts Table
+CREATE TABLE IF NOT EXISTS abandoned_carts (
+    id SERIAL PRIMARY KEY,
+    cart_token VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    cart_data JSONB,
+    status VARCHAR(50) DEFAULT 'captured', -- 'captured', 'emailed', 'recovered'
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
--- Seed Sample Custom Commission
-INSERT INTO custom_commissions (ticket_number, user_id, concept_title, status, atelier_notes, created_at)
+-- Seed Sample Visitor Sessions & Activities
+INSERT INTO visitor_sessions (session_token, ip_address, city, country, email, is_verified, created_at, updated_at)
 VALUES 
-('CUSTOM-9021', 1, 'Porsche 911 GT3 RS Lizard Green Edition on Air Jordan 1 Low', 'Mockup Approved (In Queue)', 'Leather preparation & primer coat scheduled for Monday.', CURRENT_TIMESTAMP - INTERVAL '12 days')
-ON CONFLICT (ticket_number) DO NOTHING;
+('sess_vandal_894201', '89.164.22.14', 'Zagreb', 'Croatia', 'alexander.novak@example.com', true, CURRENT_TIMESTAMP - INTERVAL '2 hours', CURRENT_TIMESTAMP - INTERVAL '1 hour'),
+('sess_vandal_310492', '185.220.101.5', 'Berlin', 'Germany', NULL, true, CURRENT_TIMESTAMP - INTERVAL '5 hours', CURRENT_TIMESTAMP - INTERVAL '4 hours')
+ON CONFLICT (session_token) DO NOTHING;
+
+INSERT INTO visitor_activities (session_token, page_url, action_type, action_details, time_spent, created_at)
+VALUES
+('sess_vandal_894201', 'https://custompatike.com/', 'page_view', 'Home Page View', 45, CURRENT_TIMESTAMP - INTERVAL '2 hours'),
+('sess_vandal_894201', 'https://custompatike.com/product/nike-air-force-1-bmw.html?utm_source=instagram&utm_campaign=bmw_edition', 'page_view', 'Viewed Nike Air Force 1 BMW', 120, CURRENT_TIMESTAMP - INTERVAL '1 hour 50 min'),
+('sess_vandal_894201', 'https://custompatike.com/product/nike-air-force-1-bmw.html', 'add_to_cart', 'Added Size EU 42', 0, CURRENT_TIMESTAMP - INTERVAL '1 hour 45 min')
+ON CONFLICT DO NOTHING;
+

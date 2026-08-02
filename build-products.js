@@ -257,6 +257,7 @@ function generateProductPage(product) {
   </script>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/vandal-style.css">
+  <script src="../js/pixels.js" defer></script>
   <style>
     .breadcrumbs {
       display: flex !important;
