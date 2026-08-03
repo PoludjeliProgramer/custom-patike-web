@@ -187,6 +187,6 @@ app.get('/api/analytics/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-app.listen(PORT, '127.0.0.1', () => {
+app.listen(PORT, () => {
   console.log(`Custom Patike Tracking API running on port ${PORT}`);
 });

@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Suppress crypto wallet extension errors in console -->
+  <script>
+    (function() {
+      const originalError = console.error;
+      const originalWarn = console.warn;
+      console.error = function() {
+        const msg = arguments[0] ? arguments[0].toString() : '';
+        if (msg.includes('Channel secret not available yet') || msg.includes('ethereum') || msg.includes('BitcoinAdapter') || msg.includes('ProvidersManager')) return;
+        originalError.apply(console, arguments);
+      };
+      console.warn = function() {
+        const msg = arguments[0] ? arguments[0].toString() : '';
+        if (msg.includes('MaxListenersExceededWarning') || msg.includes('ObjectMultiplex')) return;
+        originalWarn.apply(console, arguments);
+      };
+    })();
+  </script>
+
   <meta charset="UTF-8">
   <title>Checkout | Custom Patike</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

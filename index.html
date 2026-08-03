@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
+
+  <!-- Suppress crypto wallet extension errors in console -->
+  <script>
+    (function() {
+      const originalError = console.error;
+      const originalWarn = console.warn;
+      console.error = function() {
+        const msg = arguments[0] ? arguments[0].toString() : '';
+        if (msg.includes('Channel secret not available yet') || msg.includes('ethereum') || msg.includes('BitcoinAdapter') || msg.includes('ProvidersManager')) return;
+        originalError.apply(console, arguments);
+      };
+      console.warn = function() {
+        const msg = arguments[0] ? arguments[0].toString() : '';
+        if (msg.includes('MaxListenersExceededWarning') || msg.includes('ObjectMultiplex')) return;
+        originalWarn.apply(console, arguments);
+      };
+    })();
+  </script>
+
   <meta charset="utf-8"/>
   <title>Nike custom sneakers | Limited Edition sneakers | Hand designed sneakers</title>
   <meta content="Order your Limited, 1/1 custom, hand designed sneakers now. Check out the selection of new and popular, trending sneakers that are in fashion right now! Unleash your style and spirit through our sneakers!" name="description"/>

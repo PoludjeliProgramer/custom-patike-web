@@ -1,5 +1,5 @@
 // ===== CUSTOM PATIKE — VISITOR TELEMETRY & PIXEL TRACKING =====
-// Production tracking endpoint (relative URL resolves to custompatike.com/api/analytics)
+// Production tracking endpoint
 const CP_TRACKING_API = '/api/analytics';
 
 // Ad Pixel IDs (configure when ready)
@@ -18,7 +18,6 @@ if (!cpVisitorToken) {
 }
 
 // ===== VERIFIED VISITOR GATE =====
-// Only track humans who have interacted with the site (not bots/crawlers)
 function cpIsVerified() {
   return localStorage.getItem('cp_verified_visitor') === 'true';
 }
@@ -26,9 +25,7 @@ function cpIsVerified() {
 function cpMarkVerified(email) {
   localStorage.setItem('cp_verified_visitor', 'true');
   if (email) localStorage.setItem('cp_guest_email', email);
-  // Register/update session on server
   cpSendSession(email);
-  // Start tracking
   cpLogActivity('page_view', document.title);
   cpStartHeartbeat();
 }
@@ -98,19 +95,16 @@ window.addEventListener('visibilitychange', () => {
   }
 });
 
-// ===== EVENT TRACKING HELPERS (called from cart.js, product pages, etc.) =====
+// ===== EVENT TRACKING HELPERS =====
 function trackViewContent(name, category, price) {
   cpLogActivity('view_content', `Viewed: ${name} (${category}) — €${price}`);
 }
-
 function trackAddToCart(name, size, price, quantity) {
   cpLogActivity('add_to_cart', `Added ${name} (Size: ${size}) x${quantity || 1} — €${(price * (quantity || 1)).toFixed(2)}`);
 }
-
 function trackInitiateCheckout(totalValue, numItems) {
   cpLogActivity('initiate_checkout', `Checkout started: ${numItems} items — €${totalValue}`);
 }
-
 function trackPurchase(orderId, totalValue) {
   cpLogActivity('purchase', `Order #${orderId} completed — €${totalValue}`);
 }
@@ -125,70 +119,146 @@ function cpCaptureUtms() {
   });
 }
 
-// ===== AUTO-VERIFICATION HOOKS =====
-// These run on DOMContentLoaded to detect user interactions that verify them as human
-function cpInitAutoVerification() {
-  // Already verified from previous page? Resume tracking
-  if (cpIsVerified()) {
-    cpSendSession();
-    cpLogActivity('page_view', document.title);
-    cpStartHeartbeat();
-    return;
-  }
-
-  // Check if user is logged in (has account data)
+// ===== THE WELCOME POPUP (EXACT COPY FROM VANDAL MADE) =====
+function initWelcomePopup() {
+  // Check if customer is logged in
   const storedUser = localStorage.getItem('cp_user') || localStorage.getItem('user');
+  let loggedInEmail = null;
   if (storedUser) {
     try {
       const userObj = JSON.parse(storedUser);
       if (userObj && userObj.email) {
-        cpMarkVerified(userObj.email);
-        return;
+        loggedInEmail = userObj.email;
       }
-    } catch(e) {}
+    } catch (e) {}
   }
 
-  // Listen for first meaningful interaction to verify
-  const verifyOnInteraction = () => {
-    if (cpIsVerified()) return;
-    cpMarkVerified();
-    // Remove listeners after first verification
-    document.removeEventListener('click', verifyOnInteraction);
-    document.removeEventListener('scroll', verifyOnScroll);
-  };
+  if (loggedInEmail) {
+    // Automatically verify and skip welcome popup
+    localStorage.setItem('cp_verified_visitor', 'true');
+    localStorage.setItem('cp_guest_email', loggedInEmail);
+    cpSendSession(loggedInEmail);
+    cpLogActivity('page_view', 'Logged in registered customer session started');
+    cpStartHeartbeat();
+    return;
+  }
 
-  const verifyOnScroll = () => {
-    if (cpIsVerified()) return;
-    // Only verify after meaningful scroll (200px+)
-    if (window.scrollY > 200) {
-      cpMarkVerified();
-      document.removeEventListener('click', verifyOnInteraction);
-      document.removeEventListener('scroll', verifyOnScroll);
+  const isVerified = localStorage.getItem('cp_verified_visitor');
+  if (isVerified === 'true') {
+    // Register returning verified session in DB
+    const guestEmail = localStorage.getItem('cp_guest_email');
+    cpSendSession(guestEmail);
+    cpLogActivity('page_view');
+    cpStartHeartbeat();
+    return;
+  }
+
+  // Insert popup HTML into the body dynamically
+  const styleEl = document.createElement('style');
+  styleEl.innerHTML = `
+    .atelier-popup-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.92); backdrop-filter: blur(20px);
+      display: flex; justify-content: center; align-items: center; z-index: 1000000;
+      opacity: 0; transition: opacity 0.8s ease;
     }
-  };
-
-  document.addEventListener('click', verifyOnInteraction);
-  document.addEventListener('scroll', verifyOnScroll);
-
-  // Capture checkout email fields
-  setTimeout(() => {
-    const emailInput = document.getElementById('email') || document.getElementById('checkout-email');
-    if (emailInput) {
-      const syncEmail = () => {
-        const val = emailInput.value.trim();
-        if (val && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
-          localStorage.setItem('cp_guest_email', val);
-          cpMarkVerified(val);
-        }
-      };
-      emailInput.addEventListener('blur', syncEmail);
-      emailInput.addEventListener('change', syncEmail);
+    .atelier-popup-overlay.show { opacity: 1; }
+    .atelier-popup-card {
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 60px 40px; width: 90%; max-width: 500px;
+      text-align: center; border-radius: 4px; box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+      transform: translateY(20px); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column; align-items: center; gap: 25px;
     }
-  }, 500);
+    .atelier-popup-overlay.show .atelier-popup-card { transform: translateY(0); }
+    .popup-brand { font-family: var(--font-serif, serif); font-size: 16px; letter-spacing: 4px; text-transform: uppercase; color: #888; }
+    .popup-title { font-family: var(--font-serif, serif); font-size: 32px; font-weight: 300; letter-spacing: -0.5px; line-height: 1.2; color: #fff; }
+    .popup-desc { font-family: var(--font-sans, sans-serif); font-size: 13px; line-height: 1.6; color: #888; font-weight: 300; max-width: 380px; }
+    .popup-input {
+      width: 100%; padding: 18px; background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: var(--font-sans, sans-serif);
+      font-size: 13px; text-align: center; outline: none; transition: border-color 0.3s;
+    }
+    .popup-input:focus { border-color: rgba(255,255,255,0.4); }
+    .popup-btn-claim {
+      width: 100%; padding: 18px; background: #fff; color: #000; border: none;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;
+      cursor: pointer; transition: all 0.3s ease;
+    }
+    .popup-btn-claim:hover { background: #d4af37; color: #000; }
+    .popup-btn-browse {
+      background: none; border: none; color: #888; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: color 0.3s;
+      border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2px;
+    }
+    .popup-btn-browse:hover { color: #fff; border-bottom-color: #fff; }
+  `;
+  document.head.appendChild(styleEl);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'atelier-popup-overlay';
+  overlay.innerHTML = `
+    <div class="atelier-popup-card">
+      <div class="popup-brand">Custom Patike</div>
+      <div class="popup-title">Welcome to<br>The Atelier</div>
+      <div class="popup-desc">Unlock an exclusive €100 welcome credit toward your first bespoke creation. Share your email to receive the private access key.</div>
+      <input type="email" id="popupEmail" class="popup-input" placeholder="Enter Your Email Address">
+      <button id="btnPopupClaim" class="popup-btn-claim">Claim €100 Welcome Credit</button>
+      <button id="btnPopupBrowse" class="popup-btn-browse">No thanks, browse the collections</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  // Show with a smooth transition
+  setTimeout(() => overlay.classList.add('show'), 1500);
+
+  const emailInput = document.getElementById('popupEmail');
+  
+  // Action 1: Email submit (Claim credit)
+  document.getElementById('btnPopupClaim').addEventListener('click', async () => {
+    const emailVal = emailInput.value.trim();
+    if (!emailVal || !emailVal.includes('@')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    // 1. Set verified human state
+    localStorage.setItem('cp_verified_visitor', 'true');
+    localStorage.setItem('cp_guest_email', emailVal);
+
+    // 2. Fetch/register verified session
+    cpSendSession(emailVal);
+
+    // 5. Dismiss with beauty
+    overlay.classList.remove('show');
+    setTimeout(() => {
+      overlay.remove();
+      cpLogActivity('page_view', 'Welcomed with €100 newsletter subscription');
+      cpStartHeartbeat();
+    }, 800);
+  });
+
+  // Action 2: No thanks, browse
+  document.getElementById('btnPopupBrowse').addEventListener('click', async () => {
+    // 1. Set verified human state
+    localStorage.setItem('cp_verified_visitor', 'true');
+
+    // 2. Fetch/register verified session
+    cpSendSession();
+
+    // 3. Dismiss
+    overlay.classList.remove('show');
+    setTimeout(() => {
+      overlay.remove();
+      cpLogActivity('page_view', 'Welcomed and bypassed popups');
+      cpStartHeartbeat();
+    }, 800);
+  });
 }
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
   cpCaptureUtms();
-  cpInitAutoVerification();
+  initWelcomePopup();
 });

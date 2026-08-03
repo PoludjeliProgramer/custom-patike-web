@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Suppress crypto wallet extension errors in console -->
+  <script>
+    (function() {
+      const originalError = console.error;
+      const originalWarn = console.warn;
+      console.error = function() {
+        const msg = arguments[0] ? arguments[0].toString() : '';
+        if (msg.includes('Channel secret not available yet') || msg.includes('ethereum') || msg.includes('BitcoinAdapter') || msg.includes('ProvidersManager')) return;
+        originalError.apply(console, arguments);
+      };
+      console.warn = function() {
+        const msg = arguments[0] ? arguments[0].toString() : '';
+        if (msg.includes('MaxListenersExceededWarning') || msg.includes('ObjectMultiplex')) return;
+        originalWarn.apply(console, arguments);
+      };
+    })();
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Atelier Command | Custom Patike Admin</title>
@@ -9,15 +28,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #0a0a0c;
-      --sidebar: #0e0e12;
-      --surface: #14141a;
-      --surface-hover: #1b1b24;
-      --border: #242430;
-      --accent: #e2be72;
-      --accent-glow: rgba(226, 190, 114, 0.15);
-      --text: #f4f4f7;
-      --text-muted: #848496;
+      --bg: #fafafa;
+      --sidebar: #ffffff;
+      --surface: #ffffff;
+      --surface-hover: #f9f9f9;
+      --border: #eaeaea;
+      --accent: #000000;
+      --accent-glow: rgba(0, 0, 0, 0.05);
+      --text: #222222;
+      --text-muted: #666666;
       --font-sans: 'Montserrat', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
@@ -137,7 +156,7 @@
       font-size: 26px;
       font-weight: 600;
       letter-spacing: -0.5px;
-      color: #fff;
+      color: #000;
     }
 
     .page-title p {
@@ -174,7 +193,7 @@
     .kpi-value {
       font-size: 28px;
       font-weight: 700;
-      color: #fff;
+      color: #000;
       font-family: var(--font-mono);
     }
 
@@ -199,12 +218,12 @@
     }
 
     table.data-table th {
-      background: rgba(255, 255, 255, 0.02);
+      background: #f9f9f9;
       padding: 14px 20px;
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: var(--accent);
+      color: #555;
       border-bottom: 1px solid var(--border);
       font-weight: 600;
     }
@@ -234,9 +253,9 @@
       letter-spacing: 0.5px;
     }
 
-    .status-pill.painting { background: rgba(226, 190, 114, 0.15); color: var(--accent); border: 1px solid var(--accent); }
-    .status-pill.delivered { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid #22c55e; }
-    .status-pill.approved { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid #3b82f6; }
+    .status-pill.painting { background: #fff8e1; color: #b78103; border: 1px solid #ffe082; }
+    .status-pill.delivered { background: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
+    .status-pill.approved { background: #e3f2fd; color: #0d47a1; border: 1px solid #bbdefb; }
 
     /* === BUTTONS & INPUTS === */
     .btn {
@@ -257,8 +276,8 @@
     }
 
     .btn-accent:hover {
-      background: #f0cf85;
-      box-shadow: 0 0 15px var(--accent-glow);
+      background: #333;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
     .btn-outline {
@@ -273,11 +292,11 @@
     }
 
     .input-field {
-      background: var(--bg);
+      background: #fff;
       border: 1px solid var(--border);
       padding: 10px 14px;
       border-radius: 4px;
-      color: #fff;
+      color: #000;
       font-size: 13px;
       outline: none;
       width: 100%;
@@ -422,7 +441,7 @@
     .timeline-header h3 {
       font-size: 16px;
       font-weight: 600;
-      color: #fff;
+      color: #000;
       margin-bottom: 6px;
     }
 
@@ -501,7 +520,7 @@
       border: 1px solid var(--border);
       padding: 8px 14px;
       border-radius: 4px;
-      color: #fff;
+      color: #000;
       font-size: 13px;
       font-family: var(--font-mono);
       outline: none;
@@ -637,12 +656,12 @@
         </div>
         <div class="kpi-card">
           <div class="kpi-label">Top Visitor Country</div>
-          <div class="kpi-value" id="kpiTopCountry" style="font-size: 20px; color: #4ade80;">—</div>
+          <div class="kpi-value" id="kpiTopCountry" style="font-size: 20px; color: #1b5e20;">—</div>
           <div class="kpi-sub" id="kpiTopCountryPct">Loading...</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">Avg Time on Site</div>
-          <div class="kpi-value" id="kpiAvgTime" style="font-size: 20px; color: #fff;">—</div>
+          <div class="kpi-value" id="kpiAvgTime" style="font-size: 20px; color: #000;">—</div>
           <div class="kpi-sub">Measured via Heartbeats</div>
         </div>
         <div class="kpi-card">
@@ -913,7 +932,7 @@
           <td>${o.first_name || 'Guest'} ${o.last_name || ''}<br><span style="font-size: 11px; color: var(--text-muted);">${o.email || ''}</span></td>
           <td>${o.address || 'Standard Atelier Delivery'}, ${o.city || 'Dubrovnik'}</td>
           <td>${(o.items || []).map(i => `${i.product_name} (${i.size})`).join(', ') || '1-of-1 Custom Footwear'}</td>
-          <td style="font-weight: 600; color: #fff;">€${parseFloat(o.total).toFixed(2)}</td>
+          <td style="font-weight: 600; color: #000;">€${parseFloat(o.total).toFixed(2)}</td>
           <td><span class="status-pill painting">${o.status}</span></td>
           <td>
             <select onchange="updateOrderStatus(${o.id}, this.value)" style="background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px; font-size: 11px;">
@@ -1303,7 +1322,7 @@
         // Build detail text
         let detailHtml = '';
         if (act.action_type === 'page_view') {
-          detailHtml = `URL: <strong style="color: #fff;">${act.page_url}</strong>`;
+          detailHtml = `URL: <strong style="color: #000;">${act.page_url}</strong>`;
           if (act.time_spent > 0) {
             const ts = act.time_spent;
             const tMins = Math.floor(ts / 60);
