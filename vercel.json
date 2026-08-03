@@ -10,6 +10,8 @@
   ],
   "rewrites": [
     { "source": "/api/analytics/:match*", "destination": "http://207.154.233.35:4055/api/analytics/:match*" },
-    { "source": "/api/analytics", "destination": "http://207.154.233.35:4055/api/analytics" }
+    { "source": "/api/analytics", "destination": "http://207.154.233.35:4055/api/analytics" },
+    { "source": "/api/user/:match*", "destination": "http://207.154.233.35:4055/api/user/:match*" },
+    { "source": "/api/user", "destination": "http://207.154.233.35:4055/api/user" }
   ]
 }

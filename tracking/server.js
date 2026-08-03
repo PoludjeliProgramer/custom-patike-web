@@ -4,8 +4,12 @@ const { Pool } = require('pg');
 const http = require('http');
 const https = require('https');
 
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const app = express();
 const PORT = process.env.PORT || 4055;
+const JWT_SECRET = process.env.JWT_SECRET || 'cp_jwt_user_secret_2026_atelier';
 
 app.use(cors());
 app.use(express.json());
@@ -182,11 +186,211 @@ app.post('/api/analytics/activity', async (req, res) => {
   }
 });
 
+// ===== CUSTOMER USER AUTHENTICATION & DASHBOARD API =====
+
+// Helper: verify JWT from Authorization header
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'Authentication required' });
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ error: 'Invalid or expired token' });
+    req.user = user;
+    next();
+  });
+}
+
+// 1. POST /api/user/register
+app.post('/api/user/register', async (req, res) => {
+  const { email, password, firstName, lastName, phone, sessionToken } = req.body || {};
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+  if (password.length < 6) {
+    return res.status(400).json({ error: 'Password must be at least 6 characters' });
+  }
+
+  const cleanEmail = email.toLowerCase().trim();
+
+  try {
+    const existing = await pool.query('SELECT id FROM users WHERE LOWER(email) = $1', [cleanEmail]);
+    if (existing.rows.length > 0) {
+      return res.status(409).json({ error: 'An account with this email already exists' });
+    }
+
+    const hash = await bcrypt.hash(password, 10);
+    const result = await pool.query(
+      `INSERT INTO users (email, password_hash, first_name, last_name, phone, created_at)
+       VALUES ($1, $2, $3, $4, $5, NOW())
+       RETURNING id, email, first_name, last_name, phone, address, city, postal_code, country, created_at`,
+      [cleanEmail, hash, firstName || null, lastName || null, phone || null]
+    );
+
+    const user = result.rows[0];
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '30d' });
+
+    // Link visitor_sessions if token provided
+    if (sessionToken) {
+      await pool.query(
+        'UPDATE visitor_sessions SET email = $1, is_verified = true WHERE session_token = $2',
+        [cleanEmail, sessionToken]
+      ).catch(() => {});
+    }
+
+    res.status(201).json({ success: true, token, user });
+  } catch (err) {
+    console.error('Registration error:', err.message);
+    res.status(500).json({ error: 'Failed to create account' });
+  }
+});
+
+// 2. POST /api/user/login
+app.post('/api/user/login', async (req, res) => {
+  const { email, password, sessionToken } = req.body || {};
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  const cleanEmail = email.toLowerCase().trim();
+
+  try {
+    const result = await pool.query(
+      'SELECT id, email, password_hash, first_name, last_name, phone, address, city, postal_code, country, created_at FROM users WHERE LOWER(email) = $1',
+      [cleanEmail]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const user = result.rows[0];
+    const isValid = await bcrypt.compare(password, user.password_hash);
+    if (!isValid) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    delete user.password_hash;
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '30d' });
+
+    // Link visitor_sessions if token provided
+    if (sessionToken) {
+      await pool.query(
+        'UPDATE visitor_sessions SET email = $1, is_verified = true WHERE session_token = $2',
+        [cleanEmail, sessionToken]
+      ).catch(() => {});
+    }
+
+    res.json({ success: true, token, user });
+  } catch (err) {
+    console.error('Login error:', err.message);
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
+
+// 3. GET /api/user/me
+app.get('/api/user/me', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT id, email, first_name, last_name, phone, address, city, postal_code, country, created_at FROM users WHERE id = $1',
+      [req.user.id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(444).json({ error: 'User not found' });
+    }
+    res.json({ user: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch user' });
+  }
+});
+
+// 4. PUT /api/user/profile
+app.put('/api/user/profile', authenticateToken, async (req, res) => {
+  const { firstName, lastName, phone, address, city, postalCode, country } = req.body || {};
+  try {
+    const result = await pool.query(
+      `UPDATE users
+       SET first_name = COALESCE($1, first_name),
+           last_name = COALESCE($2, last_name),
+           phone = COALESCE($3, phone),
+           address = COALESCE($4, address),
+           city = COALESCE($5, city),
+           postal_code = COALESCE($6, postal_code),
+           country = COALESCE($7, country)
+       WHERE id = $8
+       RETURNING id, email, first_name, last_name, phone, address, city, postal_code, country, created_at`,
+      [firstName, lastName, phone, address, city, postalCode, country, req.user.id]
+    );
+    res.json({ success: true, user: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+// 5. PUT /api/user/password
+app.put('/api/user/password', authenticateToken, async (req, res) => {
+  const { currentPassword, newPassword } = req.body || {};
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: 'Current and new password required' });
+  }
+  if (newPassword.length < 6) {
+    return res.status(400).json({ error: 'New password must be at least 6 characters' });
+  }
+
+  try {
+    const userRes = await pool.query('SELECT password_hash FROM users WHERE id = $1', [req.user.id]);
+    if (userRes.rows.length === 0) return res.status(404).json({ error: 'User not found' });
+
+    const isValid = await bcrypt.compare(currentPassword, userRes.rows[0].password_hash);
+    if (!isValid) return res.status(400).json({ error: 'Current password incorrect' });
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+    await pool.query('UPDATE users SET password_hash = $1 WHERE id = $2', [newHash, req.user.id]);
+
+    res.json({ success: true, message: 'Password updated successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update password' });
+  }
+});
+
+// 6. GET /api/user/orders
+app.get('/api/user/orders', authenticateToken, async (req, res) => {
+  try {
+    const ordersRes = await pool.query(
+      `SELECT * FROM orders WHERE user_id = $1 OR LOWER(user_id::text) = $2 ORDER BY created_at DESC`,
+      [req.user.id, req.user.email]
+    );
+    const orders = ordersRes.rows;
+
+    for (let order of orders) {
+      const itemsRes = await pool.query('SELECT * FROM order_items WHERE order_id = $1', [order.id]);
+      order.items = itemsRes.rows;
+    }
+
+    res.json({ orders });
+  } catch (err) {
+    res.json({ orders: [] });
+  }
+});
+
+// 7. GET /api/user/commissions
+app.get('/api/user/commissions', authenticateToken, async (req, res) => {
+  try {
+    const commsRes = await pool.query(
+      `SELECT * FROM custom_commissions WHERE user_id = $1 ORDER BY created_at DESC`,
+      [req.user.id]
+    );
+    res.json({ commissions: commsRes.rows });
+  } catch (err) {
+    res.json({ commissions: [] });
+  }
+});
+
 // Health check
 app.get('/api/analytics/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 app.listen(PORT, () => {
-  console.log(`Custom Patike Tracking API running on port ${PORT}`);
+  console.log(`Custom Patike Tracking & User Auth API running on port ${PORT}`);
 });
