@@ -257,6 +257,12 @@ function initWelcomePopup() {
   });
 }
 
+// DEV RESET HOOK
+if (window.location.search.includes('reset_popup=1')) {
+  localStorage.removeItem('cp_verified_visitor');
+  localStorage.removeItem('cp_guest_email');
+}
+
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
   cpCaptureUtms();

@@ -4,20 +4,50 @@
 
   <!-- Suppress crypto wallet extension errors in console -->
   <script>
-    (function() {
-      const originalError = console.error;
-      const originalWarn = console.warn;
-      console.error = function() {
-        const msg = arguments[0] ? arguments[0].toString() : '';
-        if (msg.includes('Channel secret not available yet') || msg.includes('ethereum') || msg.includes('BitcoinAdapter') || msg.includes('ProvidersManager')) return;
-        originalError.apply(console, arguments);
-      };
-      console.warn = function() {
-        const msg = arguments[0] ? arguments[0].toString() : '';
-        if (msg.includes('MaxListenersExceededWarning') || msg.includes('ObjectMultiplex')) return;
-        originalWarn.apply(console, arguments);
-      };
-    })();
+    // Advanced Crypto Wallet Silencer
+    const originalConsoleError = console.error;
+    const originalConsoleWarn = console.warn;
+    
+    console.error = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('Channel secret not available') ||
+        arguments[0].includes('Extension context invalidated') ||
+        arguments[0].includes('MetaMask') ||
+        arguments[0].includes('ethereum')
+      )) { return; }
+      
+      if (arguments[0] && arguments[0] instanceof Error && (
+        arguments[0].message.includes('Channel secret not available')
+      )) { return; }
+      
+      originalConsoleError.apply(console, arguments);
+    };
+    
+    console.warn = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('orphaned data for stream') ||
+        arguments[0].includes('MaxListenersExceededWarning')
+      )) { return; }
+      originalConsoleWarn.apply(console, arguments);
+    };
+    
+    window.addEventListener('error', function(e) {
+      if (e.filename && (e.filename.includes('evmAsk.js') || e.filename.includes('inpage.js') || e.filename.includes('contentscript.js'))) {
+        e.preventDefault();
+        e.stopPropagation();
+        return true;
+      }
+      if (e.message && e.message.includes('Cannot redefine property: ethereum')) {
+        e.preventDefault();
+        return true;
+      }
+    }, true);
+    
+    window.addEventListener('unhandledrejection', function(e) {
+      if (e.reason && e.reason.message && e.reason.message.includes('Channel secret not available')) {
+        e.preventDefault();
+      }
+    });
   </script>
 
   <meta charset="utf-8"/>
