@@ -4,13 +4,22 @@ const { Pool } = require('pg');
 const path = require('path');
 const http = require('http');
 const https = require('https');
-require('dotenv').config();
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 const PORT = process.env.PORT || 4050;
 
+const session = require('express-session');
+
 app.use(cors());
 app.use(express.json());
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'cp_admin_secret_key_2026_atelier',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }
+}));
 
 // Parse sendBeacon text/plain payloads
 app.use((req, res, next) => {
@@ -24,6 +33,55 @@ app.use((req, res, next) => {
   } else {
     next();
   }
+});
+
+// ===== AUTHENTICATION ENDPOINTS =====
+app.get('/api/auth/check', (req, res) => {
+  if (req.session && req.session.isAuthenticated) {
+    return res.json({ authenticated: true, username: req.session.username });
+  }
+  res.json({ authenticated: false });
+});
+
+app.post('/api/auth/login', (req, res) => {
+  const { username, password } = req.body || {};
+  const validUser = process.env.ADMIN_USERNAME || 'admin';
+  const validPass = process.env.ADMIN_PASSWORD || 'CustomPatike2026!';
+
+  if (username === validUser && password === validPass) {
+    req.session.isAuthenticated = true;
+    req.session.username = username;
+    return res.json({ success: true, username });
+  }
+
+  res.status(401).json({ error: 'Invalid username or password' });
+});
+
+app.post('/api/auth/logout', (req, res) => {
+  if (req.session) {
+    req.session.destroy(() => {
+      res.json({ success: true });
+    });
+  } else {
+    res.json({ success: true });
+  }
+});
+
+// ===== AUTH GUARD MIDDLEWARE =====
+app.use('/api', (req, res, next) => {
+  if (
+    req.path.startsWith('/auth/') ||
+    req.path === '/analytics/session' ||
+    req.path === '/analytics/activity'
+  ) {
+    return next();
+  }
+
+  if (req.session && req.session.isAuthenticated) {
+    return next();
+  }
+
+  res.status(401).json({ error: 'Unauthorized. Please login.' });
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
