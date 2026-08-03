@@ -564,128 +564,9 @@
       padding: 8px 14px;
       font-size: 11px;
     }
-
-    /* === LOGIN OVERLAY === */
-    .login-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(15px);
-      z-index: 999999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 0.4s ease;
-    }
-
-    .login-card {
-      background: #111;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 45px 35px;
-      width: 100%;
-      max-width: 420px;
-      border-radius: 8px;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-      text-align: center;
-      color: #fff;
-    }
-
-    .login-title {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      color: #fff;
-    }
-
-    .login-sub {
-      font-size: 12px;
-      color: #888;
-      margin-bottom: 28px;
-    }
-
-    .login-form .form-group {
-      margin-bottom: 18px;
-      text-align: left;
-    }
-
-    .login-form label {
-      display: block;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #aaa;
-      margin-bottom: 6px;
-    }
-
-    .login-form input {
-      width: 100%;
-      padding: 14px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 6px;
-      color: #fff;
-      font-size: 13px;
-      font-family: var(--font-sans);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .login-form input:focus {
-      border-color: #fff;
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      background: #fff;
-      color: #000;
-      border: none;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .login-btn:hover {
-      background: #e2be72;
-      color: #000;
-    }
-
-    .login-error {
-      color: #ef4444;
-      font-size: 12px;
-      margin-top: 14px;
-      display: none;
-    }
   </style>
 </head>
 <body>
-
-  <!-- LOGIN OVERLAY -->
-  <div id="loginOverlay" class="login-overlay">
-    <div class="login-card">
-      <div class="login-title">Atelier Command</div>
-      <div class="login-sub">Authenticating Private Master Console</div>
-      <form id="loginForm" class="login-form" onsubmit="handleLoginSubmit(event)">
-        <div class="form-group">
-          <label>Username</label>
-          <input type="text" id="loginUsername" placeholder="Enter admin username" required autocomplete="username">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password">
-        </div>
-        <button type="submit" class="login-btn">Sign In to Dashboard</button>
-        <div id="loginError" class="login-error">Invalid credentials</div>
-      </form>
-    </div>
-  </div>
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
@@ -723,8 +604,8 @@
       </li>
     </ul>
     <div class="sidebar-footer">
-      <p>Logged in as: <strong id="adminUsernameDisplay">admin</strong></p>
-      <button onclick="handleLogout()" style="margin-top: 10px; width: 100%; padding: 8px; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Sign Out</button>
+      <p>PostgreSQL DB: <strong>custompatike</strong></p>
+      <p style="margin-top: 4px;">Host: 127.0.0.1:5432</p>
     </div>
   </aside>
 
@@ -1503,73 +1384,14 @@
     }
 
 
-    // ===== AUTH HANDLERS =====
-    async function checkAuth() {
-      try {
-        const res = await fetch(`${API_BASE}/auth/check`);
-        const data = await res.json();
-        if (data.authenticated) {
-          document.getElementById('loginOverlay').style.display = 'none';
-          document.getElementById('adminUsernameDisplay').textContent = data.username || 'admin';
-          initDashboard();
-        } else {
-          document.getElementById('loginOverlay').style.display = 'flex';
-        }
-      } catch (err) {
-        document.getElementById('loginOverlay').style.display = 'flex';
-      }
-    }
-
-    async function handleLoginSubmit(e) {
-      e.preventDefault();
-      const username = document.getElementById('loginUsername').value.trim();
-      const password = document.getElementById('loginPassword').value.trim();
-      const errEl = document.getElementById('loginError');
-      errEl.style.display = 'none';
-
-      try {
-        const res = await fetch(`${API_BASE}/auth/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
-        });
-        const data = await res.json();
-
-        if (res.ok && data.success) {
-          document.getElementById('loginOverlay').style.display = 'none';
-          document.getElementById('adminUsernameDisplay').textContent = data.username || username;
-          document.getElementById('loginPassword').value = '';
-          initDashboard();
-        } else {
-          errEl.textContent = data.error || 'Invalid username or password';
-          errEl.style.display = 'block';
-        }
-      } catch (err) {
-        errEl.textContent = 'Server unreachable. Please check connection.';
-        errEl.style.display = 'block';
-      }
-    }
-
-    async function handleLogout() {
-      try {
-        await fetch(`${API_BASE}/auth/logout`, { method: 'POST' });
-      } catch (e) {}
-      document.getElementById('loginOverlay').style.display = 'flex';
-    }
-
-    function initDashboard() {
+    // ===== INIT =====
+    document.addEventListener('DOMContentLoaded', () => {
       fetchStats();
       fetchOrders();
       fetchCommissions();
       fetchProducts();
       fetchUsers();
       fetchAbandonedCarts();
-    }
-
-
-    // ===== INIT =====
-    document.addEventListener('DOMContentLoaded', () => {
-      checkAuth();
     });
   </script>
 </body>
