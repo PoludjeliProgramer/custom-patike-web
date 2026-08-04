@@ -104,7 +104,7 @@ function injectCartDrawer() {
                     <span>Total</span>
                     <span id="cart-total-price">€0.00</span>
                 </div>
-                <a href="${prefix}checkout.html" style="display: block; width: 100%; text-align: center; background: #000; color: #fff; padding: 15px 0; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; font-size: 13px;">Proceed to Checkout</a>
+                <button id="cart-checkout-btn" onclick="handleCheckoutProceed('${prefix}')" style="display: block; width: 100%; text-align: center; background: #000; color: #fff; border: none; padding: 15px 0; font-family: inherit; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; font-size: 13px; cursor: pointer; transition: background 0.2s;">Proceed to Checkout</button>
             </div>
         </div>
     `;
@@ -217,3 +217,123 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ===== CHECKOUT INTERCEPTOR & GUEST PHONE GATE =====
+function handleCheckoutProceed(prefix) {
+    const isProductPage = window.location.pathname.includes('/product/');
+    const pathPrefix = prefix || (isProductPage ? '../' : '');
+    const cart = getCart();
+
+    if (!cart || cart.length === 0) {
+        alert('Your shopping bag is empty.');
+        return;
+    }
+
+    // 1. Check if user is logged in (has account data)
+    let isLoggedIn = false;
+    let userEmail = null;
+    let userPhone = null;
+
+    try {
+        const token = localStorage.getItem('cp_token');
+        const userObj = JSON.parse(localStorage.getItem('cp_user') || localStorage.getItem('user') || 'null');
+        if (token || (userObj && (userObj.email || userObj.phone))) {
+            isLoggedIn = true;
+            userEmail = userObj ? userObj.email : null;
+            userPhone = userObj ? userObj.phone : null;
+        }
+    } catch(e) {}
+
+    // Check if guest already provided phone/email in this browser session
+    const existingGuestPhone = localStorage.getItem('cp_guest_phone');
+    const existingGuestEmail = localStorage.getItem('cp_guest_email');
+
+    if (isLoggedIn || existingGuestPhone) {
+        // Logged-in user or guest with phone -> sync cart & proceed directly
+        syncCartToAbandoned(userEmail || existingGuestEmail, userPhone || existingGuestPhone, cart);
+        window.location.href = `${pathPrefix}checkout.html`;
+    } else {
+        // GUEST VISITOR -> Open Guest Contact Phone Gate Modal
+        closeCartDrawer();
+        openGuestPhoneModal(pathPrefix);
+    }
+}
+
+function openGuestPhoneModal(pathPrefix) {
+    let modal = document.getElementById('guest-phone-modal-overlay');
+    if (!modal) {
+        const modalHTML = `
+            <div id="guest-phone-modal-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+                <div style="background: #111419; border: 1px solid #272f3d; width: 440px; max-width: 92%; padding: 35px 30px; border-radius: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.8); text-align: center; color: #fff; position: relative;">
+                    <button onclick="closeGuestPhoneModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; color: #94a3b8; font-size: 22px; cursor: pointer; line-height: 1;">&times;</button>
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #38bdf8; font-weight: 600; margin-bottom: 8px;">Atelier Checkout Gate</div>
+                    <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 10px; color: #ffffff; font-family: 'Poppins', sans-serif;">Enter Phone Number</h3>
+                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 24px; line-height: 1.5; font-family: 'Poppins', sans-serif;">Please provide your phone number to reserve your order allocation and proceed to checkout.</p>
+                    <form onsubmit="submitGuestPhoneModal(event, '${pathPrefix || ''}')">
+                        <div style="margin-bottom: 16px; text-align: left;">
+                            <label style="display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; margin-bottom: 6px; font-weight: 600;">Phone Number <span style="color: #ef4444;">*</span></label>
+                            <input type="tel" id="guestPhoneInput" placeholder="+385 91 234 5678" required style="width: 100%; padding: 14px; background: #161a22; border: 1px solid #272f3d; border-radius: 6px; color: #ffffff; font-size: 14px; font-family: 'Poppins', sans-serif; outline: none; transition: border-color 0.2s;">
+                        </div>
+                        <div style="margin-bottom: 24px; text-align: left;">
+                            <label style="display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; margin-bottom: 6px; font-weight: 600;">Email Address (Optional)</label>
+                            <input type="email" id="guestEmailInput" placeholder="your.email@domain.com" style="width: 100%; padding: 14px; background: #161a22; border: 1px solid #272f3d; border-radius: 6px; color: #ffffff; font-size: 14px; font-family: 'Poppins', sans-serif; outline: none; transition: border-color 0.2s;">
+                        </div>
+                        <button type="submit" style="width: 100%; padding: 15px; background: #ffffff; color: #000000; border: none; border-radius: 6px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: background 0.2s;">Continue to Checkout &rarr;</button>
+                    </form>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        modal = document.getElementById('guest-phone-modal-overlay');
+    }
+    modal.style.display = 'flex';
+    setTimeout(() => modal.style.opacity = '1', 10);
+}
+
+function closeGuestPhoneModal() {
+    const modal = document.getElementById('guest-phone-modal-overlay');
+    if (modal) {
+        modal.style.opacity = '0';
+        setTimeout(() => modal.style.display = 'none', 300);
+    }
+}
+
+function submitGuestPhoneModal(e, pathPrefix) {
+    e.preventDefault();
+    const phone = document.getElementById('guestPhoneInput').value.trim();
+    const email = document.getElementById('guestEmailInput').value.trim();
+
+    if (!phone) return;
+
+    localStorage.setItem('cp_guest_phone', phone);
+    if (email) localStorage.setItem('cp_guest_email', email);
+
+    // Sync abandoned cart
+    const cart = getCart();
+    syncCartToAbandoned(email, phone, cart);
+
+    // Verify telemetry
+    if (typeof cpMarkVerified === 'function') {
+        cpMarkVerified(email || null, phone);
+    }
+
+    closeGuestPhoneModal();
+    window.location.href = `${pathPrefix || ''}checkout.html`;
+}
+
+function syncCartToAbandoned(email, phone, items) {
+    const token = localStorage.getItem('cp_analytics_token') || sessionStorage.getItem('cp_analytics_token');
+    const guestPhone = phone || localStorage.getItem('cp_guest_phone');
+    const guestEmail = email || localStorage.getItem('cp_guest_email');
+
+    fetch('/api/cart/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            sessionToken: token,
+            phone: guestPhone || null,
+            email: guestEmail || null,
+            items: items || getCart()
+        })
+    }).catch(() => {});
+}

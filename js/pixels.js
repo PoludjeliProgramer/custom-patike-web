@@ -24,16 +24,17 @@ function cpIsVerified() {
   return localStorage.getItem('cp_verified_visitor') === 'true';
 }
 
-function cpMarkVerified(email) {
+function cpMarkVerified(email, phone) {
   localStorage.setItem('cp_verified_visitor', 'true');
   if (email) localStorage.setItem('cp_guest_email', email);
-  cpSendSession(email);
+  if (phone) localStorage.setItem('cp_guest_phone', phone);
+  cpSendSession(email, phone);
   cpLogActivity('page_view', document.title);
   cpStartHeartbeat();
 }
 
 // ===== SESSION REPORTER =====
-async function cpSendSession(email) {
+async function cpSendSession(email, phone) {
   try {
     await fetch(`${CP_TRACKING_API}/session`, {
       method: 'POST',
@@ -41,6 +42,7 @@ async function cpSendSession(email) {
       body: JSON.stringify({
         sessionToken: cpVisitorToken,
         email: email || localStorage.getItem('cp_guest_email') || null,
+        phone: phone || localStorage.getItem('cp_guest_phone') || null,
         isVerified: true,
         userAgent: navigator.userAgent
       })

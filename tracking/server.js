@@ -186,6 +186,63 @@ app.post('/api/analytics/activity', async (req, res) => {
   }
 });
 
+// ===== POST /api/cart/sync (Abandoned Cart Sync) =====
+app.post('/api/cart/sync', async (req, res) => {
+  const { sessionToken, email, phone, items } = req.body || {};
+  const cartItems = items || [];
+  
+  if (!sessionToken && !email && !phone) {
+    return res.status(400).json({ error: 'Session token, email, or phone required' });
+  }
+
+  const tokenKey = sessionToken || ('cp_cart_' + Date.now());
+
+  try {
+    // Update visitor_sessions with phone / email
+    if (sessionToken && (phone || email)) {
+      await pool.query(
+        `UPDATE visitor_sessions
+         SET phone = COALESCE($2, phone),
+             email = COALESCE($3, email),
+             is_verified = TRUE,
+             updated_at = NOW()
+         WHERE session_token = $1`,
+        [sessionToken, phone || null, email || null]
+      );
+    }
+
+    // Upsert into abandoned_carts
+    const existing = await pool.query(
+      'SELECT id FROM abandoned_carts WHERE cart_token = $1 OR (phone IS NOT NULL AND phone = $2) OR (email IS NOT NULL AND email = $3)',
+      [tokenKey, phone || '___', email || '___']
+    );
+
+    if (existing.rows.length > 0) {
+      await pool.query(
+        `UPDATE abandoned_carts
+         SET cart_data = $2,
+             email = COALESCE($3, email),
+             phone = COALESCE($4, phone),
+             status = 'captured',
+             updated_at = NOW()
+         WHERE id = $1`,
+        [existing.rows[0].id, JSON.stringify(cartItems), email || null, phone || null]
+      );
+    } else {
+      await pool.query(
+        `INSERT INTO abandoned_carts (cart_token, email, phone, cart_data, status, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, 'captured', NOW(), NOW())`,
+        [tokenKey, email || null, phone || null, JSON.stringify(cartItems)]
+      );
+    }
+
+    res.json({ success: true });
+  } catch(err) {
+    console.error('Cart sync error:', err.message);
+    res.json({ success: true });
+  }
+});
+
 // ===== CUSTOMER USER AUTHENTICATION & DASHBOARD API =====
 
 // Helper: verify JWT from Authorization header
