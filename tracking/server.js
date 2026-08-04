@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
@@ -7,11 +9,17 @@ const https = require('https');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const stripe = process.env.STRIPE_SECRET_KEY ? require('stripe')(process.env.STRIPE_SECRET_KEY) : null;
+
 const app = express();
 const PORT = process.env.PORT || 4055;
 const JWT_SECRET = process.env.JWT_SECRET || 'cp_jwt_user_secret_2026_atelier';
 
 app.use(cors());
+
+// Raw body parser for Stripe Webhook BEFORE express.json()
+app.use('/api/checkout/webhook', express.raw({ type: 'application/json' }));
+
 app.use(express.json());
 
 // Parse sendBeacon text/plain payloads
@@ -441,6 +449,177 @@ app.get('/api/user/commissions', authenticateToken, async (req, res) => {
   } catch (err) {
     res.json({ commissions: [] });
   }
+});
+
+// ===== STRIPE EMBEDDED CHECKOUT & WEBHOOK API =====
+
+function calculateShipping(items, countryCode) {
+  if (!items || items.length === 0) return 0;
+  const subtotal = items.reduce((total, item) => total + (item.price * (item.qty || item.quantity || 1)), 0);
+  if (subtotal >= 300) return 0;
+
+  if (!countryCode) return 12.50;
+  const country = countryCode.toUpperCase();
+
+  if (country === 'BA') return 6.00;
+  if (country === 'HR' || country === 'ME' || country === 'RS') return 10.00;
+
+  const euCountries = ['SI', 'DE', 'FR', 'IT', 'AT', 'BE', 'ES', 'SE', 'NL', 'PL', 'PT', 'IE', 'DK', 'FI', 'GR', 'CZ', 'HU', 'RO', 'BG', 'SK', 'LT', 'LV', 'EE', 'CY', 'MT', 'LU'];
+  if (euCountries.includes(country)) return 12.50;
+
+  const nonEuEurope = ['MK', 'AL', 'GB', 'CH', 'NO', 'IS', 'UA', 'BY', 'MD', 'AD', 'MC', 'SM', 'VA', 'LI', 'GI'];
+  if (nonEuEurope.includes(country)) return 18.00;
+
+  return 32.50;
+}
+
+// 1. POST /api/checkout/create-intent
+app.post('/api/checkout/create-intent', async (req, res) => {
+  try {
+    const { items, email, phone } = req.body || {};
+    if (!items || items.length === 0) {
+      return res.status(400).json({ error: 'Cart is empty' });
+    }
+
+    if (!stripe) {
+      return res.status(500).json({ error: 'Stripe is not configured on server' });
+    }
+
+    const subtotal = items.reduce((total, item) => total + (item.price * (item.qty || item.quantity || 1)), 0);
+    const shippingFee = calculateShipping(items, null);
+    const totalAmount = Math.round((subtotal + shippingFee) * 100);
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: totalAmount,
+      currency: 'eur',
+      receipt_email: email || undefined,
+      metadata: {
+        customerEmail: email || '',
+        customerPhone: phone || '',
+        items: JSON.stringify(items.map(i => ({ id: i.id, name: i.name || i.title, price: i.price, qty: i.qty || i.quantity || 1 })))
+      }
+    });
+
+    res.json({
+      clientSecret: paymentIntent.client_secret,
+      subtotal,
+      shippingFee,
+      total: subtotal + shippingFee
+    });
+  } catch (err) {
+    console.error('Create PaymentIntent error:', err.message);
+    res.status(500).json({ error: err.message || 'Internal server error' });
+  }
+});
+
+// 2. POST /api/checkout/update-intent
+app.post('/api/checkout/update-intent', async (req, res) => {
+  try {
+    const { paymentIntentId, country, items } = req.body || {};
+    if (!paymentIntentId || !items || items.length === 0) {
+      return res.status(400).json({ error: 'Missing required parameters' });
+    }
+
+    if (!stripe) {
+      return res.status(500).json({ error: 'Stripe is not configured on server' });
+    }
+
+    const subtotal = items.reduce((total, item) => total + (item.price * (item.qty || item.quantity || 1)), 0);
+    const shippingFee = calculateShipping(items, country);
+    const totalAmount = Math.round((subtotal + shippingFee) * 100);
+
+    await stripe.paymentIntents.update(paymentIntentId, {
+      amount: totalAmount,
+      currency: 'eur',
+      metadata: {
+        shippingCountry: country || '',
+        shippingFee: shippingFee
+      }
+    });
+
+    res.json({ success: true, subtotal, shippingFee, total: subtotal + shippingFee });
+  } catch (err) {
+    console.error('Update PaymentIntent error:', err.message);
+    res.status(500).json({ error: err.message || 'Failed to update shipping' });
+  }
+});
+
+// 3. POST /api/checkout/webhook (Stripe Payment Event Listener)
+app.post('/api/checkout/webhook', async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event;
+  try {
+    if (webhookSecret && sig && stripe) {
+      event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    } else {
+      event = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    }
+  } catch (err) {
+    console.error('Webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === 'payment_intent.succeeded') {
+    const paymentIntent = event.data.object;
+    const { customerEmail, customerPhone, items } = paymentIntent.metadata || {};
+
+    const shippingObj = paymentIntent.shipping || {};
+    const shippingAddress = {
+      name: shippingObj.name || '',
+      phone: shippingObj.phone || customerPhone || '',
+      address: shippingObj.address || {}
+    };
+
+    const email = paymentIntent.receipt_email || customerEmail || (shippingObj.name ? `${shippingObj.name.toLowerCase().replace(/\s+/g, '')}@guest.com` : null);
+    const phone = shippingObj.phone || customerPhone || null;
+
+    const subtotal = (paymentIntent.amount / 100);
+    const orderNumber = 'CP-' + Date.now().toString().slice(-6);
+
+    try {
+      // 1. Insert order record into PostgreSQL orders table
+      const orderRes = await pool.query(
+        `INSERT INTO orders (order_number, customer_email, customer_phone, shipping_address, payment_intent_id, status, subtotal, shipping, total, created_at)
+         VALUES ($1, $2, $3, $4, $5, 'In Hand-Painting', $6, 0.00, $7, NOW())
+         RETURNING id`,
+        [orderNumber, email, phone, JSON.stringify(shippingAddress), paymentIntent.id, subtotal, subtotal]
+      );
+
+      const orderId = orderRes.rows[0].id;
+
+      // 2. Insert items into order_items table
+      if (items) {
+        try {
+          const parsedItems = typeof items === 'string' ? JSON.parse(items) : items;
+          for (const item of parsedItems) {
+            await pool.query(
+              `INSERT INTO order_items (order_id, product_name, size, price, quantity)
+               VALUES ($1, $2, $3, $4, $5)`,
+              [orderId, item.name || item.title || 'Custom Sneakers', item.size || 'Standard', item.price || 0, item.qty || item.quantity || 1]
+            );
+          }
+        } catch(e) {}
+      }
+
+      // 3. Mark abandoned cart as 'recovered'
+      if (email || phone) {
+        await pool.query(
+          `UPDATE abandoned_carts
+           SET status = 'recovered', updated_at = NOW()
+           WHERE (email IS NOT NULL AND email = $1) OR (phone IS NOT NULL AND phone = $2)`,
+          [email || '___', phone || '___']
+        );
+      }
+
+      console.log(`Order #${orderNumber} successfully created from Stripe PaymentIntent ${paymentIntent.id}`);
+    } catch(err) {
+      console.error('Error inserting order from webhook:', err.message);
+    }
+  }
+
+  res.json({ received: true });
 });
 
 // Health check
