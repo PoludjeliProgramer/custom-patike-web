@@ -108,10 +108,17 @@ async function geolocateIP(ip) {
   return { city: 'Unknown City', country: 'Unknown Country' };
 }
 
+const EXCLUDED_EMAILS = ['larivepolleo@gmail.com'];
+
+function isExcludedUser(email) {
+  return email && EXCLUDED_EMAILS.includes(email.toLowerCase().trim());
+}
+
 // ===== POST /api/analytics/session =====
 app.post('/api/analytics/session', async (req, res) => {
   const { sessionToken, email, isVerified, userAgent } = req.body || {};
   if (!sessionToken) return res.status(400).json({ error: 'sessionToken required' });
+  if (isExcludedUser(email)) return res.json({ success: true, excluded: true });
 
   const rawIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.socket.remoteAddress || '';
   const geo = await geolocateIP(rawIp);
@@ -197,6 +204,7 @@ app.post('/api/analytics/activity', async (req, res) => {
 // ===== POST /api/cart/sync (Abandoned Cart Sync) =====
 app.post('/api/cart/sync', async (req, res) => {
   const { sessionToken, email, phone, items } = req.body || {};
+  if (isExcludedUser(email)) return res.json({ success: true, excluded: true });
   const cartItems = items || [];
   
   if (!sessionToken && !email && !phone) {

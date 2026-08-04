@@ -19,8 +19,22 @@ if (!cpVisitorToken) {
 localStorage.setItem('cp_analytics_token', cpVisitorToken);
 sessionStorage.setItem('cp_analytics_token', cpVisitorToken);
 
+// Excluded admin/owner emails that should NOT be tracked
+const EXCLUDED_EMAILS = ['larivepolleo@gmail.com'];
+
+function cpIsExcluded(email) {
+  const checkEmail = (email || localStorage.getItem('cp_guest_email') || '').toLowerCase().trim();
+  if (checkEmail && EXCLUDED_EMAILS.includes(checkEmail)) return true;
+  try {
+    const userObj = JSON.parse(localStorage.getItem('cp_user') || localStorage.getItem('user') || 'null');
+    if (userObj && userObj.email && EXCLUDED_EMAILS.includes(userObj.email.toLowerCase().trim())) return true;
+  } catch(e) {}
+  return false;
+}
+
 // ===== VERIFIED VISITOR GATE =====
 function cpIsVerified() {
+  if (cpIsExcluded()) return false;
   return localStorage.getItem('cp_verified_visitor') === 'true';
 }
 
