@@ -58,6 +58,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root {
+      color-scheme: dark;
       --bg: #0b0d10;
       --sidebar: #111419;
       --surface: #161a22;
@@ -690,12 +691,12 @@
         </div>
         <div class="kpi-card">
           <div class="kpi-label">Top Visitor Country</div>
-          <div class="kpi-value" id="kpiTopCountry" style="font-size: 20px; color: #1b5e20;">—</div>
+          <div class="kpi-value" id="kpiTopCountry" style="font-size: 20px; color: #4ade80;">—</div>
           <div class="kpi-sub" id="kpiTopCountryPct">Loading...</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">Avg Time on Site</div>
-          <div class="kpi-value" id="kpiAvgTime" style="font-size: 20px; color: #000;">—</div>
+          <div class="kpi-value" id="kpiAvgTime" style="font-size: 20px; color: #ffffff;">—</div>
           <div class="kpi-sub">Measured via Heartbeats</div>
         </div>
         <div class="kpi-card">
@@ -966,7 +967,7 @@
           <td>${o.first_name || 'Guest'} ${o.last_name || ''}<br><span style="font-size: 11px; color: var(--text-muted);">${o.email || ''}</span></td>
           <td>${o.address || 'Standard Atelier Delivery'}, ${o.city || 'Dubrovnik'}</td>
           <td>${(o.items || []).map(i => `${i.product_name} (${i.size})`).join(', ') || '1-of-1 Custom Footwear'}</td>
-          <td style="font-weight: 600; color: #000;">€${parseFloat(o.total).toFixed(2)}</td>
+          <td style="font-weight: 600; color: #ffffff;">€${parseFloat(o.total).toFixed(2)}</td>
           <td><span class="status-pill painting">${o.status}</span></td>
           <td>
             <select onchange="updateOrderStatus(${o.id}, this.value)" style="background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px; font-size: 11px;">
@@ -1356,7 +1357,7 @@
         // Build detail text
         let detailHtml = '';
         if (act.action_type === 'page_view') {
-          detailHtml = `URL: <strong style="color: #000;">${act.page_url}</strong>`;
+          detailHtml = `URL: <strong style="color: #38bdf8; word-break: break-all;">${act.page_url}</strong>`;
           if (act.time_spent > 0) {
             const ts = act.time_spent;
             const tMins = Math.floor(ts / 60);
