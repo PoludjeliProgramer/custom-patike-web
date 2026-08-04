@@ -709,7 +709,13 @@
       <!-- TOOLBAR -->
       <div class="analytics-toolbar">
         <input type="date" id="analyticsDatePicker" title="Filter by date">
-        <input type="text" id="analyticsEmailSearch" placeholder="Search by email..." style="width: 240px;">
+        <input type="text" id="analyticsEmailSearch" placeholder="Search by email..." style="width: 220px;">
+        <select id="analyticsVisitorTypeFilter" onchange="loadAnalytics()" style="background: #111419; border: 1px solid var(--border); padding: 8px 14px; border-radius: 4px; color: #ffffff; font-size: 13px; font-family: var(--font-sans); outline: none; cursor: pointer;">
+          <option value="all">⚡ All Visitor Sessions</option>
+          <option value="guest">👤 Regular Guests</option>
+          <option value="account">🔐 Account Holders</option>
+          <option value="abandoned_cart">🛒 Abandoned Carts</option>
+        </select>
         <button class="btn btn-accent btn-sm" onclick="loadAnalytics()">Search</button>
         <button class="btn btn-outline btn-sm" onclick="clearAnalyticsFilters()">Clear</button>
       </div>
@@ -1193,14 +1199,16 @@
       }
     }
 
-    // Load sessions with optional date/email filters
+    // Load sessions with optional date/email/visitorType filters
     async function loadAnalytics() {
       const dateVal = document.getElementById('analyticsDatePicker').value;
       const emailVal = document.getElementById('analyticsEmailSearch').value.trim();
+      const typeFilter = document.getElementById('analyticsVisitorTypeFilter') ? document.getElementById('analyticsVisitorTypeFilter').value : 'all';
 
       let url = `${API_BASE}/analytics/sessions?`;
       if (dateVal) url += `date=${dateVal}&`;
       if (emailVal) url += `email=${emailVal}&`;
+      if (typeFilter && typeFilter !== 'all') url += `visitorType=${typeFilter}&`;
 
       try {
         const res = await fetch(url);
@@ -1215,6 +1223,9 @@
     function clearAnalyticsFilters() {
       document.getElementById('analyticsDatePicker').value = '';
       document.getElementById('analyticsEmailSearch').value = '';
+      if (document.getElementById('analyticsVisitorTypeFilter')) {
+        document.getElementById('analyticsVisitorTypeFilter').value = 'all';
+      }
       loadAnalytics();
     }
 

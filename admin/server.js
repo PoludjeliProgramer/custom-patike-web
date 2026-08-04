@@ -468,7 +468,7 @@ app.get('/api/analytics/stats', async (req, res) => {
 // 14. GET /api/analytics/sessions - Visitor Sessions with Activity Timelines
 app.get('/api/analytics/sessions', async (req, res) => {
   try {
-    const { date, email } = req.query;
+    const { date, email, visitorType } = req.query;
     let queryText = 'SELECT * FROM visitor_sessions WHERE 1=1';
     let queryParams = [];
 
@@ -482,6 +482,26 @@ app.get('/api/analytics/sessions', async (req, res) => {
     if (date) {
       queryText += " AND (updated_at AT TIME ZONE 'Europe/Zagreb')::date = $" + (queryParams.length + 1) + "::date";
       queryParams.push(date);
+    }
+
+    if (visitorType === 'guest') {
+      queryText += ` AND (
+        (email IS NULL OR LOWER(email) NOT IN (SELECT LOWER(email) FROM users))
+        AND (email IS NULL OR LOWER(email) NOT IN (SELECT LOWER(email) FROM abandoned_carts))
+        AND session_token NOT IN (SELECT DISTINCT session_token FROM visitor_activities WHERE action_type IN ('add_to_cart', 'initiate_checkout'))
+      )`;
+    } else if (visitorType === 'account') {
+      queryText += ` AND (
+        email IS NOT NULL AND (
+          LOWER(email) IN (SELECT LOWER(email) FROM users) OR
+          is_verified = TRUE
+        )
+      )`;
+    } else if (visitorType === 'abandoned_cart') {
+      queryText += ` AND (
+        (email IS NOT NULL AND LOWER(email) IN (SELECT LOWER(email) FROM abandoned_carts)) OR
+        session_token IN (SELECT DISTINCT session_token FROM visitor_activities WHERE action_type IN ('add_to_cart', 'initiate_checkout'))
+      )`;
     }
 
     queryText += ' ORDER BY updated_at DESC LIMIT 100';
@@ -499,6 +519,7 @@ app.get('/api/analytics/sessions', async (req, res) => {
 
     res.json(sessions);
   } catch (err) {
+    console.error('Fetch analytics sessions error:', err.message);
     res.json([]);
   }
 });
