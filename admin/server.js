@@ -437,11 +437,11 @@ app.get('/api/analytics/stats', async (req, res) => {
       avgTimeSeconds = Math.round(parseFloat(timeRes.rows[0].avg_time) || 0);
     } catch(e) {}
 
-    // Verified humans count
+    // Verified humans count (distinct human indicator: email, session token, or IP)
     let verifiedCount = 0;
     let totalSessions = 0;
     try {
-      const vRes = await pool.query(`SELECT COUNT(*) as cnt FROM visitor_sessions WHERE is_verified = true`);
+      const vRes = await pool.query(`SELECT COUNT(DISTINCT COALESCE(email, session_token, ip_address)) as cnt FROM visitor_sessions WHERE is_verified = true`);
       const tRes = await pool.query(`SELECT COUNT(*) as cnt FROM visitor_sessions`);
       verifiedCount = parseInt(vRes.rows[0].cnt) || 0;
       totalSessions = parseInt(tRes.rows[0].cnt) || 0;

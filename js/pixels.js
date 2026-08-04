@@ -10,12 +10,14 @@ const CP_PIXELS = {
   TIKTOK_PIXEL_ID:   ''
 };
 
-// ===== SESSION TOKEN =====
-let cpVisitorToken = sessionStorage.getItem('cp_analytics_token');
+// ===== VISITOR TOKEN (PERSISTENT DEVICE/HUMAN INDICATOR) =====
+let cpVisitorToken = localStorage.getItem('cp_analytics_token') || sessionStorage.getItem('cp_analytics_token');
 if (!cpVisitorToken) {
   cpVisitorToken = 'cp_anon_' + Date.now() + Math.random().toString(36).substring(2, 11);
-  sessionStorage.setItem('cp_analytics_token', cpVisitorToken);
 }
+// Store persistently in localStorage so 1 human/device keeps the same token across tabs & visits
+localStorage.setItem('cp_analytics_token', cpVisitorToken);
+sessionStorage.setItem('cp_analytics_token', cpVisitorToken);
 
 // ===== VERIFIED VISITOR GATE =====
 function cpIsVerified() {
