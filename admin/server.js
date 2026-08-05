@@ -441,8 +441,19 @@ app.get('/api/analytics/stats', async (req, res) => {
     let verifiedCount = 0;
     let totalSessions = 0;
     try {
-      const vRes = await pool.query(`SELECT COUNT(DISTINCT COALESCE(email, session_token, ip_address)) as cnt FROM visitor_sessions WHERE is_verified = true`);
-      const tRes = await pool.query(`SELECT COUNT(*) as cnt FROM visitor_sessions`);
+      const { date } = req.query;
+      let vQuery = 'SELECT COUNT(DISTINCT COALESCE(email, session_token, ip_address)) as cnt FROM visitor_sessions WHERE is_verified = true';
+      let tQuery = 'SELECT COUNT(*) as cnt FROM visitor_sessions';
+      let params = [];
+
+      if (date) {
+        vQuery += " AND (created_at::date = $1::date OR updated_at::date = $1::date OR (created_at AT TIME ZONE 'Europe/Zagreb')::date = $1::date OR (updated_at AT TIME ZONE 'Europe/Zagreb')::date = $1::date)";
+        tQuery += " WHERE (created_at::date = $1::date OR updated_at::date = $1::date OR (created_at AT TIME ZONE 'Europe/Zagreb')::date = $1::date OR (updated_at AT TIME ZONE 'Europe/Zagreb')::date = $1::date)";
+        params.push(date);
+      }
+
+      const vRes = await pool.query(vQuery, params);
+      const tRes = await pool.query(tQuery, params);
       verifiedCount = parseInt(vRes.rows[0].cnt) || 0;
       totalSessions = parseInt(tRes.rows[0].cnt) || 0;
     } catch(e) {}
@@ -465,7 +476,7 @@ app.get('/api/analytics/stats', async (req, res) => {
   }
 });
 
-// 14. GET /api/analytics/sessions - Visitor Sessions with Activity Timelines
+// 14. GET /api/analytics/sessions - Visitor Sessions with Activity Timelines & Session Counts
 app.get('/api/analytics/sessions', async (req, res) => {
   try {
     const { date, email, visitorType } = req.query;
@@ -480,7 +491,7 @@ app.get('/api/analytics/sessions', async (req, res) => {
     }
 
     if (date) {
-      queryText += " AND (updated_at AT TIME ZONE 'Europe/Zagreb')::date = $" + (queryParams.length + 1) + "::date";
+      queryText += " AND (created_at::date = $" + (queryParams.length + 1) + "::date OR updated_at::date = $" + (queryParams.length + 1) + "::date OR (created_at AT TIME ZONE 'Europe/Zagreb')::date = $" + (queryParams.length + 1) + "::date OR (updated_at AT TIME ZONE 'Europe/Zagreb')::date = $" + (queryParams.length + 1) + "::date)";
       queryParams.push(date);
     }
 
@@ -515,6 +526,17 @@ app.get('/api/analytics/sessions', async (req, res) => {
         [session.session_token]
       );
       session.activities = activitiesRes.rows;
+
+      // Calculate total session count for this unique human/visitor
+      let countRes;
+      if (session.email) {
+        countRes = await pool.query('SELECT COUNT(*) as count FROM visitor_sessions WHERE LOWER(email) = LOWER($1)', [session.email]);
+      } else if (session.ip_address) {
+        countRes = await pool.query('SELECT COUNT(*) as count FROM visitor_sessions WHERE ip_address = $1', [session.ip_address]);
+      } else {
+        countRes = await pool.query('SELECT COUNT(*) as count FROM visitor_sessions WHERE session_token = $1', [session.session_token]);
+      }
+      session.session_count = parseInt(countRes.rows[0].count) || 1;
     }
 
     res.json(sessions);

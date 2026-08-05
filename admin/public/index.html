@@ -708,7 +708,7 @@
 
       <!-- TOOLBAR -->
       <div class="analytics-toolbar">
-        <input type="date" id="analyticsDatePicker" title="Filter by date">
+        <input type="date" id="analyticsDatePicker" onchange="loadAnalytics()" title="Filter by date">
         <input type="text" id="analyticsEmailSearch" placeholder="Search by email..." style="width: 220px;">
         <select id="analyticsVisitorTypeFilter" onchange="loadAnalytics()" style="background: #111419; border: 1px solid var(--border); padding: 8px 14px; border-radius: 4px; color: #ffffff; font-size: 13px; font-family: var(--font-sans); outline: none; cursor: pointer;">
           <option value="all">⚡ All Visitor Sessions</option>
@@ -1175,9 +1175,11 @@
     let selectedSessionToken = null;
 
     // Fetch live KPI stats
-    async function loadAnalyticsStats() {
+    async function loadAnalyticsStats(dateVal) {
       try {
-        const res = await fetch(`${API_BASE}/analytics/stats`);
+        let url = `${API_BASE}/analytics/stats`;
+        if (dateVal) url += `?date=${dateVal}`;
+        const res = await fetch(url);
         if (!res.ok) return;
         const data = await res.json();
 
@@ -1192,8 +1194,7 @@
         document.getElementById('kpiAvgTime').textContent = data.avgTimeSeconds > 0 ? `${mins}m ${secs}s` : '0s';
 
         document.getElementById('kpiVerifiedCount').textContent = data.verifiedCount || '0';
-        const pct = data.totalSessions > 0 ? Math.round((data.verifiedCount / data.totalSessions) * 100) : 0;
-        document.getElementById('kpiVerifiedPct').textContent = data.totalSessions > 0 ? `${pct}% verified of ${data.totalSessions} total` : 'No sessions yet';
+        document.getElementById('kpiVerifiedPct').textContent = data.totalSessions > 0 ? `${data.totalSessions} total sessions recorded` : 'No sessions yet';
       } catch(e) {
         console.log('Analytics stats offline');
       }
@@ -1204,6 +1205,8 @@
       const dateVal = document.getElementById('analyticsDatePicker').value;
       const emailVal = document.getElementById('analyticsEmailSearch').value.trim();
       const typeFilter = document.getElementById('analyticsVisitorTypeFilter') ? document.getElementById('analyticsVisitorTypeFilter').value : 'all';
+
+      loadAnalyticsStats(dateVal);
 
       let url = `${API_BASE}/analytics/sessions?`;
       if (dateVal) url += `date=${dateVal}&`;
@@ -1249,9 +1252,15 @@
           : '📍 Location pending';
         const timeStr = new Date(sess.updated_at).toLocaleString('en-GB', { timeZone: 'Europe/Zagreb', hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' });
         const actCount = (sess.activities || []).length;
+        const countBadge = (sess.session_count || 1) > 1
+          ? `<span style="font-size: 10px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 7px; border-radius: 10px; font-weight: 600;">🔄 ${sess.session_count} Sessions</span>`
+          : `<span style="font-size: 10px; background: rgba(255, 255, 255, 0.05); color: var(--text-muted); border: 1px solid var(--border); padding: 2px 7px; border-radius: 10px;">1 Visit</span>`;
 
         card.innerHTML = `
-          <div class="session-email">${emailStr}</div>
+          <div class="session-email" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>${emailStr}</span>
+            ${countBadge}
+          </div>
           <div class="session-meta">
             <span>${flag}</span>
             <span>${timeStr}</span>
@@ -1291,13 +1300,14 @@
       const emailDisplay = session.email ? `<strong style="color: var(--accent);">${session.email}</strong>` : 'Anonymous Visitor';
       const geoDisplay = (session.city && session.country && session.country !== 'Localhost')
         ? `${session.city}, ${session.country}` : 'Location pending';
+      const totalVisitsStr = session.session_count ? `<span style="color: #38bdf8; font-weight: 600;">🔄 ${session.session_count} Total Visits / Sessions</span>` : '';
       
       header.innerHTML = `
         <h3>Session Timeline</h3>
         <div class="meta-row">
           <span>👤 ${emailDisplay}</span>
           <span>📍 ${geoDisplay}</span>
-          <span>🖥️ ${(session.user_agent || '').substring(0, 60)}...</span>
+          ${totalVisitsStr}
         </div>
         <div class="meta-row" style="margin-top: 6px;">
           <span style="font-family: var(--font-mono); font-size: 11px;">IP: ${session.ip_address || '—'}</span>
