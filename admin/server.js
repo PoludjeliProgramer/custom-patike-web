@@ -510,7 +510,9 @@ app.get('/api/analytics/sessions', async (req, res) => {
       )`;
     } else if (visitorType === 'abandoned_cart') {
       queryText += ` AND (
-        (email IS NOT NULL AND LOWER(email) IN (SELECT LOWER(email) FROM abandoned_carts)) OR
+        (email IS NOT NULL AND LOWER(email) IN (SELECT LOWER(email) FROM abandoned_carts WHERE email IS NOT NULL)) OR
+        (phone IS NOT NULL AND phone IN (SELECT phone FROM abandoned_carts WHERE phone IS NOT NULL)) OR
+        session_token IN (SELECT DISTINCT cart_token FROM abandoned_carts) OR
         session_token IN (SELECT DISTINCT session_token FROM visitor_activities WHERE action_type IN ('add_to_cart', 'initiate_checkout'))
       )`;
     }

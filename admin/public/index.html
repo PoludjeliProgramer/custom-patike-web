@@ -928,6 +928,8 @@
       if (tabId === 'analytics') {
         loadAnalyticsStats();
         loadAnalytics();
+      } else if (tabId === 'carts') {
+        fetchAbandonedCarts();
       }
     }
 
@@ -1150,15 +1152,28 @@
           const carts = await res.json();
           const tbody = document.getElementById('cartsBody');
           if (tbody) {
-            tbody.innerHTML = carts.map(c => `
-              <tr>
-                <td style="font-family: var(--font-mono); font-size: 11px;">${c.cart_token}</td>
-                <td style="font-weight: 500;">${c.email}</td>
-                <td>${(c.cart_data || []).map(i => `${i.title || 'Sneaker'} (${i.size || 'EU 42'}) x${i.qty || 1}`).join(', ') || 'Custom Footwear'}</td>
-                <td>${new Date(c.created_at || Date.now()).toLocaleDateString()}</td>
-                <td><span class="status-pill painting">${c.status || 'captured'}</span></td>
-              </tr>
-            `).join('');
+            if (carts.length === 0) {
+              tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: var(--text-muted);">No abandoned carts captured yet</td></tr>';
+              return;
+            }
+            tbody.innerHTML = carts.map(c => {
+              let items = [];
+              try {
+                items = typeof c.cart_data === 'string' ? JSON.parse(c.cart_data) : (c.cart_data || []);
+              } catch(e) {}
+              const itemsText = items.map(i => `${i.name || i.title || 'Custom Sneaker'} x${i.quantity || i.qty || 1} (€${i.price || 0})`).join(', ') || 'Custom Footwear';
+              const contactText = c.email || c.phone || 'Guest Visitor';
+              const dateText = new Date(c.updated_at || c.created_at || Date.now()).toLocaleString('en-GB', { timeZone: 'Europe/Zagreb' });
+              return `
+                <tr>
+                  <td style="font-family: var(--font-mono); font-size: 11px; color: var(--accent);">${c.cart_token}</td>
+                  <td style="font-weight: 500;">${contactText}</td>
+                  <td>${itemsText}</td>
+                  <td style="font-size: 12px; color: var(--text-muted);">${dateText}</td>
+                  <td><span class="status-pill painting">${c.status || 'captured'}</span></td>
+                </tr>
+              `;
+            }).join('');
           }
         }
       } catch (err) {

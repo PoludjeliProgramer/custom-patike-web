@@ -2,6 +2,10 @@
 
 let cart = JSON.parse(localStorage.getItem('custom_patike_cart')) || [];
 
+function getCart() {
+    return JSON.parse(localStorage.getItem('custom_patike_cart')) || cart || [];
+}
+
 function saveCart() {
     localStorage.setItem('custom_patike_cart', JSON.stringify(cart));
     updateCartUI();
@@ -16,6 +20,9 @@ function addToCart(item) {
     }
     saveCart();
     openCartDrawer();
+
+    // Auto-sync abandoned cart when item is added to bag
+    syncCartToAbandoned();
 }
 
 function removeFromCart(id) {
