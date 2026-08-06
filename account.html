@@ -406,6 +406,15 @@
   
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <link rel="alternate" hreflang="en" href="https://custompatike.com/account.html">
   <link rel="alternate" hreflang="x-default" href="https://custompatike.com/account.html">
   <link rel="alternate" hreflang="de" href="https://custompatike.com/de/account.html">
@@ -416,6 +425,7 @@
   <link rel="alternate" hreflang="ru" href="https://custompatike.com/ru/account.html">
   <link rel="alternate" hreflang="pl" href="https://custompatike.com/pl/account.html"></head>
 <body>
+  
   <!-- Top Announcement Bar -->
   <section class="aboveheadsection">
     <div data-delay="2000" data-animation="slide" class="slider w-slider" data-autoplay="true" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
@@ -448,6 +458,23 @@
           <a href="contact.html" class="navigation-item w-nav-link">CONTACT</a>
         </nav>
         <div class="navicons" style="display: flex; align-items: center; gap: 15px;">
+          <!-- Language Selector Dropdown -->
+          <div class="cp-lang-wrapper" style="position: relative; display: inline-block;">
+            <button id="cpLangToggleBtn" type="button" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #ffffff; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-family: sans-serif; font-weight: 500;" onclick="toggleLangMenu(event)">
+              <span id="cpCurrentLangLabel">🌐 EN</span>
+              <span style="font-size: 8px; opacity: 0.7;">▼</span>
+            </button>
+            <div id="cpLangDropdownMenu" style="display: none; position: absolute; right: 0; top: calc(100% + 6px); background: #111419; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 0; min-width: 130px; z-index: 9999; box-shadow: 0 10px 25px rgba(0,0,0,0.6);">
+              <a href="#" onclick="switchLanguage('en', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #fff; text-decoration: none; font-size: 12px;">🇬🇧 English</a>
+              <a href="#" onclick="switchLanguage('de', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇩🇪 Deutsch</a>
+              <a href="#" onclick="switchLanguage('hr', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇭🇷 Hrvatski</a>
+              <a href="#" onclick="switchLanguage('es', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇪🇸 Español</a>
+              <a href="#" onclick="switchLanguage('it', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇮🇹 Italiano</a>
+              <a href="#" onclick="switchLanguage('fr', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇫🇷 Français</a>
+              <a href="#" onclick="switchLanguage('ru', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇷🇺 Русский</a>
+              <a href="#" onclick="switchLanguage('pl', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇵🇱 Polski</a>
+            </div>
+          </div>
           <!-- Account Icon SVG -->
           <a href="account.html" class="account-button w-inline-block" aria-label="Account" title="My Account" style="color: currentColor; display: flex; align-items: center; justify-content: center; text-decoration: none;">
             <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -466,6 +493,7 @@
               <div class="w-commerce-commercecartopenlinkcount cart-quantity-2" id="cart-count">0</div>
             </a>
           </div>
+          <!-- Mobile Menu Button -->
           <div class="menu-button w-nav-button">
             <img src="assets/images/menu-icon.png" width="22" alt="" class="menu-icon">
           </div>
@@ -474,90 +502,7 @@
     </div>
   </div>
 
-  <div class="account-hero">
-    <h1 class="account-title">My Account</h1>
-    <p class="account-subtitle">Manage your custom sneaker orders, 1-of-1 commissions, and shipping details.</p>
-  </div>
-
-  <!-- AUTH GATE SECTION (Shown when user is logged out) -->
-  <div id="authGateSection" class="auth-gate-wrapper">
-    <div class="auth-card">
-      <div class="auth-tabs">
-        <button id="authTabLogin" class="auth-tab-btn active" onclick="switchAuthTab('login')">Sign In</button>
-        <button id="authTabRegister" class="auth-tab-btn" onclick="switchAuthTab('register')">Create Account</button>
-      </div>
-
-      <div id="authAlert" class="auth-alert"></div>
-
-      <!-- LOGIN FORM -->
-      <form id="formLogin" class="auth-form-content active" onsubmit="handleUserLogin(event)">
-        <div class="account-input-group" style="margin-bottom: 18px;">
-          <label>Email Address</label>
-          <input type="email" id="loginEmail" placeholder="name@example.com" required="" autocomplete="email">
-        </div>
-        <div class="account-input-group" style="margin-bottom: 24px;">
-          <label>Password</label>
-          <input type="password" id="loginPass" placeholder="Enter your password" required="" autocomplete="current-password">
-        </div>
-        <button type="submit" class="auth-submit-btn">Sign In to Account</button>
-      </form>
-
-      <!-- REGISTER FORM -->
-      <form id="formRegister" class="auth-form-content" onsubmit="handleUserRegister(event)">
-        <div class="account-form-grid" style="margin-bottom: 18px;">
-          <div class="account-input-group">
-            <label>First Name</label>
-            <input type="text" id="regFirstName" placeholder="Alexander" required="">
-          </div>
-          <div class="account-input-group">
-            <label>Last Name</label>
-            <input type="text" id="regLastName" placeholder="Novak" required="">
-          </div>
-        </div>
-        <div class="account-input-group" style="margin-bottom: 18px;">
-          <label>Email Address</label>
-          <input type="email" id="regEmail" placeholder="name@example.com" required="" autocomplete="email">
-        </div>
-        <div class="account-input-group" style="margin-bottom: 18px;">
-          <label>Phone Number</label>
-          <input type="tel" id="regPhone" placeholder="+385 91 234 5678">
-        </div>
-        <div class="account-input-group" style="margin-bottom: 24px;">
-          <label>Password (min. 6 characters)</label>
-          <input type="password" id="regPass" placeholder="Create password" required="" minlength="6" autocomplete="new-password">
-        </div>
-        <button type="submit" class="auth-submit-btn">Create Account</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ACCOUNT DASHBOARD SECTION (Shown when user is logged in) -->
-  <main id="accountDashboardSection" class="account-container" style="display: none;">
-    <!-- Sidebar Tabs -->
-    <aside class="account-nav">
-      <button class="account-nav-btn active" onclick="switchTab('orders', this)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-        Order History
-      </button>
-      <button class="account-nav-btn" onclick="switchTab('commissions', this)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg>
-        1-of-1 Commissions
-      </button>
-      <button class="account-nav-btn" onclick="switchTab('addresses', this)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-        Saved Addresses
-      </button>
-      <button class="account-nav-btn" onclick="switchTab('settings', this)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        Profile Settings
-      </button>
-      <button class="sign-out-btn" onclick="handleUserLogout()">
-        Sign Out
-      </button>
-    </aside>
-
-    <!-- Main Content -->
-    <section>
+  <section>
       <!-- TAB 1: ORDER HISTORY -->
       <div id="tab-orders" class="account-tab-content active">
         <div class="tab-header">
@@ -692,8 +637,9 @@
         </form>
       </div>
     </section>
-  </main>
+  
 
+  
   <!-- Footer -->
   <div class="section">
     <div class="container">
@@ -723,365 +669,7 @@
       <div class="text-block-2">© Copyright 2026 Custom Patike</div>
     </div>
   </div>
-
+  <!-- Cart script -->
   <script src="js/cart.js"></script>
-  <script>
-    const USER_API = '/api/user';
-    let currentUser = null;
-
-    function switchAuthTab(tab) {
-      document.getElementById('authTabLogin').classList.remove('active');
-      document.getElementById('authTabRegister').classList.remove('active');
-      document.getElementById('formLogin').classList.remove('active');
-      document.getElementById('formRegister').classList.remove('active');
-
-      if (tab === 'login') {
-        document.getElementById('authTabLogin').classList.add('active');
-        document.getElementById('formLogin').classList.add('active');
-      } else {
-        document.getElementById('authTabRegister').classList.add('active');
-        document.getElementById('formRegister').classList.add('active');
-      }
-      hideAuthAlert();
-    }
-
-    function switchTab(tabId, el) {
-      document.querySelectorAll('.account-nav-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.account-tab-content').forEach(content => content.classList.remove('active'));
-      
-      if (el) el.classList.add('active');
-      const target = document.getElementById('tab-' + tabId);
-      if (target) target.classList.add('active');
-    }
-
-    function showAuthAlert(msg, type = 'error') {
-      const el = document.getElementById('authAlert');
-      el.textContent = msg;
-      el.className = 'auth-alert ' + type;
-      el.style.display = 'block';
-    }
-
-    function hideAuthAlert() {
-      const el = document.getElementById('authAlert');
-      el.style.display = 'none';
-    }
-
-    function showAlert(elementId, msg, type = 'error') {
-      const el = document.getElementById(elementId);
-      if (!el) return;
-      el.textContent = msg;
-      el.className = 'auth-alert ' + type;
-      el.style.display = 'block';
-      setTimeout(() => { el.style.display = 'none'; }, 4000);
-    }
-
-    // ===== AUTH ACTIONS =====
-    async function handleUserLogin(e) {
-      e.preventDefault();
-      hideAuthAlert();
-      const email = document.getElementById('loginEmail').value.trim();
-      const password = document.getElementById('loginPass').value.trim();
-      const sessionToken = sessionStorage.getItem('cp_analytics_token');
-
-      try {
-        const res = await fetch(`${USER_API}/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, sessionToken })
-        });
-        const data = await res.json();
-
-        if (res.ok && data.token) {
-          localStorage.setItem('cp_auth_token', data.token);
-          localStorage.setItem('cp_user', JSON.stringify(data.user));
-          if (typeof cpMarkVerified === 'function') cpMarkVerified(data.user.email);
-          initUserAccount(data.token);
-        } else {
-          showAuthAlert(data.error || 'Invalid email or password.', 'error');
-        }
-      } catch (err) {
-        showAuthAlert('Unable to connect to authentication server.', 'error');
-      }
-    }
-
-    async function handleUserRegister(e) {
-      e.preventDefault();
-      hideAuthAlert();
-      const firstName = document.getElementById('regFirstName').value.trim();
-      const lastName = document.getElementById('regLastName').value.trim();
-      const email = document.getElementById('regEmail').value.trim();
-      const phone = document.getElementById('regPhone').value.trim();
-      const password = document.getElementById('regPass').value.trim();
-      const sessionToken = sessionStorage.getItem('cp_analytics_token');
-
-      try {
-        const res = await fetch(`${USER_API}/register`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, firstName, lastName, phone, sessionToken })
-        });
-        const data = await res.json();
-
-        if (res.ok && data.token) {
-          localStorage.setItem('cp_auth_token', data.token);
-          localStorage.setItem('cp_user', JSON.stringify(data.user));
-          if (typeof cpMarkVerified === 'function') cpMarkVerified(data.user.email);
-          initUserAccount(data.token);
-        } else {
-          showAuthAlert(data.error || 'Failed to create account.', 'error');
-        }
-      } catch (err) {
-        showAuthAlert('Unable to connect to authentication server.', 'error');
-      }
-    }
-
-    function handleUserLogout() {
-      localStorage.removeItem('cp_auth_token');
-      localStorage.removeItem('cp_user');
-      window.location.reload();
-    }
-
-    // ===== DATA FETCHING =====
-    async function initUserAccount(token) {
-      try {
-        const res = await fetch(`${USER_API}/me`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (!res.ok) {
-          handleUserLogout();
-          return;
-        }
-        const data = await res.json();
-        currentUser = data.user;
-
-        // Show Dashboard, Hide Auth Gate
-        document.getElementById('authGateSection').style.display = 'none';
-        document.getElementById('accountDashboardSection').style.display = 'grid';
-
-        // Update UI greetings & form inputs
-        document.querySelector('.account-title').textContent = `Welcome, ${currentUser.first_name || 'Collector'}`;
-
-        // Populate Address Form
-        document.getElementById('addrFirstName').value = currentUser.first_name || '';
-        document.getElementById('addrLastName').value = currentUser.last_name || '';
-        document.getElementById('addrStreet').value = currentUser.address || '';
-        document.getElementById('addrCity').value = currentUser.city || '';
-        document.getElementById('addrPostalCode').value = currentUser.postal_code || '';
-        if (currentUser.country) document.getElementById('addrCountry').value = currentUser.country;
-
-        // Populate Profile Form
-        document.getElementById('profFirstName').value = currentUser.first_name || '';
-        document.getElementById('profLastName').value = currentUser.last_name || '';
-        document.getElementById('profEmail').value = currentUser.email || '';
-        document.getElementById('profPhone').value = currentUser.phone || '';
-
-        // Load Orders & Commissions
-        loadUserOrders(token);
-        loadUserCommissions(token);
-
-      } catch (err) {
-        document.getElementById('authGateSection').style.display = 'block';
-        document.getElementById('accountDashboardSection').style.display = 'none';
-      }
-    }
-
-    async function loadUserOrders(token) {
-      try {
-        const res = await fetch(`${USER_API}/orders`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        const orders = data.orders || [];
-
-        document.getElementById('ordersCountBadge').textContent = `${orders.length} Order${orders.length !== 1 ? 's' : ''}`;
-        const container = document.getElementById('ordersListContainer');
-
-        if (orders.length === 0) {
-          container.innerHTML = `
-            <div style="padding: 40px 20px; text-align: center; color: #888;">
-              <p style="font-size: 15px; margin-bottom: 15px;">You have not placed any orders yet.</p>
-              <a href="shop.html" class="save-btn" style="text-decoration: none; display: inline-block;">Explore Collection</a>
-            </div>
-          `;
-          return;
-        }
-
-        container.innerHTML = orders.map(o => {
-          let statusClass = 'in-production';
-          if ((o.status || '').toLowerCase().includes('shipped')) statusClass = 'shipped';
-          if ((o.status || '').toLowerCase().includes('delivered')) statusClass = 'delivered';
-
-          const itemsHtml = (o.items || []).map(i => `
-            <div class="order-body" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #f5f5f5;">
-              <img src="${i.image_url || 'assets/images/products/nike-air-force-1-bmw.jpg'}" alt="${i.product_name}" class="order-img">
-              <div class="order-info">
-                <div class="order-prod-title">${i.product_name}</div>
-                <div class="order-prod-meta">Size: ${i.size || 'EU 42'} | Quantity: ${i.quantity || 1}</div>
-              </div>
-              <div class="order-price">€${parseFloat(i.price * (i.quantity || 1)).toFixed(2)}</div>
-            </div>
-          `).join('');
-
-          return `
-            <div class="order-card">
-              <div class="order-header">
-                <div>
-                  <div class="order-id">${o.order_number || ('Order #' + o.id)}</div>
-                  <div class="order-date">Placed on ${new Date(o.created_at).toLocaleDateString()}</div>
-                </div>
-                <span class="status-badge ${statusClass}">${o.status || 'Received'}</span>
-              </div>
-              ${itemsHtml || `<div class="order-price">Total: €${parseFloat(o.total || 0).toFixed(2)}</div>`}
-            </div>
-          `;
-        }).join('');
-
-      } catch (err) {
-        console.error('Failed to load orders', err);
-      }
-    }
-
-    async function loadUserCommissions(token) {
-      try {
-        const res = await fetch(`${USER_API}/commissions`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        const commissions = data.commissions || [];
-        const container = document.getElementById('commissionsListContainer');
-
-        if (commissions.length === 0) {
-          container.innerHTML = `
-            <div style="padding: 30px; text-align: center; color: #888;">
-              No active 1-of-1 custom commission requests found.
-            </div>
-          `;
-          return;
-        }
-
-        container.innerHTML = commissions.map(c => `
-          <div class="order-card">
-            <div class="order-header">
-              <div>
-                <div class="order-id">Ticket #${c.ticket_number || c.id}</div>
-                <div class="order-date">Submitted on ${new Date(c.created_at).toLocaleDateString()}</div>
-              </div>
-              <span class="status-badge in-production">${c.status || 'Pending Review'}</span>
-            </div>
-            <div style="font-size: 14px; line-height: 1.6; color: #444;">
-              <p style="margin-bottom: 8px;"><strong>Concept Title:</strong> ${c.concept_title || 'Bespoke Footwear'}</p>
-              ${c.atelier_notes ? `<p style="margin-bottom: 0; color: #777;"><strong>Atelier Notes:</strong> ${c.atelier_notes}</p>` : ''}
-            </div>
-          </div>
-        `).join('');
-
-      } catch (err) {}
-    }
-
-    // ===== FORM SAVES =====
-    async function handleAddressSave(e) {
-      e.preventDefault();
-      const token = localStorage.getItem('cp_auth_token');
-      if (!token) return;
-
-      const profileData = {
-        firstName: document.getElementById('addrFirstName').value.trim(),
-        lastName: document.getElementById('addrLastName').value.trim(),
-        address: document.getElementById('addrStreet').value.trim(),
-        city: document.getElementById('addrCity').value.trim(),
-        postalCode: document.getElementById('addrPostalCode').value.trim(),
-        country: document.getElementById('addrCountry').value
-      };
-
-      try {
-        const res = await fetch(`${USER_API}/profile`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify(profileData)
-        });
-        if (res.ok) {
-          showAlert('addressAlert', 'Shipping address updated successfully!', 'success');
-        } else {
-          showAlert('addressAlert', 'Failed to update address.', 'error');
-        }
-      } catch (err) {
-        showAlert('addressAlert', 'Network error.', 'error');
-      }
-    }
-
-    async function handleProfileSave(e) {
-      e.preventDefault();
-      const token = localStorage.getItem('cp_auth_token');
-      if (!token) return;
-
-      const profileData = {
-        firstName: document.getElementById('profFirstName').value.trim(),
-        lastName: document.getElementById('profLastName').value.trim(),
-        phone: document.getElementById('profPhone').value.trim()
-      };
-
-      try {
-        const res = await fetch(`${USER_API}/profile`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify(profileData)
-        });
-        if (res.ok) {
-          showAlert('profileAlert', 'Profile updated successfully!', 'success');
-        } else {
-          showAlert('profileAlert', 'Failed to update profile.', 'error');
-        }
-      } catch (err) {
-        showAlert('profileAlert', 'Network error.', 'error');
-      }
-    }
-
-    async function handlePasswordChange(e) {
-      e.preventDefault();
-      const token = localStorage.getItem('cp_auth_token');
-      if (!token) return;
-
-      const currentPassword = document.getElementById('passCurrent').value.trim();
-      const newPassword = document.getElementById('passNew').value.trim();
-      const confirmPassword = document.getElementById('passConfirm').value.trim();
-
-      if (newPassword !== confirmPassword) {
-        showAlert('passAlert', 'New passwords do not match.', 'error');
-        return;
-      }
-
-      try {
-        const res = await fetch(`${USER_API}/password`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({ currentPassword, newPassword })
-        });
-        const data = await res.json();
-
-        if (res.ok && data.success) {
-          showAlert('passAlert', 'Password updated successfully!', 'success');
-          document.getElementById('passCurrent').value = '';
-          document.getElementById('passNew').value = '';
-          document.getElementById('passConfirm').value = '';
-        } else {
-          showAlert('passAlert', data.error || 'Failed to update password.', 'error');
-        }
-      } catch (err) {
-        showAlert('passAlert', 'Network error.', 'error');
-      }
-    }
-
-    // INITIALIZATION
-    document.addEventListener('DOMContentLoaded', () => {
-      const token = localStorage.getItem('cp_auth_token');
-      if (token) {
-        initUserAccount(token);
-      } else {
-        document.getElementById('authGateSection').style.display = 'block';
-        document.getElementById('accountDashboardSection').style.display = 'none';
-      }
-    });
-  </script>
-
 
 </body></html>

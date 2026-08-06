@@ -114,8 +114,8 @@ const webflowFooterTemplate = `
 // 1. Skip build-products.js since we already manually updated it.
 
 
-// 2. Update specific pages only
-const files = ['aboutus.html', 'contact.html'];
+// 2. Update all root HTML pages
+const files = ['index.html', 'shop.html', 'aboutus.html', 'contact.html', 'account.html', 'checkout.html'];
 const headerToInject = webflowHeaderTemplate.replace(/\{prefix\}/g, '');
 const footerToInject = webflowFooterTemplate.replace(/\{prefix\}/g, '');
 

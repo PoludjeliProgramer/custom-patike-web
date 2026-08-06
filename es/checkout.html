@@ -234,6 +234,15 @@
   
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <link rel="alternate" hreflang="en" href="https://custompatike.com/checkout.html">
   <link rel="alternate" hreflang="x-default" href="https://custompatike.com/checkout.html">
   <link rel="alternate" hreflang="de" href="https://custompatike.com/de/checkout.html">
@@ -244,6 +253,7 @@
   <link rel="alternate" hreflang="ru" href="https://custompatike.com/ru/checkout.html">
   <link rel="alternate" hreflang="pl" href="https://custompatike.com/pl/checkout.html"></head>
 <body data-lang="es">
+  
   
   <!-- Top Announcement Bar -->
   <section class="aboveheadsection">
@@ -277,6 +287,23 @@
           <a href="/es/contact.html" class="navigation-item w-nav-link">CONTACT</a>
         </nav>
         <div class="navicons" style="display: flex; align-items: center; gap: 15px;">
+          <!-- Language Selector Dropdown -->
+          <div class="cp-lang-wrapper" style="position: relative; display: inline-block;">
+            <button id="cpLangToggleBtn" type="button" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #ffffff; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-family: sans-serif; font-weight: 500;" onclick="toggleLangMenu(event)">
+              <span id="cpCurrentLangLabel">🌐 EN</span>
+              <span style="font-size: 8px; opacity: 0.7;">▼</span>
+            </button>
+            <div id="cpLangDropdownMenu" style="display: none; position: absolute; right: 0; top: calc(100% + 6px); background: #111419; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 0; min-width: 130px; z-index: 9999; box-shadow: 0 10px 25px rgba(0,0,0,0.6);">
+              <a href="#" onclick="switchLanguage('en', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #fff; text-decoration: none; font-size: 12px;">🇬🇧 English</a>
+              <a href="#" onclick="switchLanguage('de', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇩🇪 Deutsch</a>
+              <a href="#" onclick="switchLanguage('hr', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇭🇷 Hrvatski</a>
+              <a href="#" onclick="switchLanguage('es', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇪🇸 Español</a>
+              <a href="#" onclick="switchLanguage('it', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇮🇹 Italiano</a>
+              <a href="#" onclick="switchLanguage('fr', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇫🇷 Français</a>
+              <a href="#" onclick="switchLanguage('ru', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇷🇺 Русский</a>
+              <a href="#" onclick="switchLanguage('pl', event)" style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; color: #ccc; text-decoration: none; font-size: 12px;">🇵🇱 Polski</a>
+            </div>
+          </div>
           <!-- Account Icon SVG -->
           <a href="/es/account.html" class="account-button w-inline-block" aria-label="Account" title="My Account" style="color: currentColor; display: flex; align-items: center; justify-content: center; text-decoration: none;">
             <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -304,10 +331,7 @@
     </div>
   </div>
 
-  <div class="checkout-container">
-    <div class="checkout-form">
-      <form id="payment-form">
-        <section>
+  <section>
           <h2 style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Información de contacto</h2>
           <div class="form-row">
             <div class="form-group">
@@ -339,8 +363,8 @@
         <button type="submit" id="submit-order-btn" class="place-order-btn" style="width: 100%; background: #000; color: #fff; border: none; padding: 18px; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border-radius: 4px; transition: background 0.2s;">
           <span id="button-text">Pagar ahora</span>
         </button>
-      </form>
-    </div>
+      
+    
     
     <div class="checkout-summary">
       <h2>Resumen del pedido</h2>
@@ -362,8 +386,9 @@
         <span id="checkout-total">€0.00</span>
       </div>
     </div>
-  </div>
+  
 
+  
   <!-- Footer -->
   <div class="section">
     <div class="container">
@@ -393,163 +418,7 @@
       <div class="text-block-2">© Copyright 2026 Custom Patike</div>
     </div>
   </div>
-
-  <!-- Scripts -->
+  <!-- Cart script -->
   <script src="/js/cart.js"></script>
-  <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    const STRIPE_PK = 'pk_live_51QneNpJtzqrzsfgAjpbhqDsU0Qs1qgAcfzjbeI1mRobhYJjVMRisgduZj4vfgsHG7mSJDLmvhpT5ITa6ZUmnv9hF00DVo8YavY';
-    const stripe = Stripe(STRIPE_PK);
-    let elements;
-    let addressElement;
-    let paymentIntentId = null;
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      const phoneInput = document.getElementById('checkout-phone');
-      const emailInput = document.getElementById('checkout-email');
-      const guestPhone = localStorage.getItem('cp_guest_phone');
-      const guestEmail = localStorage.getItem('cp_guest_email');
-
-      let userObj = null;
-      try {
-        userObj = JSON.parse(localStorage.getItem('cp_user') || localStorage.getItem('user') || 'null');
-      } catch(e) {}
-
-      if (phoneInput) phoneInput.value = (userObj && userObj.phone) ? userObj.phone : (guestPhone || '');
-      if (emailInput) emailInput.value = (userObj && userObj.email) ? userObj.email : (guestEmail || '');
-
-      const cart = typeof getCart === 'function' ? getCart() : JSON.parse(localStorage.getItem('cp_cart') || '[]');
-      if (!cart || cart.length === 0) {
-        document.querySelector('.checkout-container').innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;"><h2>Your shopping bag is empty</h2><p style="margin-top: 15px;"><a href="shop.html" style="color: #000; font-weight: 600;">Return to Shop &rarr;</a></p></div>';
-        return;
-      }
-
-      // Create PaymentIntent
-      try {
-        const response = await fetch('/api/checkout/create-intent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            items: cart,
-            email: emailInput ? emailInput.value : null,
-            phone: phoneInput ? phoneInput.value : null
-          })
-        });
-
-        const data = await response.json();
-        if (data.error) throw new Error(data.error);
-
-        const clientSecret = data.clientSecret;
-        paymentIntentId = clientSecret.split('_secret_')[0];
-
-        // Update summary totals
-        document.getElementById('checkout-subtotal').textContent = `€${data.subtotal.toFixed(2)}`;
-        document.getElementById('checkout-shipping').textContent = data.shippingFee === 0 ? 'Complimentary' : `€${data.shippingFee.toFixed(2)}`;
-        document.getElementById('checkout-total').textContent = `€${data.total.toFixed(2)}`;
-
-        const appearance = {
-          theme: 'stripe',
-          variables: {
-            fontFamily: 'Poppins, sans-serif',
-            borderRadius: '4px',
-            colorPrimary: '#000000',
-          }
-        };
-
-        elements = stripe.elements({ clientSecret, appearance });
-
-        // Mount Payment Element
-        const paymentElement = elements.create('payment');
-        paymentElement.mount('#payment-element');
-
-        // Mount Address Element
-        const addressOptions = {
-          mode: 'shipping',
-          fields: { phone: 'always' },
-          validation: { phone: { required: 'always' } }
-        };
-
-        if (userObj) {
-          addressOptions.defaultValues = {
-            name: `${userObj.first_name || ''} ${userObj.last_name || ''}`.trim(),
-            phone: userObj.phone || guestPhone || '',
-            address: {
-              line1: userObj.address || '',
-              city: userObj.city || '',
-              postal_code: userObj.postal_code || '',
-              country: userObj.country || 'HR'
-            }
-          };
-        }
-
-        addressElement = elements.create('address', addressOptions);
-        addressElement.mount('#address-element');
-
-        // Listen for country changes to update shipping calculation dynamically
-        let lastCountry = null;
-        addressElement.on('change', async (event) => {
-          if (event.value && event.value.address && event.value.address.country) {
-            const country = event.value.address.country;
-            if (country === lastCountry) return;
-            lastCountry = country;
-
-            try {
-              const res = await fetch('/api/checkout/update-intent', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ paymentIntentId, country, items: cart })
-              });
-              if (res.ok) {
-                const resData = await res.json();
-                document.getElementById('checkout-shipping').textContent = resData.shippingFee === 0 ? 'Complimentary' : `€${resData.shippingFee.toFixed(2)}`;
-                document.getElementById('checkout-total').textContent = `€${resData.total.toFixed(2)}`;
-              }
-            } catch(e) {}
-          }
-        });
-
-      } catch(err) {
-        console.error('Stripe initialization error:', err);
-        const msg = document.getElementById('payment-message');
-        if (msg) {
-          msg.textContent = 'Failed to load payment system. Please try again.';
-          msg.style.display = 'block';
-        }
-      }
-    });
-
-    document.getElementById('payment-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const submitBtn = document.getElementById('submit-order-btn');
-      const btnText = document.getElementById('button-text');
-      const msg = document.getElementById('payment-message');
-      msg.style.display = 'none';
-
-      submitBtn.disabled = true;
-      btnText.textContent = 'Processing Payment...';
-
-      try {
-        const { error } = await stripe.confirmPayment({
-          elements,
-          confirmParams: {
-            return_url: `${window.location.origin}/confirmation.html`,
-          }
-        });
-
-        if (error) {
-          msg.textContent = error.message || 'An error occurred with your payment.';
-          msg.style.display = 'block';
-          submitBtn.disabled = false;
-          btnText.textContent = 'Pay Now';
-        }
-      } catch(err) {
-        msg.textContent = err.message || 'Payment submission failed.';
-        msg.style.display = 'block';
-        submitBtn.disabled = false;
-        btnText.textContent = 'Pay Now';
-      }
-    });
-  </script>
-
 
 </body></html>
