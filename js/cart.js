@@ -345,19 +345,19 @@ function syncCartToAbandoned(email, phone, items) {
     }).catch(() => {});
 }
 
-// ===== LANGUAGE SWITCHER HELPERS =====
+// ===== LANGUAGE SWITCHER HELPERS (Vandal Made Style) =====
 function toggleLangMenu(e) {
     if (e) e.stopPropagation();
     const menu = document.getElementById('cpLangDropdownMenu');
     if (menu) {
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        menu.classList.toggle('open');
     }
 }
 
 document.addEventListener('click', (e) => {
     const menu = document.getElementById('cpLangDropdownMenu');
-    if (menu && !menu.contains(e.target) && e.target.id !== 'cpLangToggleBtn') {
-        menu.style.display = 'none';
+    if (menu && !menu.contains(e.target) && !e.target.closest('.lang-switcher-btn')) {
+        menu.classList.remove('open');
     }
 });
 
