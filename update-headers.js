@@ -118,7 +118,7 @@ const webflowFooterTemplate = `
 
 
 // 2. Update all root HTML pages
-const files = ['index.html', 'shop.html', 'aboutus.html', 'contact.html', 'account.html', 'checkout.html'];
+const files = ['index.html', 'shop.html', 'aboutus.html', 'contact.html', 'account.html'];
 const headerToInject = webflowHeaderTemplate.replace(/\{prefix\}/g, '');
 const footerToInject = webflowFooterTemplate.replace(/\{prefix\}/g, '');
 
