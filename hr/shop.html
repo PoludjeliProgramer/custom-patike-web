@@ -1,0 +1,544 @@
+<!DOCTYPE html><html lang="hr"><head>
+
+  <!-- Suppress crypto wallet extension errors in console -->
+  <script>
+    // Advanced Crypto Wallet Silencer
+    const originalConsoleError = console.error;
+    const originalConsoleWarn = console.warn;
+    
+    console.error = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('Channel secret not available') ||
+        arguments[0].includes('Extension context invalidated') ||
+        arguments[0].includes('MetaMask') ||
+        arguments[0].includes('ethereum')
+      )) { return; }
+      
+      if (arguments[0] && arguments[0] instanceof Error && (
+        arguments[0].message.includes('Channel secret not available')
+      )) { return; }
+      
+      originalConsoleError.apply(console, arguments);
+    };
+    
+    console.warn = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('orphaned data for stream') ||
+        arguments[0].includes('MaxListenersExceededWarning')
+      )) { return; }
+      originalConsoleWarn.apply(console, arguments);
+    };
+    
+    window.addEventListener('error', function(e) {
+      if (e.filename && (e.filename.includes('evmAsk.js') || e.filename.includes('inpage.js') || e.filename.includes('contentscript.js'))) {
+        e.preventDefault();
+        e.stopPropagation();
+        return true;
+      }
+      if (e.message && e.message.includes('Cannot redefine property: ethereum')) {
+        e.preventDefault();
+        return true;
+      }
+    }, true);
+    
+    window.addEventListener('unhandledrejection', function(e) {
+      if (e.reason && e.reason.message && e.reason.message.includes('Channel secret not available')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kupovina Ručno Oslikanih Tenisica &amp; Kožnih Jakni | Custom Patike</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    WebFont.load({ google: { families: ["Montserrat:100,200,300,400,500,600,700,800,900","Great Vibes:400","Exo:100,200,300,400,500,600,700,800,900","Lato:100,300,400,700,900","League Spartan:300,400,500,600,700","Poppins:300,400,500,600,700"] }});
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/vandal-style.css">
+  <style>
+    .shop-collection-section {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 60px 30px 100px;
+    }
+    .shop-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .shop-header h2 {
+      font-size: 36px;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    .shop-header p {
+      font-size: 15px;
+      color: #777;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .products-catalog-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 48px 30px !important;
+      width: 100% !important;
+    }
+    @media (max-width: 1024px) {
+      .products-catalog-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 36px 20px !important;
+      }
+    }
+    @media (max-width: 600px) {
+      .products-catalog-grid {
+        grid-template-columns: 1fr !important;
+        gap: 30px !important;
+      }
+    }
+  </style>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://custompatike.com/hr/shop.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="alternate" hreflang="en" href="https://custompatike.com/shop.html">
+  <link rel="alternate" hreflang="x-default" href="https://custompatike.com/shop.html">
+  <link rel="alternate" hreflang="de" href="https://custompatike.com/de/shop.html">
+  <link rel="alternate" hreflang="hr" href="https://custompatike.com/hr/shop.html">
+  <link rel="alternate" hreflang="es" href="https://custompatike.com/es/shop.html">
+  <link rel="alternate" hreflang="it" href="https://custompatike.com/it/shop.html">
+  <link rel="alternate" hreflang="fr" href="https://custompatike.com/fr/shop.html">
+  <link rel="alternate" hreflang="ru" href="https://custompatike.com/ru/shop.html">
+  <link rel="alternate" hreflang="pl" href="https://custompatike.com/pl/shop.html"></head>
+<body data-lang="hr">
+
+  <!-- Top Announcement Bar -->
+  <section class="aboveheadsection">
+    <div data-delay="2000" data-animation="slide" class="slider w-slider" data-autoplay="true" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
+      <div class="w-slider-mask">
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div class="shippingworldwide">Shipping worldwide!</div>
+            <a href="/hr/shop.html" class="shop-now">KUPI ODMAH!</a>
+          </div>
+        </div>
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div>100% Handmade &amp; Luxury Sneakers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation -->
+  <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navigation w-nav">
+    <div class="navigation-items">
+      <a href="/hr/index.html" class="logo-link-image w-nav-brand">
+        <img src="/assets/images/logo.png" width="50" alt="" class="logo-image">
+      </a>
+      <div class="navigation-wrap">
+        <nav role="navigation" class="navigation-items w-nav-menu">
+          <a href="/hr/shop.html" class="navigation-item w-nav-link">SHOP</a>
+          <a href="/hr/aboutus.html" class="navigation-item w-nav-link">ABOUT US</a>
+          <a href="/hr/contact.html" class="navigation-item w-nav-link">CONTACT</a>
+        </nav>
+        <div class="navicons" style="display: flex; align-items: center; gap: 15px;">
+          <!-- Account Icon SVG -->
+          <a href="/hr/account.html" class="account-button w-inline-block" aria-label="Account" title="My Account" style="color: currentColor; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+            <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+          <!-- Cart Icon SVG -->
+          <div class="w-commerce-commercecartwrapper" data-node-type="commerce-cart-wrapper">
+            <a class="w-commerce-commercecartopenlink cart-button w-inline-block" role="button" aria-haspopup="dialog" aria-label="Open cart" href="#" id="cart-icon-btn" style="color: currentColor; display: flex; align-items: center; justify-content: center;">
+              <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+              <div class="w-commerce-commercecartopenlinkcount cart-quantity-2" id="cart-count">0</div>
+            </a>
+          </div>
+          <!-- Mobile Menu Button -->
+          <div class="menu-button w-nav-button">
+            <img src="/assets/images/menu-icon.png" width="22" alt="" class="menu-icon">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <main>
+    <section class="shop-collection-section">
+      <div class="shop-header">
+        <h2>The Custom Collection</h2>
+        <p>Hand-painted, UV-sealed 1-of-1 bespoke sneakers</p>
+      </div>
+      <div class="products-catalog-grid">
+        
+        <a href="/hr/product/air-max-tn-custom-bmw-m.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/air-max-tn-custom-bmw-m.jpg" alt="BMW Air Max TN Triple Black Custom" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">BMW Air Max TN Triple Black Custom</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">240 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-ghost-face-customs.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-ghost-face-customs.jpg" alt="Nike Air Force 1 Ghost Face" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Ghost Face</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€179</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-bmw.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-bmw.jpg" alt="Nike Air Force 1 BMW" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 BMW</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€170</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-sport-flame.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-sport-flame.jpg" alt="Nike Air Force 1 Sport Flame" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Sport Flame</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€169</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-stitch.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-stitch.jpg" alt="Nike Air Force 1 Stitch" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Stitch</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€179</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-ninja-turtles.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-ninja-turtles.jpg" alt="Nike Air Force 1 Ninja Turtles" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Ninja Turtles</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€209</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-bmw-e46.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-bmw-e46.jpg" alt="Nike Air Force 1 BMW E46" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 BMW E46</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€249</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-outlaw-apex.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-outlaw-apex.jpg" alt="Nike Air Force 1 Outlaw Apex" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Outlaw Apex</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€179</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-golf-r.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-golf-r.jpg" alt="Nike Air Force 1 Golf R" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Golf R</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€179</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-golf-gtd.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-golf-gtd.jpg" alt="Nike Air Force 1 Golf GTD" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Golf GTD</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">190 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-bmw-splatter.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-bmw-splatter.jpg" alt="Nike Air Force 1 BMW Splatter" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 BMW Splatter</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">180 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-travis-scott.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-travis-scott.jpg" alt="Nike Air Force 1 Travis Scott" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Travis Scott</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€250</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/golf-gti-clubsport---nike-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/golf-gti-clubsport---nike-air-force-1.jpg" alt="Golf GTI Clubsport - Nike Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Golf GTI Clubsport - Nike Air Force 1</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€210</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/trapstar-x-central-cee-nike-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/trapstar-x-central-cee-nike-air-force-1.jpg" alt="Trapstar x Central Cee Nike Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Trapstar x Central Cee Nike Air Force 1</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">190 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-gol-gti.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-gol-gti.jpg" alt="Nike Air Force 1 Golf GTI" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Golf GTI</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">180 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/air-force-1-blue-splatter.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/air-force-1-blue-splatter.jpg" alt="Air Force 1 Blue Splatter" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Air Force 1 Blue Splatter</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">190 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/porsche-cayenne-air-force-1-custom.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/porsche-cayenne-air-force-1-custom.jpg" alt="Porsche Cayenne Air Force 1 Custom" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Porsche Cayenne Air Force 1 Custom</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">190 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/jujutsu-kaisen-air-force-1-custom.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/jujutsu-kaisen-air-force-1-custom.jpeg" alt="Jujutsu Kaisen Air Force 1 Custom" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Jujutsu Kaisen Air Force 1 Custom</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">200 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/aryton-senna-f1-air-force-1-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/aryton-senna-f1-air-force-1-1.jpg" alt="Aryton Senna F1 Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Aryton Senna F1 Air Force 1</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">200 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-supra-fnf.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-supra-fnf.jpg" alt="Nike Air Force 1 Brian O' Conner's Toyota Supra Fast &amp; Furious" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Brian O' Conner's Toyota Supra Fast &amp; Furious</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€189</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-audi-rs.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-audi-rs.jpg" alt="Nike Air Force 1 - Audi RS" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 - Audi RS</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€170</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/lui-vuitton-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/lui-vuitton-air-force-1.jpg" alt="Lui Vuitton Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Lui Vuitton Air Force 1</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">190 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/bmw-m-air-force-1-custom.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/bmw-m-air-force-1-custom.jpg" alt="BMW M Air force 1 custom" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">BMW M Air force 1 custom</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">180 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/barcelona-fc-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/barcelona-fc-air-force-1.jpg" alt="BARCELONA FC Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">BARCELONA FC Air Force 1</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€210</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/barcelona-fc-air-force-1-v2.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/barcelona-fc-air-force-1-v2.jpg" alt="BARCELONA FC Air Force 1 V2" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">BARCELONA FC Air Force 1 V2</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">190 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/bayern-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/bayern-air-force-1.jpg" alt="Bayern air force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Bayern air force 1</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">190 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-mercedes-amg.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-mercedes-amg.jpg" alt="Nike Air Force 1 Mercedes AMG" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Mercedes AMG</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€170</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/fight-club-air-force-1.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/fight-club-air-force-1.jpg" alt="Fight Club Air Force 1" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Fight Club Air Force 1</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">230 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/air-force-1-cartoon-sketch-custom.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/air-force-1-cartoon-sketch-custom.jpg" alt="Air Force 1 Cartoon Sketch Custom" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Air Force 1 Cartoon Sketch Custom</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">240 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/nike-air-force-1-audi-splatter.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/nike-air-force-1-audi-splatter.jpg" alt="Nike Air Force 1 Audi Splatter" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">Nike Air Force 1 Audi Splatter</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">180 €</span>
+          </div>
+        </a>
+
+        <a href="/hr/product/bmw-tn-air-max-custom.html" class="catalog-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; position: relative;">
+          <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0; background: #f8f8f8; margin-bottom: 16px; position: relative;">
+            <img src="/assets/images/products/bmw-tn-air-max-custom.jpg" alt="BMW Tn Air Max Custom" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 500; color: #111; margin: 0; line-height: 1.3; font-family: var(--font-sans);">BMW Tn Air Max Custom</h3>
+            <span style="font-size: 16px; font-weight: 600; color: #000;">€250</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div class="section">
+    <div class="container">
+      <div class="w-layout-grid footer">
+        <div class="columns w-row">
+          <div class="column-2 w-col w-col-6">
+            <a href="/hr/index.html" class="logo-link-image w-nav-brand">
+              <img src="/assets/images/logo.png" width="150" alt="" class="logo-image">
+            </a>
+            <div>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="/assets/images/tiktok.png" alt="" class="image">
+              </a>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="/assets/images/instagram.png" alt="" class="image">
+              </a>
+            </div>
+          </div>
+          <div class="column w-col w-col-6">
+            <div class="getintouchdiv">
+              <h1 class="getintouch">Customer Support</h1>
+              <div class="infofooter">patikecustom@gmail.com<br>Dubrovnik 20236, Croatia<br></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-block-2">© Copyright 2026 Custom Patike</div>
+    </div>
+  </div>
+  <!-- Cart script -->
+  <script src="/js/cart.js"></script>
+
+</body></html>

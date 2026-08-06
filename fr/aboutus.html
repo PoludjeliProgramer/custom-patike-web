@@ -1,0 +1,446 @@
+<!DOCTYPE html><html lang="fr"><head>
+
+  <!-- Suppress crypto wallet extension errors in console -->
+  <script>
+    // Advanced Crypto Wallet Silencer
+    const originalConsoleError = console.error;
+    const originalConsoleWarn = console.warn;
+    
+    console.error = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('Channel secret not available') ||
+        arguments[0].includes('Extension context invalidated') ||
+        arguments[0].includes('MetaMask') ||
+        arguments[0].includes('ethereum')
+      )) { return; }
+      
+      if (arguments[0] && arguments[0] instanceof Error && (
+        arguments[0].message.includes('Channel secret not available')
+      )) { return; }
+      
+      originalConsoleError.apply(console, arguments);
+    };
+    
+    console.warn = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('orphaned data for stream') ||
+        arguments[0].includes('MaxListenersExceededWarning')
+      )) { return; }
+      originalConsoleWarn.apply(console, arguments);
+    };
+    
+    window.addEventListener('error', function(e) {
+      if (e.filename && (e.filename.includes('evmAsk.js') || e.filename.includes('inpage.js') || e.filename.includes('contentscript.js'))) {
+        e.preventDefault();
+        e.stopPropagation();
+        return true;
+      }
+      if (e.message && e.message.includes('Cannot redefine property: ethereum')) {
+        e.preventDefault();
+        return true;
+      }
+    }, true);
+    
+    window.addEventListener('unhandledrejection', function(e) {
+      if (e.reason && e.reason.message && e.reason.message.includes('Channel secret not available')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+
+  <meta charset="UTF-8">
+  <title>About Us | Custom Patike</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    WebFont.load({  google: {    families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Great Vibes:400","Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic","League Spartan:300,400,500,600,700","Poppins:300,400,500,600,700"]  }});
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/vandal-style.css">
+  <script src="/js/pixels.js" defer=""></script>
+  <style>
+    .manifesto-header {
+      padding: 120px 40px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .manifesto-title {
+      font-family: var(--font-serif);
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.2;
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 30px;
+    }
+
+    .manifesto-content {
+      padding: 100px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 100px;
+      align-items: center;
+    }
+    .manifesto-text h2 {
+      font-family: var(--font-serif);
+      font-size: 42px;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+    .manifesto-text p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      font-size: 15px;
+      margin-bottom: 25px;
+    }
+    .manifesto-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background-size: cover;
+      background-position: center;
+      background-color: #f4f4f4;
+      border-radius: 8px;
+    }
+    .manifesto-values {
+      padding: 100px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .value-block h3 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      margin-bottom: 15px;
+      font-weight: 400;
+    }
+    .value-block p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .manifesto-content.reverse {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+    @media (max-width: 900px) {
+      .manifesto-content, .manifesto-content.reverse, .manifesto-values {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .manifesto-title { font-size: 15vw; }
+      .manifesto-image { aspect-ratio: auto; height: 350px; }
+      .manifesto-content.reverse { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .manifesto-header { padding: 80px 20px 40px; }
+      .manifesto-content, .manifesto-content.reverse {
+        padding: 50px 20px;
+        gap: 30px;
+      }
+      .manifesto-text h2 { font-size: 28px; }
+      .manifesto-text p { font-size: 14px; }
+      .manifesto-values { padding: 50px 20px; gap: 35px; }
+      .manifesto-image { height: 280px; }
+    }
+    @media (max-width: 480px) {
+      .manifesto-header { padding: 60px 15px 30px; }
+      .manifesto-title { font-size: 18vw; }
+      .manifesto-content, .manifesto-content.reverse {
+        padding: 30px 15px;
+        gap: 25px;
+      }
+      .manifesto-text h2 { font-size: 24px; }
+      .manifesto-values { padding: 30px 15px; gap: 25px; }
+      .value-block h3 { font-size: 20px; }
+      .manifesto-image { height: 220px; }
+    }
+
+    .brand-intro {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .brand-intro p {
+      font-family: var(--font-poppins);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.8;
+      font-weight: 300;
+      color: var(--text-muted);
+    }
+
+    /* Marquee Styles */
+    .live-marquee-section {
+      padding: 120px 0;
+      background: #ffffff;
+      overflow: hidden;
+      border-top: 1px solid #f0f0f0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .marquee-header {
+      text-align: center;
+      margin-bottom: 60px;
+      color: #000;
+    }
+    .marquee-header h2 {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+    .marquee-header p {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #999;
+      font-weight: 600;
+    }
+    .marquee-container {
+      width: 100%;
+      display: flex;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 40px;
+      animation: marqueeScroll 45s linear infinite;
+    }
+    .marquee-track img {
+      height: 450px;
+      width: auto;
+      object-fit: cover;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+      transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .marquee-track img:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+    }
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-1 * (450px * 8 + 40px * 8))); }
+    }
+    @media (max-width: 900px) {
+      .marquee-track img { height: 320px; }
+      .live-marquee-section { padding: 80px 0; }
+    }
+  </style>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://custompatike.com/fr/aboutus.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="alternate" hreflang="en" href="https://custompatike.com/aboutus.html">
+  <link rel="alternate" hreflang="x-default" href="https://custompatike.com/aboutus.html">
+  <link rel="alternate" hreflang="de" href="https://custompatike.com/de/aboutus.html">
+  <link rel="alternate" hreflang="hr" href="https://custompatike.com/hr/aboutus.html">
+  <link rel="alternate" hreflang="es" href="https://custompatike.com/es/aboutus.html">
+  <link rel="alternate" hreflang="it" href="https://custompatike.com/it/aboutus.html">
+  <link rel="alternate" hreflang="fr" href="https://custompatike.com/fr/aboutus.html">
+  <link rel="alternate" hreflang="ru" href="https://custompatike.com/ru/aboutus.html">
+  <link rel="alternate" hreflang="pl" href="https://custompatike.com/pl/aboutus.html"></head>
+<body class="body" data-lang="fr">
+
+  
+  
+  
+  
+  
+  
+  <!-- Top Announcement Bar -->
+  <section class="aboveheadsection">
+    <div data-delay="2000" data-animation="slide" class="slider w-slider" data-autoplay="true" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
+      <div class="w-slider-mask">
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div class="shippingworldwide">Shipping worldwide!</div>
+            <a href="/fr/shop.html" class="shop-now">ACHETER MAINTENANT !</a>
+          </div>
+        </div>
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div>100% Handmade &amp; Luxury Sneakers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation -->
+  <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navigation w-nav">
+    <div class="navigation-items">
+      <a href="/fr/index.html" class="logo-link-image w-nav-brand">
+        <img src="/assets/images/logo.png" width="50" alt="" class="logo-image">
+      </a>
+      <div class="navigation-wrap">
+        <nav role="navigation" class="navigation-items w-nav-menu">
+          <a href="/fr/shop.html" class="navigation-item w-nav-link">SHOP</a>
+          <a href="/fr/aboutus.html" class="navigation-item w-nav-link">ABOUT US</a>
+          <a href="/fr/contact.html" class="navigation-item w-nav-link">CONTACT</a>
+        </nav>
+        <div class="navicons" style="display: flex; align-items: center; gap: 15px;">
+          <!-- Account Icon SVG -->
+          <a href="/fr/account.html" class="account-button w-inline-block" aria-label="Account" title="My Account" style="color: currentColor; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+            <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+          <!-- Cart Icon SVG -->
+          <div class="w-commerce-commercecartwrapper" data-node-type="commerce-cart-wrapper">
+            <a class="w-commerce-commercecartopenlink cart-button w-inline-block" role="button" aria-haspopup="dialog" aria-label="Open cart" href="#" id="cart-icon-btn" style="color: currentColor; display: flex; align-items: center; justify-content: center;">
+              <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+              <div class="w-commerce-commercecartopenlinkcount cart-quantity-2" id="cart-count">0</div>
+            </a>
+          </div>
+          <!-- Mobile Menu Button -->
+          <div class="menu-button w-nav-button">
+            <img src="/assets/images/menu-icon.png" width="22" alt="" class="menu-icon">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="manifesto-header">
+      <h1 class="manifesto-title">Our Story</h1>
+      <div class="brand-intro">
+        <p>
+          Custom Patike is an atelier built on the discipline of hand-painting. Every sneaker is hand-painted on an authentic base sourced from official suppliers — 40+ hours of brushwork per pair. We don't print. We don't stencil. We build wearable art, one piece at a time.
+        </p>
+      </div>
+    </section>
+
+    <!-- Category: Footwear -->
+    <section class="manifesto-content">
+      <div class="manifesto-image" style="background-image: url('/assets/images/products/nike-air-force-1-audi-rs.jpg');"></div>
+      <div class="manifesto-text">
+        <h2>Chaussures Peintes à la Main.</h2>
+        <p>Every pair begins as a blank canvas. We meticulously prepare each authentic sneaker, hand-mix our paints, and apply the custom artwork brush by brush. Sealed with an industrial-grade, UV-resistant varnish, your sneakers are fully waterproof, crack-proof, and completely ready for daily wear.</p>
+      </div>
+    </section>
+
+    <!-- Atelier in Motion Marquee -->
+    <section class="live-marquee-section">
+      <div class="marquee-header">
+        <h2>Atelier en Mouvement</h2>
+        <p>Captures en direct des archives</p>
+      </div>
+      <div class="marquee-container">
+        <div class="marquee-track">
+          <img src="/assets/images/products/nike-air-force-1-bmw.jpg" alt="Live View 1">
+          <img src="/assets/images/products/air-max-tn-custom-bmw-m.jpg" alt="Live View 2">
+          <img src="/assets/images/products/nike-air-force-1-ghost-face-customs.jpg" alt="Live View 3">
+          <img src="/assets/images/products/aryton-senna-f1-air-force-1-1.jpg" alt="Live View 4">
+          <img src="/assets/images/products/nike-air-force-1-sport-flame.jpg" alt="Live View 5">
+          <img src="/assets/images/products/fight-club-air-force-1.jpg" alt="Live View 6">
+          <img src="/assets/images/products/jujutsu-kaisen-air-force-1-custom.jpeg" alt="Live View 7">
+          <img src="/assets/images/products/nike-air-force-1-stitch.jpg" alt="Live View 8">
+          <!-- Duplicate for infinite loop -->
+          <img src="/assets/images/products/nike-air-force-1-bmw.jpg" alt="Live View 1">
+          <img src="/assets/images/products/air-max-tn-custom-bmw-m.jpg" alt="Live View 2">
+          <img src="/assets/images/products/nike-air-force-1-ghost-face-customs.jpg" alt="Live View 3">
+          <img src="/assets/images/products/aryton-senna-f1-air-force-1-1.jpg" alt="Live View 4">
+          <img src="/assets/images/products/nike-air-force-1-sport-flame.jpg" alt="Live View 5">
+          <img src="/assets/images/products/fight-club-air-force-1.jpg" alt="Live View 6">
+          <img src="/assets/images/products/jujutsu-kaisen-air-force-1-custom.jpeg" alt="Live View 7">
+          <img src="/assets/images/products/nike-air-force-1-stitch.jpg" alt="Live View 8">
+        </div>
+      </div>
+    </section>
+
+    <!-- Tailoring Experience -->
+    <section class="manifesto-content reverse">
+      <div class="manifesto-text">
+        <h2>La Marque du Maître.</h2>
+        <p>Make it truly yours. Whether it's your name, a significant date, or a short phrase, we can hand-paint a custom signature directly onto the leather to perfectly complement the artwork.</p>
+      </div>
+      <div class="manifesto-image" style="background-image: url('/assets/images/products/bmw-m-air-force-1-custom.jpg');"></div>
+    </section>
+
+    <section class="manifesto-values">
+      <div class="value-block">
+        <h3>Peint à la Main</h3>
+        <p>Every brushstroke is applied by hand. No machines paint our work. Every sneaker is handmade in our atelier.</p>
+      </div>
+      <div class="value-block">
+        <h3>Personnalisation illimitée</h3>
+        <p>Your imagination is the only limit. We can paint any design, concept, or artwork you request on your sneakers.</p>
+      </div>
+      <div class="value-block">
+        <h3>1-of-1 Original</h3>
+        <p>Because they are hand-painted, no two pairs are ever exactly alike. Your sneakers are a unique masterpiece.</p>
+      </div>
+      <div class="value-block">
+        <h3>Art permanent</h3>
+        <p>Professional leather paint, UV-sealed with protective varnish. 40+ hours of brushwork per piece. Crack-proof. Waterproof. Permanent.</p>
+      </div>
+    </section>
+  </main>
+
+  
+  
+  
+  
+  
+  
+  <!-- Footer -->
+  <div class="section">
+    <div class="container">
+      <div class="w-layout-grid footer">
+        <div class="columns w-row">
+          <div class="column-2 w-col w-col-6">
+            <a href="/fr/index.html" class="logo-link-image w-nav-brand">
+              <img src="/assets/images/logo.png" width="150" alt="" class="logo-image">
+            </a>
+            <div>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="/assets/images/tiktok.png" alt="" class="image">
+              </a>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="/assets/images/instagram.png" alt="" class="image">
+              </a>
+            </div>
+          </div>
+          <div class="column w-col w-col-6">
+            <div class="getintouchdiv">
+              <h1 class="getintouch">Customer Support</h1>
+              <div class="infofooter">patikecustom@gmail.com<br>Dubrovnik 20236, Croatia<br></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-block-2">© Copyright 2026 Custom Patike</div>
+    </div>
+  </div>
+  <!-- Cart script -->
+  <script src="/js/cart.js"></script>
+
+
+</body></html>

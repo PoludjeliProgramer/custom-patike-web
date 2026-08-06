@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="pl"><head>
+
+  <!-- Suppress crypto wallet extension errors in console -->
+  <script>
+    // Advanced Crypto Wallet Silencer
+    const originalConsoleError = console.error;
+    const originalConsoleWarn = console.warn;
+    
+    console.error = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('Channel secret not available') ||
+        arguments[0].includes('Extension context invalidated') ||
+        arguments[0].includes('MetaMask') ||
+        arguments[0].includes('ethereum')
+      )) { return; }
+      
+      if (arguments[0] && arguments[0] instanceof Error && (
+        arguments[0].message.includes('Channel secret not available')
+      )) { return; }
+      
+      originalConsoleError.apply(console, arguments);
+    };
+    
+    console.warn = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('orphaned data for stream') ||
+        arguments[0].includes('MaxListenersExceededWarning')
+      )) { return; }
+      originalConsoleWarn.apply(console, arguments);
+    };
+    
+    window.addEventListener('error', function(e) {
+      if (e.filename && (e.filename.includes('evmAsk.js') || e.filename.includes('inpage.js') || e.filename.includes('contentscript.js'))) {
+        e.preventDefault();
+        e.stopPropagation();
+        return true;
+      }
+      if (e.message && e.message.includes('Cannot redefine property: ethereum')) {
+        e.preventDefault();
+        return true;
+      }
+    }, true);
+    
+    window.addEventListener('unhandledrejection', function(e) {
+      if (e.reason && e.reason.message && e.reason.message.includes('Channel secret not available')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+
+  <meta charset="utf-8">
+  <title>Custom Patike — Ręcznie Malowane Sneakersy &amp; Ręcznie Robione Skórzane Kurtki | 1-of-1</title>
+  <meta content="Custom Patike tworzy ręcznie malowane sneakersy i ręcznie robione skórzane kurtki. Każdy egzemplarz to oryginał 1-of-1 — nigdy drukowany, nigdy szablonowany. 40+ godzin pracy pędzlem." name="description">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  
+  <link href="/css/style.css" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    WebFont.load({  google: {    families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Great Vibes:400","Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic","League Spartan:300,400,500,600,700","Poppins:300,400,500,600,700"]  }});
+  </script>
+  
+  <link href="/assets/images/logo.png" rel="shortcut icon" type="image/x-icon">
+  <script src="/js/pixels.js" defer=""></script>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://custompatike.com/pl">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="alternate" hreflang="en" href="https://custompatike.com">
+  <link rel="alternate" hreflang="x-default" href="https://custompatike.com">
+  <link rel="alternate" hreflang="de" href="https://custompatike.com/de">
+  <link rel="alternate" hreflang="hr" href="https://custompatike.com/hr">
+  <link rel="alternate" hreflang="es" href="https://custompatike.com/es">
+  <link rel="alternate" hreflang="it" href="https://custompatike.com/it">
+  <link rel="alternate" hreflang="fr" href="https://custompatike.com/fr">
+  <link rel="alternate" hreflang="ru" href="https://custompatike.com/ru">
+  <link rel="alternate" hreflang="pl" href="https://custompatike.com/pl"></head>
+<body class="body" data-lang="pl">
+
+  
+  <!-- Top Announcement Bar -->
+  <section class="aboveheadsection">
+    <div data-delay="2000" data-animation="slide" class="slider w-slider" data-autoplay="true" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
+      <div class="w-slider-mask">
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div class="shippingworldwide">Shipping worldwide!</div>
+            <a href="/pl/shop.html" class="shop-now">KUP TERAZ!</a>
+          </div>
+        </div>
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div>100% Handmade &amp; Luxury Sneakers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation -->
+  <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navigation w-nav">
+    <div class="navigation-items">
+      <a href="/pl/index.html" class="logo-link-image w-nav-brand">
+        <img src="/assets/images/logo.png" width="50" alt="" class="logo-image">
+      </a>
+      <div class="navigation-wrap">
+        <nav role="navigation" class="navigation-items w-nav-menu">
+          <a href="/pl/shop.html" class="navigation-item w-nav-link">SHOP</a>
+          <a href="/pl/aboutus.html" class="navigation-item w-nav-link">ABOUT US</a>
+          <a href="/pl/contact.html" class="navigation-item w-nav-link">CONTACT</a>
+        </nav>
+        <div class="navicons" style="display: flex; align-items: center; gap: 15px;">
+          <!-- Account Icon SVG -->
+          <a href="/pl/account.html" class="account-button w-inline-block" aria-label="Account" title="My Account" style="color: currentColor; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+            <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+          <!-- Cart Icon SVG -->
+          <div class="w-commerce-commercecartwrapper" data-node-type="commerce-cart-wrapper">
+            <a class="w-commerce-commercecartopenlink cart-button w-inline-block" role="button" aria-haspopup="dialog" aria-label="Open cart" href="#" id="cart-icon-btn" style="color: currentColor; display: flex; align-items: center; justify-content: center;">
+              <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+              <div class="w-commerce-commercecartopenlinkcount cart-quantity-2" id="cart-count">0</div>
+            </a>
+          </div>
+          <!-- Mobile Menu Button -->
+          <div class="menu-button w-nav-button">
+            <img src="/assets/images/menu-icon.png" width="22" alt="" class="menu-icon">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section cc-store-home-wrap">
+    
+    <div class="intro-header bmw">
+      <div class="intro-content">
+        <div class="intro-text">
+          <div class="heading-jumbo">‍bmw M <br>custom<br></div>
+          <div class="text-block-35">Speed Meets Style – Nike Air Force 1 Meets BMW Precision!</div>
+          <a href="/pl/product/nike-air-force-1-bmw.html" class="button bmw w-button">SHOP now!</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="intro-header bmw tn">
+      <div class="intro-content">
+        <div class="intro-text">
+          <div class="heading-jumbo">tn bmw m<br>custom<br></div>
+          <div class="text-block-35">Speed Meets Style – Air Max Tn Meets BMW Precision!</div>
+          <a href="/pl/product/bmw-tn-air-max-custom.html" class="button bmw w-button">SHOP now!</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="intro-header audi">
+      <div class="intro-content audi">
+        <div class="intro-text audi">
+          <div class="heading-jumbo audi">AUDI RS<br>custom<br></div>
+          <div class="text-block-35 audi">Power in Every Step – <br> Engineered for Excellence!</div>
+          <a href="/pl/product/nike-air-force-1-audi-rs.html" class="button audirs w-button">SHOP now!</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customers Video Section -->
+    <section class="customerssection">
+      <h1 class="customerheading">See some of <br>OUR CLIENTS!</h1>
+      <div class="background-video-6 w-background-video w-background-video-atom">
+        <video autoplay="" style="background-image:url('/assets/images/Customers4k-poster.jpg')" muted="" playsinline="" data-object-fit="cover">
+          <source src="/assets/images/Customers4k.mp4">
+        </video>
+      </div>
+      <div class="text-block-30">Teodora is an influencer from Serbia wearing 1/1 Nike Air Force 1 - Butterfly while Brayden is a client from Washington, USA, wearing our bestseller among the car enthusiasts - Nike Air Force 1 BMW M. They both liked our designs.</div>
+    </section>
+
+    <!-- Featured Products -->
+    <div class="container">
+      <div class="products-heading">
+        <h3 class="heading-3">Featured:</h3>
+        <div class="paragraph-bigger cc-bigger-light">Check out the popular sneakers collection!</div>
+      </div>
+    </div>
+    
+    <div class="collection-list-wrapper-9 w-dyn-list">
+      <div role="list" class="collection-wrap w-dyn-items" id="featured-products" style="display: flex; justify-content: center;">
+        <!-- These will be generated or mocked. Let's mock them directly here to mimic the live site. -->
+        <div role="listitem" class="collection-item w-dyn-item">
+          <!-- NOTE: We'll download the featured images shortly. -->
+          <a style="background-image:url('/assets/images/products/nike-air-force-1-bmw.jpg'); background-size: cover; background-position: center;" href="/pl/product/nike-air-force-1-bmw.html" class="product-image-wrap w-inline-block">
+            <div class="bestsellertext">Best Seller ★</div>
+          </a>
+          <div class="product-description">
+            <div class="product-name-text">Nike Air Force 1 BMW</div>
+            <div class="descdiv">
+              <div class="product-price-text">170 €</div>
+              <img src="/assets/images/stars.png" alt="" class="stars">
+            </div>
+          </div>
+        </div>
+
+        <div role="listitem" class="collection-item w-dyn-item">
+          <a style="background-image:url('/assets/images/products/nike-air-force-1-audi-rs.jpg'); background-size: cover; background-position: center;" href="/pl/product/nike-air-force-1-audi-rs.html" class="product-image-wrap w-inline-block">
+            <div class="bestsellertext">Best Seller ★</div>
+          </a>
+          <div class="product-description">
+            <div class="product-name-text">Nike Air Force 1 - Audi RS</div>
+            <div class="descdiv">
+              <div class="product-price-text">170 €</div>
+              <img src="/assets/images/stars.png" alt="" class="stars">
+            </div>
+          </div>
+        </div>
+
+        <div role="listitem" class="collection-item w-dyn-item">
+          <a style="background-image:url('/assets/images/products/bmw-tn-air-max-custom.jpg'); background-size: cover; background-position: center;" href="/pl/product/bmw-tn-air-max-custom.html" class="product-image-wrap w-inline-block">
+          </a>
+          <div class="product-description">
+            <div class="product-name-text">BMW Tn Air Max Custom</div>
+            <div class="descdiv">
+              <div class="product-price-text">250 €</div>
+              <img src="/assets/images/stars.png" alt="" class="stars">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletter -->
+  <div class="section cc-subscribe-form">
+    <div class="container cc-subscription-form">
+      <div class="heading-jumbo-small">Newsletter</div>
+      <div class="paragraph-light cc-subscribe-paragraph">Sign-up to receive news including new arrivals, discounts and upcoming events.</div>
+      <div class="form-block w-form">
+        <form id="wf-form-Monthly-Newsletter-Form" class="subscribe-form">
+          <input class="emailcheckoutfield cc-subscribe-text-field w-input" maxlength="256" placeholder="Enter your E-mail.." type="email" required="">
+          <input type="submit" class="button w-button" value="SUBMIT">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Footer -->
+  <div class="section">
+    <div class="container">
+      <div class="w-layout-grid footer">
+        <div class="columns w-row">
+          <div class="column-2 w-col w-col-6">
+            <a href="/pl/index.html" class="logo-link-image w-nav-brand">
+              <img src="/assets/images/logo.png" width="150" alt="" class="logo-image">
+            </a>
+            <div>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="/assets/images/tiktok.png" alt="" class="image">
+              </a>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="/assets/images/instagram.png" alt="" class="image">
+              </a>
+            </div>
+          </div>
+          <div class="column w-col w-col-6">
+            <div class="getintouchdiv">
+              <h1 class="getintouch">Customer Support</h1>
+              <div class="infofooter">patikecustom@gmail.com<br>Dubrovnik 20236, Croatia<br></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-block-2">© Copyright 2026 Custom Patike</div>
+    </div>
+  </div>
+  <!-- Cart script -->
+  <script src="/js/cart.js"></script>
+
+
+</body></html>

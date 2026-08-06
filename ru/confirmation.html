@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="ru"><head>
+  <meta charset="UTF-8">
+  <title>Заказ Подтверждён | Custom Patike</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/vandal-style.css">
+  <script src="/js/pixels.js" defer=""></script>
+  <style>
+    body {
+      background-color: #0b0d10;
+      color: #e2e8f0;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .confirmation-container {
+      max-width: 600px;
+      margin: 100px auto;
+      padding: 40px 30px;
+      background: #111419;
+      border: 1px solid #272f3d;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+    .success-icon {
+      width: 70px;
+      height: 70px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .btn-home {
+      display: inline-block;
+      padding: 14px 30px;
+      background: #ffffff;
+      color: #000000;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: opacity 0.2s;
+    }
+    .btn-home:hover {
+      opacity: 0.9;
+    }
+  </style>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://custompatike.com/ru/confirmation.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="alternate" hreflang="en" href="https://custompatike.com/confirmation.html">
+  <link rel="alternate" hreflang="x-default" href="https://custompatike.com/confirmation.html">
+  <link rel="alternate" hreflang="de" href="https://custompatike.com/de/confirmation.html">
+  <link rel="alternate" hreflang="hr" href="https://custompatike.com/hr/confirmation.html">
+  <link rel="alternate" hreflang="es" href="https://custompatike.com/es/confirmation.html">
+  <link rel="alternate" hreflang="it" href="https://custompatike.com/it/confirmation.html">
+  <link rel="alternate" hreflang="fr" href="https://custompatike.com/fr/confirmation.html">
+  <link rel="alternate" hreflang="ru" href="https://custompatike.com/ru/confirmation.html">
+  <link rel="alternate" hreflang="pl" href="https://custompatike.com/pl/confirmation.html"></head>
+<body data-lang="ru">
+
+  <div class="confirmation-container">
+    <div class="success-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6L9 17l-5-5"></path>
+      </svg>
+    </div>
+    <h1>Thank You for Your Order!</h1>
+    <p>Your payment was completed successfully. Your custom sneakers are now queued for hand-painting by our master artisans.</p>
+    <a href="/ru/index.html" class="btn-home">Return to Home</a>
+  </div>
+
+  <script src="/js/cart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Clear shopping bag after order completion
+      localStorage.removeItem('cp_cart');
+      if (typeof updateCartUI === 'function') {
+        updateCartUI();
+      }
+    });
+  </script>
+
+
+</body></html>

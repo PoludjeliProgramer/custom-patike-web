@@ -1,0 +1,1085 @@
+<!DOCTYPE html><html lang="ru"><head>
+
+  <!-- Suppress crypto wallet extension errors in console -->
+  <script>
+    // Advanced Crypto Wallet Silencer
+    const originalConsoleError = console.error;
+    const originalConsoleWarn = console.warn;
+    
+    console.error = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('Channel secret not available') ||
+        arguments[0].includes('Extension context invalidated') ||
+        arguments[0].includes('MetaMask') ||
+        arguments[0].includes('ethereum')
+      )) { return; }
+      
+      if (arguments[0] && arguments[0] instanceof Error && (
+        arguments[0].message.includes('Channel secret not available')
+      )) { return; }
+      
+      originalConsoleError.apply(console, arguments);
+    };
+    
+    console.warn = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('orphaned data for stream') ||
+        arguments[0].includes('MaxListenersExceededWarning')
+      )) { return; }
+      originalConsoleWarn.apply(console, arguments);
+    };
+    
+    window.addEventListener('error', function(e) {
+      if (e.filename && (e.filename.includes('evmAsk.js') || e.filename.includes('inpage.js') || e.filename.includes('contentscript.js'))) {
+        e.preventDefault();
+        e.stopPropagation();
+        return true;
+      }
+      if (e.message && e.message.includes('Cannot redefine property: ethereum')) {
+        e.preventDefault();
+        return true;
+      }
+    }, true);
+    
+    window.addEventListener('unhandledrejection', function(e) {
+      if (e.reason && e.reason.message && e.reason.message.includes('Channel secret not available')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+
+  <meta charset="UTF-8">
+  <title>Личный Кабинет | Custom Patike</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    WebFont.load({  google: {    families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Great Vibes:400","Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic","League Spartan:300,400,500,600,700","Poppins:300,400,500,600,700"]  }});
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/vandal-style.css">
+  <script src="/js/pixels.js" defer=""></script>
+  <style>
+    .account-hero {
+      padding: 60px 40px 40px;
+      text-align: center;
+      background: #fafafa;
+      border-bottom: 1px solid var(--border);
+    }
+    .account-title {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 300;
+      margin-bottom: 10px;
+    }
+    .account-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+    
+    .account-container {
+      max-width: 1200px;
+      margin: 50px auto 100px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 50px;
+      font-family: var(--font-sans);
+    }
+
+    /* Account Sidebar Tabs */
+    .account-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .account-nav-btn {
+      text-align: left;
+      padding: 14px 18px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .account-nav-btn:hover {
+      color: #000;
+      background: #f5f5f5;
+    }
+    .account-nav-btn.active {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
+    /* Content Area */
+    .account-tab-content {
+      display: none;
+    }
+    .account-tab-content.active {
+      display: block;
+    }
+
+    .tab-header {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Order Cards */
+    .order-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      background: #fff;
+      transition: box-shadow 0.2s ease;
+    }
+    .order-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .order-id {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .order-date {
+      font-size: 13px;
+      color: #777;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .status-badge.in-production {
+      background: #fff8e1;
+      color: #b78103;
+    }
+    .status-badge.shipped {
+      background: #e3f2fd;
+      color: #0d47a1;
+    }
+    .status-badge.delivered {
+      background: #e8f5e9;
+      color: #1b5e20;
+    }
+
+    .order-body {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .order-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #eee;
+    }
+    .order-info {
+      flex: 1;
+    }
+    .order-prod-title {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    .order-prod-meta {
+      font-size: 13px;
+      color: #666;
+    }
+    .order-price {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Forms */
+    .account-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .account-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .account-input-group label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #555;
+      font-weight: 500;
+    }
+    .account-input-group input, .account-input-group select {
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: var(--font-sans);
+      outline: none;
+    }
+    .account-input-group input:focus {
+      border-color: #000;
+    }
+
+    .save-btn {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .save-btn:hover {
+      background: #333;
+    }
+
+    /* Auth Gate Card Styles */
+    .auth-gate-wrapper {
+      max-width: 500px;
+      margin: 60px auto 100px;
+      padding: 0 20px;
+    }
+    .auth-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 40px 35px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    }
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 30px;
+    }
+    .auth-tab-btn {
+      flex: 1;
+      padding: 14px;
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #888;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .auth-tab-btn.active {
+      color: #000;
+      border-bottom-color: #000;
+    }
+    .auth-form-content {
+      display: none;
+    }
+    .auth-form-content.active {
+      display: block;
+    }
+    .auth-alert {
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .auth-alert.error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+    }
+    .auth-alert.success {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+    }
+    .auth-submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 10px;
+    }
+    .auth-submit-btn:hover {
+      background: #222;
+    }
+    .sign-out-btn {
+      background: transparent;
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      padding: 12px 18px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+      transition: all 0.2s;
+    }
+    .sign-out-btn:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    @media (max-width: 850px) {
+      .account-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .account-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 10px;
+      }
+      .account-nav-btn {
+        white-space: nowrap;
+      }
+      .account-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://custompatike.com/ru/account.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="alternate" hreflang="en" href="https://custompatike.com/account.html">
+  <link rel="alternate" hreflang="x-default" href="https://custompatike.com/account.html">
+  <link rel="alternate" hreflang="de" href="https://custompatike.com/de/account.html">
+  <link rel="alternate" hreflang="hr" href="https://custompatike.com/hr/account.html">
+  <link rel="alternate" hreflang="es" href="https://custompatike.com/es/account.html">
+  <link rel="alternate" hreflang="it" href="https://custompatike.com/it/account.html">
+  <link rel="alternate" hreflang="fr" href="https://custompatike.com/fr/account.html">
+  <link rel="alternate" hreflang="ru" href="https://custompatike.com/ru/account.html">
+  <link rel="alternate" hreflang="pl" href="https://custompatike.com/pl/account.html"></head>
+<body data-lang="ru">
+  <!-- Top Announcement Bar -->
+  <section class="aboveheadsection">
+    <div data-delay="2000" data-animation="slide" class="slider w-slider" data-autoplay="true" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
+      <div class="w-slider-mask">
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div class="shippingworldwide">Shipping worldwide!</div>
+            <a href="/ru/shop.html" class="shop-now">КУПИТЬ СЕЙЧАС!</a>
+          </div>
+        </div>
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div>100% Handmade &amp; Luxury Sneakers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation -->
+  <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navigation w-nav">
+    <div class="navigation-items">
+      <a href="/ru/index.html" class="logo-link-image w-nav-brand">
+        <img src="/assets/images/logo.png" width="50" alt="" class="logo-image">
+      </a>
+      <div class="navigation-wrap">
+        <nav role="navigation" class="navigation-items w-nav-menu">
+          <a href="/ru/shop.html" class="navigation-item w-nav-link">SHOP</a>
+          <a href="/ru/aboutus.html" class="navigation-item w-nav-link">ABOUT US</a>
+          <a href="/ru/contact.html" class="navigation-item w-nav-link">CONTACT</a>
+        </nav>
+        <div class="navicons" style="display: flex; align-items: center; gap: 15px;">
+          <!-- Account Icon SVG -->
+          <a href="/ru/account.html" class="account-button w-inline-block" aria-label="Account" title="My Account" style="color: currentColor; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+            <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+          <!-- Cart Icon SVG -->
+          <div class="w-commerce-commercecartwrapper" data-node-type="commerce-cart-wrapper">
+            <a class="w-commerce-commercecartopenlink cart-button w-inline-block" role="button" aria-haspopup="dialog" aria-label="Open cart" href="#" id="cart-icon-btn" style="color: currentColor; display: flex; align-items: center; justify-content: center;">
+              <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+              <div class="w-commerce-commercecartopenlinkcount cart-quantity-2" id="cart-count">0</div>
+            </a>
+          </div>
+          <div class="menu-button w-nav-button">
+            <img src="/assets/images/menu-icon.png" width="22" alt="" class="menu-icon">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="account-hero">
+    <h1 class="account-title">My Account</h1>
+    <p class="account-subtitle">Manage your custom sneaker orders, 1-of-1 commissions, and shipping details.</p>
+  </div>
+
+  <!-- AUTH GATE SECTION (Shown when user is logged out) -->
+  <div id="authGateSection" class="auth-gate-wrapper">
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button id="authTabLogin" class="auth-tab-btn active" onclick="switchAuthTab('login')">Войти</button>
+        <button id="authTabRegister" class="auth-tab-btn" onclick="switchAuthTab('register')">Создать аккаунт</button>
+      </div>
+
+      <div id="authAlert" class="auth-alert"></div>
+
+      <!-- LOGIN FORM -->
+      <form id="formLogin" class="auth-form-content active" onsubmit="handleUserLogin(event)">
+        <div class="account-input-group" style="margin-bottom: 18px;">
+          <label>Email адрес</label>
+          <input type="email" id="loginEmail" placeholder="name@example.com" required="" autocomplete="email">
+        </div>
+        <div class="account-input-group" style="margin-bottom: 24px;">
+          <label>Пароль</label>
+          <input type="password" id="loginPass" placeholder="Enter your password" required="" autocomplete="current-password">
+        </div>
+        <button type="submit" class="auth-submit-btn">Sign In to Account</button>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form id="formRegister" class="auth-form-content" onsubmit="handleUserRegister(event)">
+        <div class="account-form-grid" style="margin-bottom: 18px;">
+          <div class="account-input-group">
+            <label>First Name</label>
+            <input type="text" id="regFirstName" placeholder="Александр" required="">
+          </div>
+          <div class="account-input-group">
+            <label>Last Name</label>
+            <input type="text" id="regLastName" placeholder="Novak" required="">
+          </div>
+        </div>
+        <div class="account-input-group" style="margin-bottom: 18px;">
+          <label>Email адрес</label>
+          <input type="email" id="regEmail" placeholder="name@example.com" required="" autocomplete="email">
+        </div>
+        <div class="account-input-group" style="margin-bottom: 18px;">
+          <label>Номер телефона</label>
+          <input type="tel" id="regPhone" placeholder="+385 91 234 5678">
+        </div>
+        <div class="account-input-group" style="margin-bottom: 24px;">
+          <label>Password (min. 6 characters)</label>
+          <input type="password" id="regPass" placeholder="Create password" required="" minlength="6" autocomplete="new-password">
+        </div>
+        <button type="submit" class="auth-submit-btn">Создать аккаунт</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ACCOUNT DASHBOARD SECTION (Shown when user is logged in) -->
+  <main id="accountDashboardSection" class="account-container" style="display: none;">
+    <!-- Sidebar Tabs -->
+    <aside class="account-nav">
+      <button class="account-nav-btn active" onclick="switchTab('orders', this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        Order History
+      </button>
+      <button class="account-nav-btn" onclick="switchTab('commissions', this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg>
+        1-of-1 Commissions
+      </button>
+      <button class="account-nav-btn" onclick="switchTab('addresses', this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        Saved Addresses
+      </button>
+      <button class="account-nav-btn" onclick="switchTab('settings', this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        Profile Settings
+      </button>
+      <button class="sign-out-btn" onclick="handleUserLogout()">Выйти</button>
+    </aside>
+
+    <!-- Main Content -->
+    <section>
+      <!-- TAB 1: ORDER HISTORY -->
+      <div id="tab-orders" class="account-tab-content active">
+        <div class="tab-header">
+          <span>Recent Orders</span>
+          <span id="ordersCountBadge" style="font-size: 13px; color: #777;">0 Orders</span>
+        </div>
+        <div id="ordersListContainer">
+          <div style="padding: 30px; text-align: center; color: #888;">Loading your orders...</div>
+        </div>
+      </div>
+
+      <!-- TAB 2: 1-OF-1 COMMISSIONS -->
+      <div id="tab-commissions" class="account-tab-content">
+        <div class="tab-header">
+          <span>Custom Commission Requests</span>
+          <button class="save-btn" style="padding: 8px 16px; font-size: 11px;" onclick="window.location.href='contact.html'">Request New Commission</button>
+        </div>
+        <div id="commissionsListContainer">
+          <div style="padding: 30px; text-align: center; color: #888;">No active custom commission requests.</div>
+        </div>
+      </div>
+
+      <!-- TAB 3: SAVED ADDRESSES -->
+      <div id="tab-addresses" class="account-tab-content">
+        <div class="tab-header">
+          <span>Shipping &amp; Billing Addresses</span>
+        </div>
+
+        <form id="formAddress" onsubmit="handleAddressSave(event)">
+          <div id="addressAlert" class="auth-alert"></div>
+          <div class="account-form-grid">
+            <div class="account-input-group">
+              <label>First Name</label>
+              <input type="text" id="addrFirstName">
+            </div>
+            <div class="account-input-group">
+              <label>Last Name</label>
+              <input type="text" id="addrLastName">
+            </div>
+          </div>
+
+          <div class="account-input-group" style="margin-bottom: 20px;">
+            <label>Street Address</label>
+            <input type="text" id="addrStreet" placeholder="e.g. Stradun 42">
+          </div>
+
+          <div class="account-form-grid">
+            <div class="account-input-group">
+              <label>Город</label>
+              <input type="text" id="addrCity" placeholder="Dubrovnik">
+            </div>
+            <div class="account-input-group">
+              <label>Postal Code</label>
+              <input type="text" id="addrPostalCode" placeholder="20000">
+            </div>
+          </div>
+
+          <div class="account-input-group" style="margin-bottom: 30px;">
+            <label>Страна</label>
+            <select id="addrCountry">
+              <option value="Croatia">Croatia</option>
+              <option value="Germany">Germany</option>
+              <option value="United States">United States</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Austria">Austria</option>
+              <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+              <option value="Serbia">Serbia</option>
+              <option value="Slovenia">Slovenia</option>
+            </select>
+          </div>
+
+          <button type="submit" class="save-btn">Save Address</button>
+        </form>
+      </div>
+
+      <!-- TAB 4: PROFILE SETTINGS -->
+      <div id="tab-settings" class="account-tab-content">
+        <div class="tab-header">
+          <span>Настройки учетной записи</span>
+        </div>
+
+        <form id="formProfile" onsubmit="handleProfileSave(event)">
+          <div id="profileAlert" class="auth-alert"></div>
+          <div class="account-form-grid">
+            <div class="account-input-group">
+              <label>First Name</label>
+              <input type="text" id="profFirstName">
+            </div>
+            <div class="account-input-group">
+              <label>Last Name</label>
+              <input type="text" id="profLastName">
+            </div>
+          </div>
+
+          <div class="account-form-grid">
+            <div class="account-input-group">
+              <label>Email адрес</label>
+              <input type="email" id="profEmail" readonly="" style="background: #f5f5f5; cursor: not-allowed;">
+            </div>
+            <div class="account-input-group">
+              <label>Номер телефона</label>
+              <input type="tel" id="profPhone">
+            </div>
+          </div>
+
+          <button type="submit" class="save-btn" style="margin-bottom: 40px;">Update Profile</button>
+        </form>
+
+        <div class="tab-header" style="font-size: 16px;">
+          <span>Изменить пароль</span>
+        </div>
+
+        <form id="formPassword" onsubmit="handlePasswordChange(event)">
+          <div id="passAlert" class="auth-alert"></div>
+          <div class="account-input-group" style="margin-bottom: 20px;">
+            <label>Current Password</label>
+            <input type="password" id="passCurrent" required="" placeholder="••••••••">
+          </div>
+
+          <div class="account-form-grid">
+            <div class="account-input-group">
+              <label>New Password</label>
+              <input type="password" id="passNew" required="" minlength="6" placeholder="••••••••">
+            </div>
+            <div class="account-input-group">
+              <label>Confirm New Password</label>
+              <input type="password" id="passConfirm" required="" minlength="6" placeholder="••••••••">
+            </div>
+          </div>
+
+          <button type="submit" class="save-btn" style="margin-top: 10px;">Update Password</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div class="section">
+    <div class="container">
+      <div class="w-layout-grid footer">
+        <div class="columns w-row">
+          <div class="column-2 w-col w-col-6">
+            <a href="/ru/index.html" class="logo-link-image w-nav-brand">
+              <img src="/assets/images/logo.png" width="150" alt="" class="logo-image">
+            </a>
+            <div>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="/assets/images/tiktok.png" alt="" class="image">
+              </a>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="/assets/images/instagram.png" alt="" class="image">
+              </a>
+            </div>
+          </div>
+          <div class="column w-col w-col-6">
+            <div class="getintouchdiv">
+              <h1 class="getintouch">Customer Support</h1>
+              <div class="infofooter">patikecustom@gmail.com<br>Dubrovnik 20236, Croatia<br></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-block-2">© Copyright 2026 Custom Patike</div>
+    </div>
+  </div>
+
+  <script src="/js/cart.js"></script>
+  <script>
+    const USER_API = '/api/user';
+    let currentUser = null;
+
+    function switchAuthTab(tab) {
+      document.getElementById('authTabLogin').classList.remove('active');
+      document.getElementById('authTabRegister').classList.remove('active');
+      document.getElementById('formLogin').classList.remove('active');
+      document.getElementById('formRegister').classList.remove('active');
+
+      if (tab === 'login') {
+        document.getElementById('authTabLogin').classList.add('active');
+        document.getElementById('formLogin').classList.add('active');
+      } else {
+        document.getElementById('authTabRegister').classList.add('active');
+        document.getElementById('formRegister').classList.add('active');
+      }
+      hideAuthAlert();
+    }
+
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.account-nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.account-tab-content').forEach(content => content.classList.remove('active'));
+      
+      if (el) el.classList.add('active');
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
+    }
+
+    function showAuthAlert(msg, type = 'error') {
+      const el = document.getElementById('authAlert');
+      el.textContent = msg;
+      el.className = 'auth-alert ' + type;
+      el.style.display = 'block';
+    }
+
+    function hideAuthAlert() {
+      const el = document.getElementById('authAlert');
+      el.style.display = 'none';
+    }
+
+    function showAlert(elementId, msg, type = 'error') {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.textContent = msg;
+      el.className = 'auth-alert ' + type;
+      el.style.display = 'block';
+      setTimeout(() => { el.style.display = 'none'; }, 4000);
+    }
+
+    // ===== AUTH ACTIONS =====
+    async function handleUserLogin(e) {
+      e.preventDefault();
+      hideAuthAlert();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPass').value.trim();
+      const sessionToken = sessionStorage.getItem('cp_analytics_token');
+
+      try {
+        const res = await fetch(`${USER_API}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, sessionToken })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.token) {
+          localStorage.setItem('cp_auth_token', data.token);
+          localStorage.setItem('cp_user', JSON.stringify(data.user));
+          if (typeof cpMarkVerified === 'function') cpMarkVerified(data.user.email);
+          initUserAccount(data.token);
+        } else {
+          showAuthAlert(data.error || 'Invalid email or password.', 'error');
+        }
+      } catch (err) {
+        showAuthAlert('Unable to connect to authentication server.', 'error');
+      }
+    }
+
+    async function handleUserRegister(e) {
+      e.preventDefault();
+      hideAuthAlert();
+      const firstName = document.getElementById('regFirstName').value.trim();
+      const lastName = document.getElementById('regLastName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const password = document.getElementById('regPass').value.trim();
+      const sessionToken = sessionStorage.getItem('cp_analytics_token');
+
+      try {
+        const res = await fetch(`${USER_API}/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, firstName, lastName, phone, sessionToken })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.token) {
+          localStorage.setItem('cp_auth_token', data.token);
+          localStorage.setItem('cp_user', JSON.stringify(data.user));
+          if (typeof cpMarkVerified === 'function') cpMarkVerified(data.user.email);
+          initUserAccount(data.token);
+        } else {
+          showAuthAlert(data.error || 'Failed to create account.', 'error');
+        }
+      } catch (err) {
+        showAuthAlert('Unable to connect to authentication server.', 'error');
+      }
+    }
+
+    function handleUserLogout() {
+      localStorage.removeItem('cp_auth_token');
+      localStorage.removeItem('cp_user');
+      window.location.reload();
+    }
+
+    // ===== DATA FETCHING =====
+    async function initUserAccount(token) {
+      try {
+        const res = await fetch(`${USER_API}/me`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) {
+          handleUserLogout();
+          return;
+        }
+        const data = await res.json();
+        currentUser = data.user;
+
+        // Show Dashboard, Hide Auth Gate
+        document.getElementById('authGateSection').style.display = 'none';
+        document.getElementById('accountDashboardSection').style.display = 'grid';
+
+        // Update UI greetings & form inputs
+        document.querySelector('.account-title').textContent = `Welcome, ${currentUser.first_name || 'Collector'}`;
+
+        // Populate Address Form
+        document.getElementById('addrFirstName').value = currentUser.first_name || '';
+        document.getElementById('addrLastName').value = currentUser.last_name || '';
+        document.getElementById('addrStreet').value = currentUser.address || '';
+        document.getElementById('addrCity').value = currentUser.city || '';
+        document.getElementById('addrPostalCode').value = currentUser.postal_code || '';
+        if (currentUser.country) document.getElementById('addrCountry').value = currentUser.country;
+
+        // Populate Profile Form
+        document.getElementById('profFirstName').value = currentUser.first_name || '';
+        document.getElementById('profLastName').value = currentUser.last_name || '';
+        document.getElementById('profEmail').value = currentUser.email || '';
+        document.getElementById('profPhone').value = currentUser.phone || '';
+
+        // Load Orders & Commissions
+        loadUserOrders(token);
+        loadUserCommissions(token);
+
+      } catch (err) {
+        document.getElementById('authGateSection').style.display = 'block';
+        document.getElementById('accountDashboardSection').style.display = 'none';
+      }
+    }
+
+    async function loadUserOrders(token) {
+      try {
+        const res = await fetch(`${USER_API}/orders`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const orders = data.orders || [];
+
+        document.getElementById('ordersCountBadge').textContent = `${orders.length} Order${orders.length !== 1 ? 's' : ''}`;
+        const container = document.getElementById('ordersListContainer');
+
+        if (orders.length === 0) {
+          container.innerHTML = `
+            <div style="padding: 40px 20px; text-align: center; color: #888;">
+              <p style="font-size: 15px; margin-bottom: 15px;">You have not placed any orders yet.</p>
+              <a href="shop.html" class="save-btn" style="text-decoration: none; display: inline-block;">Explore Collection</a>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = orders.map(o => {
+          let statusClass = 'in-production';
+          if ((o.status || '').toLowerCase().includes('shipped')) statusClass = 'shipped';
+          if ((o.status || '').toLowerCase().includes('delivered')) statusClass = 'delivered';
+
+          const itemsHtml = (o.items || []).map(i => `
+            <div class="order-body" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #f5f5f5;">
+              <img src="${i.image_url || 'assets/images/products/nike-air-force-1-bmw.jpg'}" alt="${i.product_name}" class="order-img">
+              <div class="order-info">
+                <div class="order-prod-title">${i.product_name}</div>
+                <div class="order-prod-meta">Size: ${i.size || 'EU 42'} | Quantity: ${i.quantity || 1}</div>
+              </div>
+              <div class="order-price">€${parseFloat(i.price * (i.quantity || 1)).toFixed(2)}</div>
+            </div>
+          `).join('');
+
+          return `
+            <div class="order-card">
+              <div class="order-header">
+                <div>
+                  <div class="order-id">${o.order_number || ('Order #' + o.id)}</div>
+                  <div class="order-date">Placed on ${new Date(o.created_at).toLocaleDateString()}</div>
+                </div>
+                <span class="status-badge ${statusClass}">${o.status || 'Received'}</span>
+              </div>
+              ${itemsHtml || `<div class="order-price">Total: €${parseFloat(o.total || 0).toFixed(2)}</div>`}
+            </div>
+          `;
+        }).join('');
+
+      } catch (err) {
+        console.error('Failed to load orders', err);
+      }
+    }
+
+    async function loadUserCommissions(token) {
+      try {
+        const res = await fetch(`${USER_API}/commissions`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const commissions = data.commissions || [];
+        const container = document.getElementById('commissionsListContainer');
+
+        if (commissions.length === 0) {
+          container.innerHTML = `
+            <div style="padding: 30px; text-align: center; color: #888;">
+              No active 1-of-1 custom commission requests found.
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = commissions.map(c => `
+          <div class="order-card">
+            <div class="order-header">
+              <div>
+                <div class="order-id">Ticket #${c.ticket_number || c.id}</div>
+                <div class="order-date">Submitted on ${new Date(c.created_at).toLocaleDateString()}</div>
+              </div>
+              <span class="status-badge in-production">${c.status || 'Pending Review'}</span>
+            </div>
+            <div style="font-size: 14px; line-height: 1.6; color: #444;">
+              <p style="margin-bottom: 8px;"><strong>Concept Title:</strong> ${c.concept_title || 'Bespoke Footwear'}</p>
+              ${c.atelier_notes ? `<p style="margin-bottom: 0; color: #777;"><strong>Atelier Notes:</strong> ${c.atelier_notes}</p>` : ''}
+            </div>
+          </div>
+        `).join('');
+
+      } catch (err) {}
+    }
+
+    // ===== FORM SAVES =====
+    async function handleAddressSave(e) {
+      e.preventDefault();
+      const token = localStorage.getItem('cp_auth_token');
+      if (!token) return;
+
+      const profileData = {
+        firstName: document.getElementById('addrFirstName').value.trim(),
+        lastName: document.getElementById('addrLastName').value.trim(),
+        address: document.getElementById('addrStreet').value.trim(),
+        city: document.getElementById('addrCity').value.trim(),
+        postalCode: document.getElementById('addrPostalCode').value.trim(),
+        country: document.getElementById('addrCountry').value
+      };
+
+      try {
+        const res = await fetch(`${USER_API}/profile`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(profileData)
+        });
+        if (res.ok) {
+          showAlert('addressAlert', 'Shipping address updated successfully!', 'success');
+        } else {
+          showAlert('addressAlert', 'Failed to update address.', 'error');
+        }
+      } catch (err) {
+        showAlert('addressAlert', 'Network error.', 'error');
+      }
+    }
+
+    async function handleProfileSave(e) {
+      e.preventDefault();
+      const token = localStorage.getItem('cp_auth_token');
+      if (!token) return;
+
+      const profileData = {
+        firstName: document.getElementById('profFirstName').value.trim(),
+        lastName: document.getElementById('profLastName').value.trim(),
+        phone: document.getElementById('profPhone').value.trim()
+      };
+
+      try {
+        const res = await fetch(`${USER_API}/profile`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(profileData)
+        });
+        if (res.ok) {
+          showAlert('profileAlert', 'Profile updated successfully!', 'success');
+        } else {
+          showAlert('profileAlert', 'Failed to update profile.', 'error');
+        }
+      } catch (err) {
+        showAlert('profileAlert', 'Network error.', 'error');
+      }
+    }
+
+    async function handlePasswordChange(e) {
+      e.preventDefault();
+      const token = localStorage.getItem('cp_auth_token');
+      if (!token) return;
+
+      const currentPassword = document.getElementById('passCurrent').value.trim();
+      const newPassword = document.getElementById('passNew').value.trim();
+      const confirmPassword = document.getElementById('passConfirm').value.trim();
+
+      if (newPassword !== confirmPassword) {
+        showAlert('passAlert', 'New passwords do not match.', 'error');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${USER_API}/password`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ currentPassword, newPassword })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showAlert('passAlert', 'Password updated successfully!', 'success');
+          document.getElementById('passCurrent').value = '';
+          document.getElementById('passNew').value = '';
+          document.getElementById('passConfirm').value = '';
+        } else {
+          showAlert('passAlert', data.error || 'Failed to update password.', 'error');
+        }
+      } catch (err) {
+        showAlert('passAlert', 'Network error.', 'error');
+      }
+    }
+
+    // INITIALIZATION
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('cp_auth_token');
+      if (token) {
+        initUserAccount(token);
+      } else {
+        document.getElementById('authGateSection').style.display = 'block';
+        document.getElementById('accountDashboardSection').style.display = 'none';
+      }
+    });
+  </script>
+
+
+</body></html>

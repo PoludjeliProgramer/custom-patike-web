@@ -1,0 +1,546 @@
+<!DOCTYPE html><html lang="es"><head>
+
+  <!-- Suppress crypto wallet extension errors in console -->
+  <script>
+    // Advanced Crypto Wallet Silencer
+    const originalConsoleError = console.error;
+    const originalConsoleWarn = console.warn;
+    
+    console.error = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('Channel secret not available') ||
+        arguments[0].includes('Extension context invalidated') ||
+        arguments[0].includes('MetaMask') ||
+        arguments[0].includes('ethereum')
+      )) { return; }
+      
+      if (arguments[0] && arguments[0] instanceof Error && (
+        arguments[0].message.includes('Channel secret not available')
+      )) { return; }
+      
+      originalConsoleError.apply(console, arguments);
+    };
+    
+    console.warn = function() {
+      if (arguments[0] && typeof arguments[0] === 'string' && (
+        arguments[0].includes('orphaned data for stream') ||
+        arguments[0].includes('MaxListenersExceededWarning')
+      )) { return; }
+      originalConsoleWarn.apply(console, arguments);
+    };
+    
+    window.addEventListener('error', function(e) {
+      if (e.filename && (e.filename.includes('evmAsk.js') || e.filename.includes('inpage.js') || e.filename.includes('contentscript.js'))) {
+        e.preventDefault();
+        e.stopPropagation();
+        return true;
+      }
+      if (e.message && e.message.includes('Cannot redefine property: ethereum')) {
+        e.preventDefault();
+        return true;
+      }
+    }, true);
+    
+    window.addEventListener('unhandledrejection', function(e) {
+      if (e.reason && e.reason.message && e.reason.message.includes('Channel secret not available')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+
+  <meta charset="UTF-8">
+  <title>Pago | Custom Patike</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    WebFont.load({  google: {    families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Great Vibes:400","Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic","League Spartan:300,400,500,600,700","Poppins:300,400,500,600,700"]  }});
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/vandal-style.css">
+  <script src="/js/pixels.js" defer=""></script>
+  <style>
+    .checkout-container {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 60px;
+      font-family: var(--font-sans);
+    }
+    .checkout-form section {
+      margin-bottom: 40px;
+    }
+    .checkout-form h2 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .form-group input, .form-group select {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: #000;
+    }
+    
+    .checkout-summary {
+      background: #fafafa;
+      padding: 40px;
+      border-radius: 8px;
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+    
+    .checkout-summary h2 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+    
+    #checkout-items {
+      margin-bottom: 30px;
+    }
+    
+    .checkout-item {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    .checkout-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #eee;
+    }
+    .checkout-item-details {
+      flex: 1;
+    }
+    .checkout-item-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin: 0 0 5px;
+    }
+    .checkout-item-meta {
+      font-size: 12px;
+      color: #666;
+    }
+    .checkout-item-price {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: #666;
+    }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      font-size: 18px;
+      font-weight: 600;
+      color: #000;
+    }
+    
+    .place-order-btn {
+      width: 100%;
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 18px;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      margin-top: 30px;
+      transition: background 0.3s;
+    }
+    .place-order-btn:hover {
+      background: #333;
+    }
+    
+    @media (max-width: 991px) {
+      .checkout-container {
+        grid-template-columns: 1fr;
+      }
+      .checkout-summary {
+        order: -1; /* Move summary to top on mobile */
+      }
+    }
+    @media (max-width: 479px) {
+      .form-row { flex-direction: column; }
+    }
+  </style>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://custompatike.com/es/checkout.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="alternate" hreflang="en" href="https://custompatike.com/checkout.html">
+  <link rel="alternate" hreflang="x-default" href="https://custompatike.com/checkout.html">
+  <link rel="alternate" hreflang="de" href="https://custompatike.com/de/checkout.html">
+  <link rel="alternate" hreflang="hr" href="https://custompatike.com/hr/checkout.html">
+  <link rel="alternate" hreflang="es" href="https://custompatike.com/es/checkout.html">
+  <link rel="alternate" hreflang="it" href="https://custompatike.com/it/checkout.html">
+  <link rel="alternate" hreflang="fr" href="https://custompatike.com/fr/checkout.html">
+  <link rel="alternate" hreflang="ru" href="https://custompatike.com/ru/checkout.html">
+  <link rel="alternate" hreflang="pl" href="https://custompatike.com/pl/checkout.html"></head>
+<body data-lang="es">
+  
+  <!-- Top Announcement Bar -->
+  <section class="aboveheadsection">
+    <div data-delay="2000" data-animation="slide" class="slider w-slider" data-autoplay="true" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
+      <div class="w-slider-mask">
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div class="shippingworldwide">Shipping worldwide!</div>
+            <a href="/es/shop.html" class="shop-now">¡COMPRA AHORA!</a>
+          </div>
+        </div>
+        <div class="nav-slide w-slide">
+          <div class="head-div">
+            <div>100% Handmade &amp; Luxury Sneakers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation -->
+  <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navigation w-nav">
+    <div class="navigation-items">
+      <a href="/es/index.html" class="logo-link-image w-nav-brand">
+        <img src="/assets/images/logo.png" width="50" alt="" class="logo-image">
+      </a>
+      <div class="navigation-wrap">
+        <nav role="navigation" class="navigation-items w-nav-menu">
+          <a href="/es/shop.html" class="navigation-item w-nav-link">SHOP</a>
+          <a href="/es/aboutus.html" class="navigation-item w-nav-link">ABOUT US</a>
+          <a href="/es/contact.html" class="navigation-item w-nav-link">CONTACT</a>
+        </nav>
+        <div class="navicons" style="display: flex; align-items: center; gap: 15px;">
+          <!-- Account Icon SVG -->
+          <a href="/es/account.html" class="account-button w-inline-block" aria-label="Account" title="My Account" style="color: currentColor; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+            <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+          <!-- Cart Icon SVG -->
+          <div class="w-commerce-commercecartwrapper" data-node-type="commerce-cart-wrapper">
+            <a class="w-commerce-commercecartopenlink cart-button w-inline-block" role="button" aria-haspopup="dialog" aria-label="Open cart" href="#" id="cart-icon-btn" style="color: currentColor; display: flex; align-items: center; justify-content: center;">
+              <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+              <div class="w-commerce-commercecartopenlinkcount cart-quantity-2" id="cart-count">0</div>
+            </a>
+          </div>
+          <!-- Mobile Menu Button -->
+          <div class="menu-button w-nav-button">
+            <img src="/assets/images/menu-icon.png" width="22" alt="" class="menu-icon">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="checkout-container">
+    <div class="checkout-form">
+      <form id="payment-form">
+        <section>
+          <h2 style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Información de contacto</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number <span style="color: #ef4444;">*</span></label>
+              <input type="tel" id="checkout-phone" placeholder="+385 91 234 5678" required="">
+            </div>
+            <div class="form-group">
+              <label>Correo electrónico</label>
+              <input type="email" id="checkout-email" placeholder="email@domain.com">
+            </div>
+          </div>
+        </section>
+        
+        <section>
+          <h2 style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Dirección de envío</h2>
+          <div id="address-element" style="margin-bottom: 20px;">
+            <!-- Stripe Address Element rendered here -->
+          </div>
+        </section>
+        
+        <section>
+          <h2 style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Datos de pago</h2>
+          <div id="payment-element" style="margin-bottom: 20px;">
+            <!-- Stripe Payment Element rendered here -->
+          </div>
+          <div id="payment-message" style="color: #ef4444; font-size: 13px; font-weight: 500; margin-bottom: 15px; display: none;"></div>
+        </section>
+
+        <button type="submit" id="submit-order-btn" class="place-order-btn" style="width: 100%; background: #000; color: #fff; border: none; padding: 18px; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border-radius: 4px; transition: background 0.2s;">
+          <span id="button-text">Pagar ahora</span>
+        </button>
+      </form>
+    </div>
+    
+    <div class="checkout-summary">
+      <h2>Resumen del pedido</h2>
+      <div id="checkout-items">
+        <!-- Rendered by JS -->
+      </div>
+      
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="checkout-subtotal">€0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>Envío</span>
+        <span id="checkout-shipping">Gratuito</span>
+      </div>
+      
+      <div class="summary-total">
+        <span>Total</span>
+        <span id="checkout-total">€0.00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="section">
+    <div class="container">
+      <div class="w-layout-grid footer">
+        <div class="columns w-row">
+          <div class="column-2 w-col w-col-6">
+            <a href="/es/index.html" class="logo-link-image w-nav-brand">
+              <img src="/assets/images/logo.png" width="150" alt="" class="logo-image">
+            </a>
+            <div>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="/assets/images/tiktok.png" alt="" class="image">
+              </a>
+              <a href="#" target="_blank" class="logo-link-image social w-nav-brand">
+                <img src="/assets/images/instagram.png" alt="" class="image">
+              </a>
+            </div>
+          </div>
+          <div class="column w-col w-col-6">
+            <div class="getintouchdiv">
+              <h1 class="getintouch">Customer Support</h1>
+              <div class="infofooter">patikecustom@gmail.com<br>Dubrovnik 20236, Croatia<br></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-block-2">© Copyright 2026 Custom Patike</div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/cart.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    const STRIPE_PK = 'pk_live_51QneNpJtzqrzsfgAjpbhqDsU0Qs1qgAcfzjbeI1mRobhYJjVMRisgduZj4vfgsHG7mSJDLmvhpT5ITa6ZUmnv9hF00DVo8YavY';
+    const stripe = Stripe(STRIPE_PK);
+    let elements;
+    let addressElement;
+    let paymentIntentId = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const phoneInput = document.getElementById('checkout-phone');
+      const emailInput = document.getElementById('checkout-email');
+      const guestPhone = localStorage.getItem('cp_guest_phone');
+      const guestEmail = localStorage.getItem('cp_guest_email');
+
+      let userObj = null;
+      try {
+        userObj = JSON.parse(localStorage.getItem('cp_user') || localStorage.getItem('user') || 'null');
+      } catch(e) {}
+
+      if (phoneInput) phoneInput.value = (userObj && userObj.phone) ? userObj.phone : (guestPhone || '');
+      if (emailInput) emailInput.value = (userObj && userObj.email) ? userObj.email : (guestEmail || '');
+
+      const cart = typeof getCart === 'function' ? getCart() : JSON.parse(localStorage.getItem('cp_cart') || '[]');
+      if (!cart || cart.length === 0) {
+        document.querySelector('.checkout-container').innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;"><h2>Your shopping bag is empty</h2><p style="margin-top: 15px;"><a href="shop.html" style="color: #000; font-weight: 600;">Return to Shop &rarr;</a></p></div>';
+        return;
+      }
+
+      // Create PaymentIntent
+      try {
+        const response = await fetch('/api/checkout/create-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: cart,
+            email: emailInput ? emailInput.value : null,
+            phone: phoneInput ? phoneInput.value : null
+          })
+        });
+
+        const data = await response.json();
+        if (data.error) throw new Error(data.error);
+
+        const clientSecret = data.clientSecret;
+        paymentIntentId = clientSecret.split('_secret_')[0];
+
+        // Update summary totals
+        document.getElementById('checkout-subtotal').textContent = `€${data.subtotal.toFixed(2)}`;
+        document.getElementById('checkout-shipping').textContent = data.shippingFee === 0 ? 'Complimentary' : `€${data.shippingFee.toFixed(2)}`;
+        document.getElementById('checkout-total').textContent = `€${data.total.toFixed(2)}`;
+
+        const appearance = {
+          theme: 'stripe',
+          variables: {
+            fontFamily: 'Poppins, sans-serif',
+            borderRadius: '4px',
+            colorPrimary: '#000000',
+          }
+        };
+
+        elements = stripe.elements({ clientSecret, appearance });
+
+        // Mount Payment Element
+        const paymentElement = elements.create('payment');
+        paymentElement.mount('#payment-element');
+
+        // Mount Address Element
+        const addressOptions = {
+          mode: 'shipping',
+          fields: { phone: 'always' },
+          validation: { phone: { required: 'always' } }
+        };
+
+        if (userObj) {
+          addressOptions.defaultValues = {
+            name: `${userObj.first_name || ''} ${userObj.last_name || ''}`.trim(),
+            phone: userObj.phone || guestPhone || '',
+            address: {
+              line1: userObj.address || '',
+              city: userObj.city || '',
+              postal_code: userObj.postal_code || '',
+              country: userObj.country || 'HR'
+            }
+          };
+        }
+
+        addressElement = elements.create('address', addressOptions);
+        addressElement.mount('#address-element');
+
+        // Listen for country changes to update shipping calculation dynamically
+        let lastCountry = null;
+        addressElement.on('change', async (event) => {
+          if (event.value && event.value.address && event.value.address.country) {
+            const country = event.value.address.country;
+            if (country === lastCountry) return;
+            lastCountry = country;
+
+            try {
+              const res = await fetch('/api/checkout/update-intent', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ paymentIntentId, country, items: cart })
+              });
+              if (res.ok) {
+                const resData = await res.json();
+                document.getElementById('checkout-shipping').textContent = resData.shippingFee === 0 ? 'Complimentary' : `€${resData.shippingFee.toFixed(2)}`;
+                document.getElementById('checkout-total').textContent = `€${resData.total.toFixed(2)}`;
+              }
+            } catch(e) {}
+          }
+        });
+
+      } catch(err) {
+        console.error('Stripe initialization error:', err);
+        const msg = document.getElementById('payment-message');
+        if (msg) {
+          msg.textContent = 'Failed to load payment system. Please try again.';
+          msg.style.display = 'block';
+        }
+      }
+    });
+
+    document.getElementById('payment-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submit-order-btn');
+      const btnText = document.getElementById('button-text');
+      const msg = document.getElementById('payment-message');
+      msg.style.display = 'none';
+
+      submitBtn.disabled = true;
+      btnText.textContent = 'Processing Payment...';
+
+      try {
+        const { error } = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: `${window.location.origin}/confirmation.html`,
+          }
+        });
+
+        if (error) {
+          msg.textContent = error.message || 'An error occurred with your payment.';
+          msg.style.display = 'block';
+          submitBtn.disabled = false;
+          btnText.textContent = 'Pay Now';
+        }
+      } catch(err) {
+        msg.textContent = err.message || 'Payment submission failed.';
+        msg.style.display = 'block';
+        submitBtn.disabled = false;
+        btnText.textContent = 'Pay Now';
+      }
+    });
+  </script>
+
+
+</body></html>
