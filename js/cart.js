@@ -344,3 +344,55 @@ function syncCartToAbandoned(email, phone, items) {
         })
     }).catch(() => {});
 }
+
+// ===== LANGUAGE SWITCHER HELPERS =====
+function toggleLangMenu(e) {
+    if (e) e.stopPropagation();
+    const menu = document.getElementById('cpLangDropdownMenu');
+    if (menu) {
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+}
+
+document.addEventListener('click', (e) => {
+    const menu = document.getElementById('cpLangDropdownMenu');
+    if (menu && !menu.contains(e.target) && e.target.id !== 'cpLangToggleBtn') {
+        menu.style.display = 'none';
+    }
+});
+
+function switchLanguage(targetLang, e) {
+    if (e) e.preventDefault();
+    const currentPath = window.location.pathname;
+    const langs = ['de', 'hr', 'es', 'it', 'fr', 'ru', 'pl'];
+    
+    let cleanPath = currentPath;
+    langs.forEach(l => {
+        if (cleanPath.startsWith('/' + l + '/')) {
+            cleanPath = cleanPath.substring(l.length + 1);
+        } else if (cleanPath === '/' + l) {
+            cleanPath = '/';
+        }
+    });
+
+    if (!cleanPath.startsWith('/')) cleanPath = '/' + cleanPath;
+
+    if (targetLang === 'en') {
+        window.location.href = cleanPath;
+    } else {
+        window.location.href = '/' + targetLang + cleanPath;
+    }
+}
+
+// Auto update language button label based on current language
+document.addEventListener('DOMContentLoaded', () => {
+    const lang = document.body.getAttribute('data-lang') || 'en';
+    const labelElem = document.getElementById('cpCurrentLangLabel');
+    if (labelElem) {
+        const langMap = {
+            en: '🌐 EN', de: '🇩🇪 DE', hr: '🇭🇷 HR', es: '🇪🇸 ES',
+            it: '🇮🇹 IT', fr: '🇫🇷 FR', ru: '🇷🇺 RU', pl: '🇵🇱 PL'
+        };
+        labelElem.textContent = langMap[lang] || '🌐 ' + lang.toUpperCase();
+    }
+});
