@@ -599,9 +599,45 @@ app.get('/api/analytics/traffic', async (req, res) => {
 // 16. GET /api/cart/abandoned - Abandoned Carts List
 app.get('/api/cart/abandoned', async (req, res) => {
   try {
-    const resCarts = await pool.query('SELECT * FROM abandoned_carts ORDER BY updated_at DESC');
-    res.json(resCarts.rows);
+    const dbCarts = await pool.query("SELECT * FROM abandoned_carts WHERE cart_token NOT LIKE '%test%' AND (email IS NULL OR LOWER(email) NOT LIKE '%test%') ORDER BY updated_at DESC");
+    
+    // Also fetch add_to_cart events from visitor_activities
+    const actCarts = await pool.query(`
+      SELECT a.session_token, a.action_details, a.created_at, s.email, s.phone, s.city, s.country
+      FROM visitor_activities a
+      JOIN visitor_sessions s ON a.session_token = s.session_token
+      WHERE a.action_type = 'add_to_cart'
+      ORDER BY a.created_at DESC
+    `);
+
+    const combinedMap = new Map();
+
+    // First insert synthesized add_to_cart activities
+    for (const act of actCarts.rows) {
+      if (!combinedMap.has(act.session_token)) {
+        combinedMap.set(act.session_token, {
+          cart_token: act.session_token,
+          email: act.email || null,
+          phone: act.phone || null,
+          cart_data: [{ name: act.action_details ? act.action_details.replace('Added ', '') : 'Custom Footwear' }],
+          status: 'captured',
+          created_at: act.created_at,
+          updated_at: act.created_at,
+          city: act.city,
+          country: act.country
+        });
+      }
+    }
+
+    // Then overwrite/merge with full abandoned_carts records
+    for (const c of dbCarts.rows) {
+      combinedMap.set(c.cart_token, c);
+    }
+
+    const result = Array.from(combinedMap.values()).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    res.json(result);
   } catch (err) {
+    console.error('Fetch abandoned carts error:', err.message);
     res.json([]);
   }
 });
